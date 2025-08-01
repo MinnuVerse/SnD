@@ -621,12 +621,10 @@ function TurnIn()
         Dalamud.Log("[CraftersScrips] State Change: GoToHubCity")
     elseif SelectedHubCity.scripExchange.requiresAethernet and (not Svc.ClientState.TerritoryType == SelectedHubCity.aethernet.aethernetZoneId or
         GetDistanceToPoint(SelectedHubCity.scripExchange.x, SelectedHubCity.scripExchange.y, SelectedHubCity.scripExchange.z) > DistanceBetween(SelectedHubCity.aethernet.x, SelectedHubCity.aethernet.y, SelectedHubCity.aethernet.z, SelectedHubCity.scripExchange.x, SelectedHubCity.scripExchange.y, SelectedHubCity.scripExchange.z) + 10) then
-        if not IPC.Lifestream.IsBusy() then
+        if not IPC.Lifestream.IsBusy() and not Player.IsBusy then
             Dalamud.Log("[CraftersScrips] /li "..SelectedHubCity.aethernet.aethernetName)
-            yield("/li "..SelectedHubCity.aethernet.aethernetName)
-            repeat
-                yield("/wait 1")
-            until not IPC.Lifestream.IsBusy()
+            IPC.Lifestream.ExecuteCommand(SelectedHubCity.aethernet.aethernetName)
+            yield("/wait 1")
         end
         yield("/wait 3")
     elseif Addons.GetAddon("TelepotTown").Ready then
@@ -687,7 +685,7 @@ function ScripExchange()
     elseif SelectedHubCity.scripExchange.requiresAethernet and (not Svc.ClientState.TerritoryType == SelectedHubCity.aethernet.aethernetZoneId or
         GetDistanceToPoint(SelectedHubCity.scripExchange.x, SelectedHubCity.scripExchange.y, SelectedHubCity.scripExchange.z) > DistanceBetween(SelectedHubCity.aethernet.x, SelectedHubCity.aethernet.y, SelectedHubCity.aethernet.z, SelectedHubCity.scripExchange.x, SelectedHubCity.scripExchange.y, SelectedHubCity.scripExchange.z) + 10) then
         if not IPC.Lifestream.IsBusy() then
-            yield("/li "..SelectedHubCity.aethernet.aethernetName)
+            IPC.Lifestream.ExecuteCommand(SelectedHubCity.aethernet.aethernetName)
         end
         yield("/wait 3")
     elseif Addons.GetAddon("TelepotTown").Ready then
@@ -754,7 +752,7 @@ function ProcessRetainers()
                 if not Svc.Condition[CharacterCondition.occupiedSummoningBell] then
                     Entity.Target:Interact()
                 elseif Addons.GetAddon("RetainerList").Ready then
-                    yield("/ays e")
+                    IPC.AutoRetainer.EnqueueInitiation()
                     if Echo == "All" then
                         yield("/echo [CraftersScrips] Processing retainers")
                     end
@@ -770,7 +768,7 @@ function ProcessRetainers()
             (GetDistanceToPoint(SelectedHubCity.retainerBell.x, SelectedHubCity.retainerBell.y, SelectedHubCity.retainerBell.z) > (DistanceBetween(SelectedHubCity.aethernet.x, SelectedHubCity.aethernet.y, SelectedHubCity.aethernet.z, SelectedHubCity.retainerBell.x, SelectedHubCity.retainerBell.y, SelectedHubCity.retainerBell.z) + 10)))
         then
             if not IPC.Lifestream.IsBusy() then
-                yield("/li "..SelectedHubCity.aethernet.aethernetName)
+                IPC.Lifestream.ExecuteCommand(SelectedHubCity.aethernet.aethernetName)
             end
             yield("/wait 3")
         elseif not Dalamud.Log("[CraftersScrips] Close teleport town") and Addons.GetAddon("TelepotTown").Ready then
@@ -789,7 +787,7 @@ function ProcessRetainers()
         elseif not Svc.Condition[CharacterCondition.occupiedSummoningBell] then
             Entity.Target:Interact()
         elseif Addons.GetAddon("RetainerList").Ready then
-            yield("/ays e")
+            IPC.AutoRetainer.EnqueueInitiation()
             if Echo == "All" then
                 yield("/echo [CraftersScrips] Processing retainers")
             end
