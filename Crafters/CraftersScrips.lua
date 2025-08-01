@@ -27,6 +27,7 @@ configs:
     default: Crafter's Command Materia XII
     description: Name of the item to purchase using scrips.
     type: string
+    required: true
   HomeCommand:
     default: Inn
     description: Inn - if you want to hide in an Inn. Leave blank to move to Solution Nine.
@@ -35,6 +36,7 @@ configs:
     default: Solution Nine
     description: Main city to use as a hub for turn-ins and purchases (Ul'dah, Limsa, Gridania, or Solution Nine).
     type: string
+    required: true
   Potion:
     default: false
     description: Use Potion (Supports only Superior Spiritbond Potion <hq>)
@@ -556,7 +558,7 @@ function Crafting()
     elseif not Dalamud.Log("[CraftersScrips] Check slots count") and slots <= MinInventoryFreeSlots then
         Dalamud.Log("[CraftersScrips] Out of inventory space")
         if Addons.GetAddon("RecipeNote").Ready then
-            yield("/pcall RecipeNote true -1")
+            yield("/callback RecipeNote true -1")
         elseif not Svc.Condition[CharacterCondition.craftingMode] then
             State = CharacterState.turnIn
             Dalamud.Log("[CraftersScrips] State Change: TurnIn")
@@ -641,9 +643,9 @@ function TurnIn()
         end
 
         if not Addons.GetAddon("CollectablesShop").Ready then
-            yield("/target Collectable Appraiser")
+            Entity.GetEntityByName("Collectable Appraiser"):SetAsTarget()
             yield("/wait 0.5")
-            yield("/interact")
+            Entity.Target:Interact()
             yield("/wait 1")
         else
 			if ScripColor == "Purple" then
@@ -715,13 +717,13 @@ function ScripExchange()
         if not SelectedItemToBuy.oneAtATime then
             qty = math.min(Inventory.GetItemCount(CrafterScripId)//SelectedItemToBuy.price, 99)
         end
-        yield("/pcall InclusionShop true 14 "..SelectedItemToBuy.listIndex.." "..qty)
+        yield("/callback InclusionShop true 14 "..SelectedItemToBuy.listIndex.." "..qty)
         yield("/wait 1")
     else
         yield("/wait 1")
-        yield("/target Scrip Exchange")
+        Entity.GetEntityByName("Scrip Exchange"):SetAsTarget()
         yield("/wait 0.5")
-        yield("/interact")
+        Entity.Target:Interact()
     end
 end
 
@@ -737,7 +739,7 @@ function ProcessRetainers()
             Dalamud.Log("[CraftersScrips] State Change: Ready")
         end
     else
-        yield("/target Summoning Bell")
+        Entity.GetEntityByName("Summoning Bell"):SetAsTarget()
         yield("/wait 1")
 
         if Entity.Target.Name == "Summoning Bell" then
@@ -750,7 +752,7 @@ function ProcessRetainers()
                     IPC.vnavmesh.Stop()
                 end
                 if not Svc.Condition[CharacterCondition.occupiedSummoningBell] then
-                    yield("/interact")
+                    Entity.Target:Interact()
                 elseif Addons.GetAddon("RetainerList").Ready then
                     yield("/ays e")
                     if Echo == "All" then
@@ -782,10 +784,10 @@ function ProcessRetainers()
         elseif IPC.vnavmesh.PathfindInProgress() or IPC.vnavmesh.IsRunning() then
             return
         elseif not Entity.Target or Entity.Target.Name ~= "Summoning Bell" then
-            yield("/target Summoning Bell")
+            Entity.GetEntityByName("Summoning Bell"):SetAsTarget()
             return
         elseif not Svc.Condition[CharacterCondition.occupiedSummoningBell] then
-            yield("/interact")
+            Entity.Target:Interact()
         elseif Addons.GetAddon("RetainerList").Ready then
             yield("/ays e")
             if Echo == "All" then
