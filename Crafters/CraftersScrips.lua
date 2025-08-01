@@ -1,7 +1,7 @@
 --[=====[
 [[SND Metadata]]
 author:  'pot0to (https://ko-fi.com/pot0to) || Updated by: Minnu'
-version: 2.0.0
+version: 2.0.1
 description: Crafter Scrips - Script for Crafting & Turning In
 plugin_dependencies:
 - Artisan
@@ -36,8 +36,9 @@ configs:
     description: Main city to use as a hub for turn-ins and purchases (Ul'dah, Limsa, Gridania, or Solution Nine).
     type: string
   Potion:
-    description: Potion to use (i.e. Superior Spiritbond Potion <Hq>)
-    type: string
+    default: false
+    description: Use Potion (Supports only Superior Spiritbond Potion <hq>)
+    type: boolean
   Retainers:
     default: true
     description: Automatically interact with retainers for ventures.
@@ -59,7 +60,7 @@ configs:
 
 ********************************************************************************
 *                    Crafter Scrips (Solution Nine Patch 7.1)                  *
-*                                Version 0.5.7                                 *
+*                                Version 2.0.1                                 *
 ********************************************************************************
 
 Created by: pot0to (https://ko-fi.com/pot0to)
@@ -68,6 +69,8 @@ Updated by: Minnu
 Crafts orange scrip item matching whatever class you're on, turns it in, buys
 stuff, repeat.
 
+    -> 2.0.1    Fixed Potions
+    -> 2.0.0    Updated to SND v2
     -> 0.5.7    Add nil checks and logging to mats and crystals check
                 Added max purchase quantity check
                 Fixed purple scrip selector for turn in
@@ -814,9 +817,14 @@ function ExecuteGrandCompanyTurnIn()
 end
 
 function PotionCheck()
-    --pot usage
-    if not HasStatusId(49) and Potion ~= "" then
-        yield("/item " .. Potion)
+    if not HasStatusId(49) and Potion then
+        local potion = Inventory.GetHqItemCount(27960)
+
+        if potion > 0 then
+            Inventory.GetInventoryItem(27960):Use()
+        else
+            LogDebug("[CraftersScrips] [PotionCheck] HQ Potion not found in inventory.")
+        end
     end
 end
 
@@ -887,7 +895,7 @@ end
 
 if classId == 0 then
     yield("/echo [CraftersScrips] Could not find crafter class: " .. CrafterClass)
-    yield("/snd stop all")
+    StopFlag = true
 end
 
 if ScripColor == "Orange" then
@@ -898,7 +906,7 @@ elseif ScripColor == "Purple" then
     ScripRecipes = PurpleScripRecipes
 else
     yield("/echo [CraftersScrips] Cannot recognize crafter scrip color: "..ScripColor)
-    yield("/snd stop all")
+    StopFlag = true
 end
 
 ItemId = 0
@@ -930,7 +938,7 @@ end
 
 if SelectedHubCity == nil then
     yield("/echo [CraftersScrips] Could not find hub city: " .. HubCity)
-    IPC.vnavmesh.Stop()
+    StopFlag = true
 end
 
 local Inn = Svc.ClientState.TerritoryType
@@ -944,7 +952,6 @@ if not AtInn and HomeCommand == "Inn" then
     IPC.Lifestream.ExecuteCommand(HomeCommand)
     Dalamud.Log("[CraftersScrips] Moving to Inn")
     AtInn = true
-    return
 elseif not AtInn and Svc.ClientState.TerritoryType ~= 1186 then
     IPC.Lifestream.ExecuteCommand("Nexus Arcade")
     Dalamud.Log("[CraftersScrips] Moving to Solution Nine")
