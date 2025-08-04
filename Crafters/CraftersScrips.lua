@@ -641,10 +641,11 @@ function TurnIn()
         end
 
         if not Addons.GetAddon("CollectablesShop").Ready then
-            Entity.GetEntityByName("Collectable Appraiser"):SetAsTarget()
-            yield("/wait 0.5")
-            Entity.Target:Interact()
-            yield("/wait 1")
+            local appraiser = Entity.GetEntityByName("Collectable Appraiser")
+            if appraiser then
+                appraiser:SetAsTarget()
+                appraiser:Interact()
+            end
         else
 			if ScripColor == "Purple" then
                 Dalamud.Log("[CraftersScrips] Selecting purple scrip item")
@@ -718,10 +719,11 @@ function ScripExchange()
         yield("/callback InclusionShop true 14 "..SelectedItemToBuy.listIndex.." "..qty)
         yield("/wait 1")
     else
-        yield("/wait 1")
-        Entity.GetEntityByName("Scrip Exchange"):SetAsTarget()
-        yield("/wait 0.5")
-        Entity.Target:Interact()
+        local scripExchange = Entity.GetEntityByName("Scrip Exchange")
+        if scripExchange then
+            scripExchange:SetAsTarget()
+            scripExchange:Interact()
+        end
     end
 end
 
@@ -737,10 +739,13 @@ function ProcessRetainers()
             Dalamud.Log("[CraftersScrips] State Change: Ready")
         end
     else
-        Entity.GetEntityByName("Summoning Bell"):SetAsTarget()
+        local summoningBell = Entity.GetEntityByName("Summoning Bell")
+        if summoningBell then
+            summoningBell:SetAsTarget()
+        end
         yield("/wait 1")
 
-        if Entity.Target.Name == "Summoning Bell" then
+        if summoningBell then
             if GetDistanceToTarget() > 5 then
                 if not IPC.vnavmesh.IsRunning() and not IPC.vnavmesh.PathfindInProgress() then
                     IPC.vnavmesh.PathfindAndMoveTo(Vector3(Entity.Target.Position.X, Entity.Target.Position.Y, Entity.Target.Position.Z), false)
@@ -750,7 +755,7 @@ function ProcessRetainers()
                     IPC.vnavmesh.Stop()
                 end
                 if not Svc.Condition[CharacterCondition.occupiedSummoningBell] then
-                    Entity.Target:Interact()
+                    summoningBell:Interact()
                 elseif Addons.GetAddon("RetainerList").Ready then
                     IPC.AutoRetainer.EnqueueInitiation()
                     if Echo == "All" then
@@ -782,10 +787,14 @@ function ProcessRetainers()
         elseif IPC.vnavmesh.PathfindInProgress() or IPC.vnavmesh.IsRunning() then
             return
         elseif not Entity.Target or Entity.Target.Name ~= "Summoning Bell" then
-            Entity.GetEntityByName("Summoning Bell"):SetAsTarget()
+            if summoningBell then
+                summoningBell:SetAsTarget()
+            end
             return
         elseif not Svc.Condition[CharacterCondition.occupiedSummoningBell] then
-            Entity.Target:Interact()
+            if summoningBell then
+                summoningBell:Interact()
+            end
         elseif Addons.GetAddon("RetainerList").Ready then
             IPC.AutoRetainer.EnqueueInitiation()
             if Echo == "All" then
