@@ -1,7 +1,7 @@
 --[=====[
 [[SND Metadata]]
 author:  'pot0to (https://ko-fi.com/pot0to) || Updated by: Minnu'
-version: 2.0.1
+version: 2.0.2
 description: Crafter Scrips - Script for Crafting & Turning In
 plugin_dependencies:
 - Artisan
@@ -62,7 +62,7 @@ configs:
 
 ********************************************************************************
 *                    Crafter Scrips (Solution Nine Patch 7.1)                  *
-*                                Version 2.0.1                                 *
+*                                Version 2.0.2                                 *
 ********************************************************************************
 
 Created by: pot0to (https://ko-fi.com/pot0to)
@@ -71,6 +71,7 @@ Updated by: Minnu
 Crafts orange scrip item matching whatever class you're on, turns it in, buys
 stuff, repeat.
 
+    -> 2.0.2    Fixed Targeting logic
     -> 2.0.1    Fixed Potions
     -> 2.0.0    Updated to SND v2
     -> 0.5.7    Add nil checks and logging to mats and crystals check
@@ -796,7 +797,7 @@ function ProcessRetainers()
                 summoningBell:Interact()
             end
         elseif Addons.GetAddon("RetainerList").Ready then
-            IPC.AutoRetainer.EnqueueInitiation()
+            yield("/ays e")
             if Echo == "All" then
                 yield("/echo [CraftersScrips] Processing retainers")
             end
