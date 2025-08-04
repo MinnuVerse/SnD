@@ -647,11 +647,11 @@ function TurnIn()
                 appraiser:Interact()
             end
         else
-			if ScripColor == "Purple" then
+            if ScripColor == "Purple" then
                 Dalamud.Log("[CraftersScrips] Selecting purple scrip item")
-				yield("/callback CollectablesShop true 12 1")
+                yield("/callback CollectablesShop true 12 1")
                 yield("/wait 0.5")
-			end
+            end
             Dalamud.Log("[CraftersScrips] Selecting orange scrip item")
             yield("/callback CollectablesShop true 15 0")
             yield("/wait 1")
