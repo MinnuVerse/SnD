@@ -61,7 +61,7 @@ configs:
 --[[
 
 ********************************************************************************
-*                    Crafter Scrips (Solution Nine Patch 7.1)                  *
+*                    Crafter Scrips (Solution Nine Patch 7.3)                  *
 *                                Version 2.0.2                                 *
 ********************************************************************************
 
@@ -71,7 +71,7 @@ Updated by: Minnu
 Crafts orange scrip item matching whatever class you're on, turns it in, buys
 stuff, repeat.
 
-    -> 2.0.2    Fixed Targeting logic
+    -> 2.0.2    Updated for Patch 7.3
     -> 2.0.1    Fixed Potions
     -> 2.0.0    Updated to SND v2
     -> 0.5.7    Add nil checks and logging to mats and crystals check
@@ -138,10 +138,17 @@ MinInventoryFreeSlots       = Config.Get("MinInventoryFreeSlots")
 -- you have in game.
 ScripExchangeItems = {
     {
-        itemName        = "Condensed Solution",
+        itemName        = "Mason's Abrasive",
         categoryMenu    = 1,
         subcategoryMenu = 10,
         listIndex       = 0,
+        price           = 500
+    },
+    {
+        itemName        = "Condensed Solution",
+        categoryMenu    = 1,
+        subcategoryMenu = 11,
+        listIndex       = 5,
         price           = 125
     },
     {
@@ -758,7 +765,7 @@ function ProcessRetainers()
                 if not Svc.Condition[CharacterCondition.occupiedSummoningBell] then
                     summoningBell:Interact()
                 elseif Addons.GetAddon("RetainerList").Ready then
-                    IPC.AutoRetainer.EnqueueInitiation()
+                    yield("/ays e")
                     if Echo == "All" then
                         yield("/echo [CraftersScrips] Processing retainers")
                     end
@@ -797,7 +804,7 @@ function ProcessRetainers()
                 summoningBell:Interact()
             end
         elseif Addons.GetAddon("RetainerList").Ready then
-            yield("/ays e")
+            IPC.AutoRetainer.EnqueueInitiation()
             if Echo == "All" then
                 yield("/echo [CraftersScrips] Processing retainers")
             end
