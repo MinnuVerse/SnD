@@ -419,8 +419,8 @@ for _, alliedSociety in ipairs(ToDoList) do
                 repeat
                     if not IPC.Questionable.IsRunning() then
                         yield("/qst start")
-                    elseif os.time() - timeout > 5 then
-                        Dalamud.Log("[AlliedQuests] Took more than 5 seconds to pick up the quest. Questionable may be stuck. Reloading...")
+                    elseif os.time() - timeout > 15 then
+                        Dalamud.Log("[AlliedQuests] Took more than 15 seconds to pick up the quest. Questionable may be stuck. Reloading...")
                         yield("/qst reload")
                         timeout = os.time()
                     end
