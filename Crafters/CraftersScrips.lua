@@ -22,7 +22,7 @@ configs:
   ArtisanListId:
     default: 1
     description: Id of Artisan list for crafting all the intermediate materials (eg black star, claro walnut lumber, etc.).
-    type: int
+    type: integer
   ItemToBuy:
     default: Crafter's Command Materia XII
     description: Name of the item to purchase using scrips.
@@ -52,7 +52,7 @@ configs:
   MinInventoryFreeSlots:
     default: 5
     description: Minimum free inventory slots required to start crafting or turn-ins.
-    type: int
+    type: integer
     required: true
 
 [[End Metadata]]
