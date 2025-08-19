@@ -49,7 +49,7 @@ configs:
     type: integer
   SkystellToolsUnlocked:
     default: true
-    description: Have you unlocked skystell tools?
+    description: Have you unlocked skysteel tools?
 
 [[End Metadata]]
 --]=====]
