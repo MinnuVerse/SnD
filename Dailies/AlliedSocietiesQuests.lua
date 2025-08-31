@@ -123,7 +123,7 @@ configs:
 --[[
 ********************************************************************************
 *                           Allied Society Quests                              *
-*                               Version 0.2.2                                  *
+*                               Version 2.0.2                                  *
 ********************************************************************************
 Created by: pot0to (https://ko-fi.com/pot0to)
 Updated by: Minnu
@@ -131,8 +131,10 @@ Updated by: Minnu
 Goes around to the specified beast tribes, picks up 3 quests, does them, and
 moves on to the next beast tribe.
 
-    -> 0.2.2    Added option for Manual Quest Handling
+    -> 2.0.2    Added option for Manual Quest Handling
                 Added dropdowns for AlliedSociety
+    -> 2.0.1    Updated for Patch 7.3
+    -> 2.0.0    Updated to SND v2
     -> 0.2.1    Fixed Mamool Ja name and removed main quests from presets
     -> 0.2.0    Added Mamool Jas for patch 7.25 (credit: Leonhart)
     -> 0.1.3    Fixed "Arkasodara" tribe name
