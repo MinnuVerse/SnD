@@ -1,7 +1,7 @@
 --[=====[
 [[SND Metadata]]
 author:  'pot0to (https://ko-fi.com/pot0to) || Updated by: Minnu, Ice, Allison'
-version: 2.0.4
+version: 2.0.5
 description: Crafter Scrips - Script for Crafting & Turning In
 plugin_dependencies:
 - Artisan
@@ -24,7 +24,6 @@ configs:
   ItemToBuy:
     default: Crafter's Command Materia XII
     description: Name of the item to purchase using scrips.
-    type: string
   HomeCommand:
     default: Inn
     description: Inn - if you want to hide in an Inn. Home - if you want to use Lifestream Home. None to move to Solution Nine.
@@ -32,8 +31,9 @@ configs:
     choices: ["Inn", "Home", "None"]
   HubCity:
     default: Solution Nine
-    description: Main city to use as a hub for turn-ins and purchases (Ul'dah, Limsa, Gridania, or Solution Nine).
-    type: string
+    description: Main city to use as a hub for turn-ins and purchases.
+    is_choice: true
+    choices: ["Ul'dah", "Limsa", "Gridania", "Solution Nine"]
   Potion:
     default: false
     description: Use Potion (Supports only Superior Spiritbond Potion <hq>)
@@ -46,7 +46,6 @@ configs:
   MinInventoryFreeSlots:
     default: 5
     description: Minimum free inventory slots required to start crafting or turn-ins.
-    type: integer
   SkystellToolsUnlocked:
     default: true
     description: Have you unlocked skysteel tools?
@@ -58,7 +57,7 @@ configs:
 
 ********************************************************************************
 *                    Crafter Scrips (Solution Nine Patch 7.3)                  *
-*                                Version 2.0.4                                 *
+*                                Version 2.0.5                                 *
 ********************************************************************************
 
 Created by: pot0to (https://ko-fi.com/pot0to)
@@ -67,6 +66,7 @@ Updated by: Minnu, Ice, Allison
 Crafts orange scrip item matching whatever class you're on, turns it in, buys
 stuff, repeat.
 
+    -> 2.0.5    Updated config and Made `HobCity` a dropdown selectable
     -> 2.0.4    Add config for home, add config for Skystell Tools Unlock, Made `Home Command` a dropdown selectable
     -> 2.0.3    Updated to SND 13.41 (fixed the config settings)
     -> 2.0.2    Updated for Patch 7.3
@@ -124,12 +124,7 @@ ArtisanListId               = Config.Get("ArtisanListId")
 ItemToBuy                   = Config.Get("ItemToBuy")
 HomeCommand                 = Config.Get("HomeCommand")
 HubCity                     = Config.Get("HubCity")
-if (HubCity == "None") then
-    HubCity = ""
-end 
-
 Potion                      = Config.Get("Potion")
-
 Retainers                   = Config.Get("Retainers")
 GrandCompanyTurnIn          = Config.Get("GrandCompanyTurnIn")
 MinInventoryFreeSlots       = Config.Get("MinInventoryFreeSlots")
