@@ -1,4 +1,10 @@
-## Script Categories
+# Introduction
+Tired of the grind? SnD has you covered.  
+A curated collection of lightweight, user-friendly macros—each designed to automate
+routine in-game activities like crafting, fishing, questing, and selling. Ideal for
+streamlining your daily grind and freeing you up for more exciting adventures!
+
+---
 
 ### Cosmic
 ![Status](https://img.shields.io/badge/status-working-brightgreen)
