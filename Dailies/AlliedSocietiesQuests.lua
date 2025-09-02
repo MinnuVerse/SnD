@@ -1,6 +1,6 @@
 --[=====[
 [[SND Metadata]]
-author: 'pot0to (https://ko-fi.com/pot0to) || Updated by: Minnu'
+author: 'pot0to (https://ko-fi.com/pot0to) || Maintainer: Minnu (https://ko-fi.com/minnuverse)' 
 version: 2.0.2
 description: Allied Societies Quests - Script for Dailies
 plugin_dependencies:
