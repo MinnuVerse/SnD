@@ -43,3 +43,9 @@ streamlining your daily grind and freeing you up for more exciting adventures!
 
 ---
 
+## Support
+
+Enjoying SnD?  
+Support development and keep it going ❤️  
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/minnuverse)
