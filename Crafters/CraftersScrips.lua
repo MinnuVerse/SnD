@@ -1,6 +1,6 @@
 --[=====[
 [[SND Metadata]]
-author:  'pot0to (https://ko-fi.com/pot0to) || Updated by: Minnu, Ice, Allison'
+author:  'pot0to (https://ko-fi.com/pot0to) || Maintainer: Minnu (https://ko-fi.com/minnuverse) || Contributor: Ice, Allison'
 version: 2.0.5
 description: Crafter Scrips - Script for Crafting & Turning In
 plugin_dependencies:
