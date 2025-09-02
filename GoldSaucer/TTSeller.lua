@@ -1,6 +1,6 @@
 --[=====[
 [[SND Metadata]]
-author: Mo
+author: Minnu (https://ko-fi.com/minnuverse)
 version: 2.0.0
 description: Triple Triad Seller - Sells your acumulated Triple Triad cards
 plugin_dependencies:
@@ -29,14 +29,10 @@ LogPrefix   = "[TTSeller]"
 --    Wrappers    --
 --------------------
 
--- Wait function to pause execution for a specified time
--- @param time (number) - Duration to wait in seconds
 function Wait(time)
-    -- Yield control and issue a wait command for the given duration
     yield("/wait " .. time)
 end
 
--- WaitForPlayer function to wait until the player is available
 function WaitForPlayer()
     Dalamud.Log(string.format("%s WaitForPlayer: Waiting for player to become available...", LogPrefix))
     repeat
@@ -46,7 +42,6 @@ function WaitForPlayer()
     Wait(0.1)
 end
 
--- Waits for teleport to fully complete (casting → zoning → player ready)
 function WaitForTeleport()
     Dalamud.Log(string.format("%s Waiting for teleport to begin...", LogPrefix))
 
@@ -65,9 +60,6 @@ function WaitForTeleport()
     Dalamud.Log(string.format("%s Teleport complete.", LogPrefix))
 end
 
--- Waits for the Navmesh pathing process to complete.
--- Typically used after starting a pathing command to ensure it finishes before proceeding.
--- Default timeout is 300 seconds (5 minutes).
 function WaitForPathRunning(timeout)
     timeout = timeout or 300  -- Default timeout to 5 minutes (300 seconds)
     Dalamud.Log(string.format("%s Waiting for navmesh pathing to complete...", LogPrefix))
@@ -85,9 +77,6 @@ function WaitForPathRunning(timeout)
     return true
 end
 
--- Waits until the specified addon is ready before continuing execution
--- Repeatedly checks using IsAddonReady, pausing briefly between checks
--- Optional timeout (in seconds), defaults to 60s
 function WaitForAddon(name, timeout)
     timeout = timeout or 60
     local startTime = os.clock()
@@ -106,7 +95,6 @@ function WaitForAddon(name, timeout)
     return true
 end
 
--- Calculates the distance from the player to a given 3D point.
 function GetDistanceToPoint(dX, dY, dZ)
     local player = Svc.ClientState.LocalPlayer
     if not player or not player.Position then
@@ -127,7 +115,6 @@ function GetDistanceToPoint(dX, dY, dZ)
     return distance
 end
 
--- Initiates teleport to the given location and waits for it to complete
 function Teleport(location)
     Dalamud.Log(string.format("%s Initiating teleport to '%s'.", LogPrefix, location))
     IPC.Lifestream.ExecuteCommand(location)
@@ -135,7 +122,6 @@ function Teleport(location)
     WaitForTeleport()
 end
 
--- Function to interact with a target.
 function Interact(name, maxRetries, sleepTime)
     maxRetries = maxRetries or 20 -- Default retries if not provided
     sleepTime = sleepTime or 0.1 -- Default sleep interval if not provided
