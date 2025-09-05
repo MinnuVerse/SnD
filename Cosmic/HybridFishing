@@ -1,11 +1,11 @@
 --[=====[
 [[SND Metadata]]
-author: SubaruYashiro || Updated by: Minnu (https://ko-fi.com/minnuverse)
-version: 2.0.0
+author: 'SubaruYashiro || Updated by: Minnu (https://ko-fi.com/minnuverse)'
+version: 2.1.0
 description: HybridFishing - Script for Farming Cosmic Fishing Points
 plugin_dependencies:
 - Artisan
-- Autohook
+- AutoHook
 - Lifestream
 - vnavmesh
 - ChatCoordinates
@@ -17,7 +17,7 @@ plugin_dependencies:
 --[[
 ********************************************************************************
 *                               HybridFishing                                  *
-*                               Version 2.0.0                                  *
+*                               Version 2.1.0                                  *
 ********************************************************************************
 
 Created by: SubaruYashiro
@@ -27,6 +27,7 @@ HybridFishing is a handy little script that helps you rack up Cosmic Fishing
 Points without all the grind. Just run it, and it takes care of the fishing
 and turn-ins for you, making point farming smoother and way less of a hassle.
 
+    -> 2.1.0    Updated for Patch 7.31
     -> 2.0.0    Updated for Patch 7.3
                 Renamed Mission Names
 
@@ -54,6 +55,11 @@ ItemId        = 45922
 ItemAmount    = 2
 SuccessCount  = 0
 ClassId       = Player.Job.Id
+
+Zones = {
+    SinusArdorum = 1237,
+    Phaenna      = 1291
+}
 
 function Init()
     if ClassId ~= 18 then
@@ -97,18 +103,18 @@ function WaitForVnavMesh()
 end
 
 function MoveToSpot()
-    IPC.Lifestream.ExecuteCommand("Cosmic")
-    repeat
+    if Svc.ClientState.TerritoryType == Zones.SinusArdorum then
+        Dalamud.Log(string.format("[HybridFishing] Heading to %s", MissionName))
+        yield(Coords)
         yield("/wait 0.1")
-    until not IPC.Lifestream.IsBusy()
-    yield("/wait 0.1")
-    WaitForZoneChange()
-    Dalamud.Log(string.format("[HybridFishing] Heading to %s", MissionName))
-    yield(Coords)
-    yield("/wait 0.1")
-    IPC.vnavmesh.PathfindAndMoveTo(Vector3(-89.203, -3.337, -27.259), false)
-    WaitForVnavMesh()
-    yield("/ice start")
+        yield("/ice start")
+        IPC.vnavmesh.PathfindAndMoveTo(Vector3(-264.005, 22.156, -94.770), false)
+        WaitForVnavMesh()
+    else
+        yield("/echo [HybridFishing] Stopping Script..Move to Sinus Ardorum, then start the script..")
+        Dalamud.Log("[HybridFishing] Stopping Script..Move to Sinus Ardorum, then start the script..")
+        yield("/snd stop all")
+    end
 end
 
 function WaitForFishingItem(maxWaitSeconds)
@@ -159,6 +165,7 @@ function WaitForFishingItem(maxWaitSeconds)
         end
     end
 
+    IPC.AutoHook.DeleteAllAnonymousPresets()
     IPC.AutoHook.SetPluginState(false)
     Dalamud.Log("[HybridFishing] Successfully acquired required items.")
     return true
@@ -254,8 +261,6 @@ end
 while true do
     if SuccessCount == 0 then
         MoveToSpot()
-        IPC.vnavmesh.PathfindAndMoveTo(Vector3(-264.005, 22.156, -94.770), false)
-        WaitForVnavMesh()
     elseif SuccessCount == 5 then
         IPC.vnavmesh.PathfindAndMoveTo(Vector3(-259.450, 22.337, -75.942), false)
         WaitForVnavMesh()
