@@ -262,7 +262,7 @@ FishTable = {
         baitName                    = "Versatile Lure",
         zoneId                      = 1190,
         zoneName                    = "Shaaloani",
-        autoHookPreset              = "[SND] Zorgor Condor - Orange Scrips",
+        autoHookPreset              = "AH4_H4sIAAAAAAAACu1X227bOBD9lYDPJqALdcub6zjZAI4T2N5dYIs+0BIlE5FFl6K6zQb59w51sWVbStQgfdq+yaPRmQsPz4yf0bhQYkJzlU/iBF0+o2lG1ykbpym6VLJgI3QlMjWhWcjSOyHCDbqMaZqDfcFC+Gyc8S1VXGSVS/ORRpzxjB0Qo+bVLTxZftAP/CC5kFw9oUsTvPPp9zAtIhYdzBrnpYpRf/mMygdLP5X4rj9CN7vVRrJ8I1KwmIZxhPw6dIkReINyNN5McrIptk1mxDRIV2oDAjVoIk1ZqHo6C/jmEDTr7ayFjDhNe+K4JhkUh9Ro1zzfTJ9Y3uqDc9IHxxnUB7c5evrIlhseq0+Ul93QhrwxLBUNHyEaBKkJcR5vSLSgjvYAJGfgqAMtWKxBplSmTyu+BRscafdZuKcx3WFnbTVhJf+PTaiqSN5UcopqDWSQXaOuNjTl9DG/pt+E1MBHhqZ19ujYDhdefGPgb+qD6rrVkBoZlEhzhp94ckN1A5/ROEtSJvMmuFVB2p5BzqodFMJ/gRjT70rSWtg0K1Zi+S/d3Waq4FqzbijPmr5ioPOskOyO5TlNICWERmheJofmApRsVCE87cCiG9mBNxO5ejfeAxTIujNEGPW8ryKW7w/5LHegD5Kmk0JKlqkPqvIE9cNq7cz2rOLO6KVXRZylEjutMTxLlortytlxyL0m11h+TMptuDKHPzP+tWAaFznUIoy6DLvrgGISeSamnh1jNybEdV1mE2ojwJvxXN3HOgaw/XNFT13A/p4Hnun15/gXxAdJStmF9tCAcyG3NP1DiEcN0ejV34yWv7Ud8t/f2vrCVL/rl7q05j7Xpqp+YnpaBxvMpZIiay0Lb39u2K3PZyxhWUTl0wfkVQJfiQKcTyqtPCw32Dsc0u516Uqt7bWSfNcXyXMse+/SF+vI6ZVotZ9m9ThWTE5okWxgo9rqUQfU7aJ7uXMBGcoZqx9aQl6J5Vgptt2pppfaZ0VlwirMDkW3PSc4X1deWR307tRoU0PFBftacMkiSEcVeiTr5ayHn2/w7Wdp9ZsmP0eT9555W//C2KKR6WFqMtA/5kbYjyILr4kReSExI9fz0MuXRgDr+f15b6g0EASxLYbE9vTi1CuGNJE0UxdQWkijY+02X7tGtxHMEh7CWIGm6GCVw3griuzIDVJwgtNFxNZ70KEZvo5UyJgCY1OtWN0LuhM4Xetba3VxAOhX/7EZ/AfmMETfPTr1x9oy0V0tG9oepvUI1Y+V+eDWpXItqtkecQy69rBr0ACDHDDsG56PLTsyqBmFVuyZMBnPqOQE/QX8I2Qi5MUyFHIHGvabSv8PKnkkcEPqWNiIDQcT33dxQHwbe2bMzCByzNiBrQ1EqsKtU7weL+5u5xeT+/nV/WJ5vAdaoHTwd4hgx3AIJiQ28JoBV2OXMT8MrIA4BL38ALU2vB2AEQAA",
         fishingSpots = {
             maxHeight               = 1024,
             waypoints = {
@@ -283,7 +283,7 @@ FishTable = {
         baitName                    = "Versatile Lure",
         zoneId                      = 959,
         zoneName                    = "Mare Lamentorum",
-        autoHookPreset              = "[SND] Fleeting Brand - Purple Scrips",
+        autoHookPreset              = "AH4_H4sIAAAAAAAACu1YTVPjOBD9K5TP8ZS/bXELGWCpCgxFwu5hag+K3U5UOFZGllnYKf77tGwrsROHTE0RigM3py29/tBT+3V+GsNS8hEtZDFK58bpT+M8p7MMhllmnEpRwsBQL8csh83LRL+6wicnIgPjVjAumHw2Tm20FudPcVYmkGzMav1LjXXNebxQYNWDo54qnCAaGJer6UJAseAZWmzL6iC/Dl1hkLCzwzoYzGhRLnUEnm15B0LQu3iWQSz3VARx7PYu53AUXCSMZlUg+SMIbeguHvQ5s50gIFtRe92ou0kNZ/wRzzKlWaHdX7Bicf4MRasQ/hak73cgA32W9AEmC5bKM8qqcihDoQ0TSeMHREWw5oR3cduopEG9pZJBHu9jHIYXbMME3XNyNJJg/8OIyppwOojt3c7WKbvN7umCZow+FBf0kQsF0DHo7NxB134HMVYY19uqZn03BkPYJprbCUCX94zNL+myqsMwn2cgCu1UcUptCy1vJ5sOVPSCWOdPUtDmfquDmfLJf3R1lcuSScbzS8pyXR8TqTsuBVxDUdA5ujaMgXFTBWHccOwCgxrheYUWVagevDEv5B/j3WIi0B+hYRp73tceq/ebeCYrvKOCZqNSCMjlG2W5hfpmufZGu5Nxr/dq1QUXMVS3DpdpulXGRFmb9mhjg6ypNJF8pS4+y+cTCbjDbmfZ0G0o3ia5NlwV7X3OfpSgcA3iOjQEyzMdElumF6SOSfzANS3iOb6b2mmUOAbijVkhv6XKB/L/e01klcD6ZtfZ7Yvxb/SPfSWDE7VCAd5wsaTZX5w/KAjddP4BWv1Wdox/fX+rhqnvc/OyXWplmrIliK0bf83y9Sv1EfuCMV7Tp7aNfMFG0UDW9fPsUDVDHdNECp63vs7Hd2+5LfdjmEOeUPH8AepSBfaVlwh14KTe1LETkLXfzWkczcXvVPwIzqeCrd65rqHvuGvPx6psx8n711a7xxW8RM30pCSHWqZ68DCVIEa0nC9QZS+VisJG29ecKx2OrauSaeqhJUBqLeCTXf3aFQOvKFElofXnVPfEO/hRMgEJepKlEnJKo/c1yuM3vnftb5/96rNfffarD9ad2pLRjokTOLHpzMBByQixSSIvMiPHBuLOXC+CmfHyr9aMzT8O39eGWjaihmzrRzfwQne/frzIACRmfHImaJ501K69t1hqArxKUKizGDU7lkg5+5Znz/cF3OcJiM2oq/9sUbuHS17mrYL3DcE+2R78XOXtK8/liCJi1mTdfNE29YxUtKVIKbbXTOm0Zuj3iX9gLvZx54f592Yzq/zxhKI2K8tIVbsqdHtmaSYV9VibN8t2L4DV4SekLtA4Sk0IrdT0EhxuZkCQpJAEbhTQgEYRTiC7/PP3Z3AHcy45K+A3qWf3MK+fXa/R6VXa9NOyl0WHafnJrv3s6pAr9KiTBkFiztw4ML04IiaxPcukgQWJ68dBQurmV7O2t32dmCe3pUAxfDKJURQX3Ync9jybBHFo2mGM7ZXYIbbXNDEpsZyZP6OEhIHx8gtuKGkNOxYAAA==",
         fishingSpots = {
             maxHeight               = 35,
             waypoints = {
@@ -427,7 +427,7 @@ function OnChatMessage()
     if message and message:find(patternToMatch) then
         Dalamud.Log("[FishingScrips] OnChatMessage triggered for Fish sense..!!")
         State = CharacterState.gsFishSense
-        Dalamud.Log("[FishingScrips] State changed to: FishSense")
+        Dalamud.Log("[FishingScrips] State Changed → FishSense")
     end
 end
 
@@ -536,7 +536,7 @@ function CharacterState.gsFishSense()
 
     WaitForPlayer()
     State = CharacterState.gsTeleportFishingZone
-    Dalamud.Log("[FishingScrips] State changed to: TeleportFishingZone")
+    Dalamud.Log("[FishingScrips] State Changed → TeleportFishingZone")
 end
 
 function CharacterState.gsTeleportFishingZone()
@@ -550,14 +550,14 @@ function CharacterState.gsTeleportFishingZone()
         SelectNewFishingHole()
         ResetHardAmissTime = os.clock()
         State = CharacterState.gsGoToFishingHole
-        Dalamud.Log("[FishingScrips] State changed to: GoToFishingHole")
+        Dalamud.Log("[FishingScrips] State Changed → GoToFishingHole")
     end
 end
 
 function CharacterState.gsGoToFishingHole()
     if Svc.ClientState.TerritoryType ~= SelectedFish.zoneId then
         State = CharacterState.gsTeleportFishingZone
-        Dalamud.Log("[FishingScrips] State changed to: TeleportFishingZone")
+        Dalamud.Log("[FishingScrips] State Changed → TeleportFishingZone")
         return
     end
 
@@ -595,7 +595,7 @@ function CharacterState.gsGoToFishingHole()
         if not Svc.Condition[CharacterCondition.mounted] then
             Mount()
             State = CharacterState.gsGoToFishingHole
-            Dalamud.Log("[FishingScrips] State changed to: GoToFishingHole")
+            Dalamud.Log("[FishingScrips] State Changed → GoToFishingHole")
         elseif not (IPC.vnavmesh.PathfindInProgress() or IPC.vnavmesh.IsRunning()) then
             Dalamud.Log(string.format("[FishingScrips] Moving to waypoint: (%.2f, %.2f, %.2f)", SelectedFishingSpot.waypointX, SelectedFishingSpot.waypointY, SelectedFishingSpot.waypointZ))
             IPC.vnavmesh.PathfindAndMoveTo(Vector3(SelectedFishingSpot.waypointX, SelectedFishingSpot.waypointY, SelectedFishingSpot.waypointZ), true)
@@ -612,14 +612,14 @@ function CharacterState.gsGoToFishingHole()
     end
 
     State = CharacterState.gsFishing
-    Dalamud.Log("[FishingScrips] State changed to: Fishing")
+    Dalamud.Log("[FishingScrips] State Changed → Fishing")
 end
 
 ResetHardAmissTime = os.clock()
 function CharacterState.gsFishing()
     if Inventory.GetItemCount(29717) == 0 then
         State = CharacterState.gsBuyFishingBait
-        Dalamud.Log("[FishingScrips] State Change: Buy Fishing Bait")
+        Dalamud.Log("[FishingScrips] State Changed → Buy Fishing Bait")
         return
     end
 
@@ -630,7 +630,7 @@ function CharacterState.gsFishing()
             yield("/wait 1")
         else
             State = CharacterState.gsTurnIn
-            Dalamud.Log("[FishingScrips] State Change: TurnIn")
+            Dalamud.Log("[FishingScrips] State Changed → TurnIn")
         end
         return
     end
@@ -643,7 +643,7 @@ function CharacterState.gsFishing()
             end
         else
             State = CharacterState.gsTurnIn
-            Dalamud.Log("[FishingScrips] State Change: Forced TurnIn to avoid hard amiss")
+            Dalamud.Log("[FishingScrips] State Changed → Forced TurnIn to avoid hard amiss")
         end
         return
     elseif os.clock() - SelectedFishingSpot.startTime > (MoveSpotsAfter * 60) then
@@ -656,7 +656,7 @@ function CharacterState.gsFishing()
         else
             SelectNewFishingHole()
             State = CharacterState.gsReady
-            Dalamud.Log("[FishingScrips] State Change: Timeout Ready")
+            Dalamud.Log("[FishingScrips] State Changed → Timeout Ready")
         end
         return
     elseif Svc.Condition[CharacterCondition.gathering] then
@@ -682,7 +682,7 @@ function CharacterState.gsFishing()
             end
             SelectNewFishingHole()
             State = CharacterState.gsReady
-            Dalamud.Log("[FishingScrips] State Change: Stuck Ready")
+            Dalamud.Log("[FishingScrips] State Changed → Stuck Ready")
             return
         else
             SelectedFishingSpot.lastStuckCheckPosition = { x = x, y = y, z = z }
@@ -712,7 +712,7 @@ function CharacterState.gsBuyFishingBait()
             yield("/callback Shop true -1")
         else
             State = CharacterState.gsGoToFishingHole
-            Dalamud.Log("[FishingScrips] State Change: GoToFishingHole")
+            Dalamud.Log("[FishingScrips] State Changed → GoToFishingHole")
         end
         return
     end
@@ -807,7 +807,7 @@ function CharacterState.gsGoToHubCity()
         TeleportTo(SelectedHubCity.aetheryte)
     else
         State = CharacterState.gsReady
-        Dalamud.Log("[FishingScrips] State Change: Ready")
+        Dalamud.Log("[FishingScrips] State Changed → Ready")
     end
 end
 
@@ -821,15 +821,15 @@ function CharacterState.gsTurnIn()
             yield("/callback CollectablesShop true -1")
         elseif Inventory.GetItemCount(GathererScripId) >= ScripExchangeItem.price then
             State = CharacterState.gsScripExchange
-            Dalamud.Log("[FishingScrips] State Change: ScripExchange")
+            Dalamud.Log("[FishingScrips] State Changed → ScripExchange")
         else
             State = CharacterState.gsReady
-            Dalamud.Log("[FishingScrips] State Change: Ready")
+            Dalamud.Log("[FishingScrips] State Changed → Ready")
         end
 
     elseif Svc.ClientState.TerritoryType ~= SelectedHubCity.zoneId then
         State = CharacterState.gsGoToHubCity
-        Dalamud.Log("[FishingScrips] State Change: GoToHubCity")
+        Dalamud.Log("[FishingScrips] State Changed → GoToHubCity")
 
     elseif SelectedHubCity.scripExchange.requiresAethernet and (not Svc.ClientState.TerritoryType == SelectedHubCity.aethernet.aethernetZoneId or
         GetDistanceToPoint(SelectedHubCity.scripExchange.x, SelectedHubCity.scripExchange.y, SelectedHubCity.scripExchange.z) > DistanceBetween(SelectedHubCity.aethernet.x, SelectedHubCity.aethernet.y, SelectedHubCity.aethernet.z, SelectedHubCity.scripExchange.x, SelectedHubCity.scripExchange.y, SelectedHubCity.scripExchange.z) + 10) then
@@ -853,7 +853,7 @@ function CharacterState.gsTurnIn()
             yield("/callback CollectablesShop true -1")
         else
             State = CharacterState.gsScripExchange
-            Dalamud.Log("[FishingScrips] State Change: ScripExchange")
+            Dalamud.Log("[FishingScrips] State Changed → ScripExchange")
         end
     else
         if IPC.vnavmesh.PathfindInProgress() or IPC.vnavmesh.IsRunning() then
@@ -885,15 +885,15 @@ function CharacterState.gsScripExchange()
             yield("/callback InclusionShop true -1")
         elseif Inventory.GetCollectableItemCount(SelectedFish.fishId, 1) > 0 then
             State = CharacterState.gsTurnIn
-            Dalamud.Log("[FishingScrips] State Change: TurnIn")
+            Dalamud.Log("[FishingScrips] State Changed → TurnIn")
         else
             State = CharacterState.gsReady
-            Dalamud.Log("[FishingScrips] State Change: Ready")
+            Dalamud.Log("[FishingScrips] State Changed → Ready")
         end
 
     elseif Svc.ClientState.TerritoryType ~= SelectedHubCity.zoneId then
         State = CharacterState.gsGoToHubCity
-        Dalamud.Log("[FishingScrips] State Change: GoToHubCity")
+        Dalamud.Log("[FishingScrips] State Changed → GoToHubCity")
 
     elseif SelectedHubCity.scripExchange.requiresAethernet and (not Svc.ClientState.TerritoryType == SelectedHubCity.aethernet.aethernetZoneId or
         GetDistanceToPoint(SelectedHubCity.scripExchange.x, SelectedHubCity.scripExchange.y, SelectedHubCity.scripExchange.z) > DistanceBetween(SelectedHubCity.aethernet.x, SelectedHubCity.aethernet.y, SelectedHubCity.aethernet.z, SelectedHubCity.scripExchange.x, SelectedHubCity.scripExchange.y, SelectedHubCity.scripExchange.z) + 10) then
@@ -947,7 +947,7 @@ function CharacterState.gsAutoRetainers()
             yield("/callback RetainerList true -1")
         elseif not Svc.Condition[CharacterCondition.occupiedSummoningBell] then
             State = CharacterState.gsReady
-            Dalamud.Log("[FishingScrips] State Change: Ready")
+            Dalamud.Log("[FishingScrips] State Changed → Ready")
         end
 
     elseif not (Svc.ClientState.TerritoryType == SelectedHubCity.zoneId or Svc.ClientState.TerritoryType == SelectedHubCity.aethernet.aethernetZoneId) then
@@ -1003,7 +1003,7 @@ function CharacterState.gsExecuteGCTurnIn()
 
     else
         State = CharacterState.gsReady
-        Dalamud.Log("[FishingScrips] State Change: Ready")
+        Dalamud.Log("[FishingScrips] State Changed → Ready")
         deliver = false
     end
 end
@@ -1041,7 +1041,7 @@ function CharacterState.gsRepair()
                 end
             else
                 State = CharacterState.gsReady
-                Dalamud.Log("[FishingScrips] State Change: Ready")
+                Dalamud.Log("[FishingScrips] State Changed → Ready")
             end
 
         elseif ShouldAutoBuyDarkMatter then
@@ -1113,7 +1113,7 @@ function CharacterState.gsRepair()
             end
         else
             State = CharacterState.gsReady
-            Dalamud.Log("[FishingScrips] State Change: Ready")
+            Dalamud.Log("[FishingScrips] State Changed → Ready")
         end
     end
 end
@@ -1121,7 +1121,7 @@ end
 function CharacterState.gsExtractMateria()
     if Svc.Condition[CharacterCondition.mounted] then
         Dismount()
-        Dalamud.Log("[FishingScrips] State Change: Dismounting")
+        Dalamud.Log("[FishingScrips] State Changed → Dismounting")
         return
     end
 
@@ -1149,7 +1149,7 @@ function CharacterState.gsExtractMateria()
             yield("/callback Materialize true -1")
         else
             State = CharacterState.gsReady
-            Dalamud.Log("[FishingScrips] State Change: Ready")
+            Dalamud.Log("[FishingScrips] State Changed → Ready")
         end
     end
 end
@@ -1186,35 +1186,35 @@ function CharacterState.gsReady()
 
     elseif RepairThreshold > 0 and NeedsRepair(RepairThreshold) and (SelfRepair and Inventory.GetItemCount(33916) > 0) then
         State = CharacterState.gsRepair
-        Dalamud.Log("[FishingScrips] State Change: Repair")
+        Dalamud.Log("[FishingScrips] State Changed → Repair")
 
     elseif ExtractMateria and CanExtractMateria() > 0 and Inventory.GetFreeInventorySlots() > 1 then
         State = CharacterState.gsExtractMateria
-        Dalamud.Log("[FishingScrips] State Change: ExtractMateria")
+        Dalamud.Log("[FishingScrips] State Changed → ExtractMateria")
 
     elseif DoAutoRetainers and IPC.AutoRetainer.AreAnyRetainersAvailableForCurrentChara() and Inventory.GetFreeInventorySlots() > 1 then
         State = CharacterState.gsAutoRetainers
-        Dalamud.Log("[FishingScrips] State Change: ProcessingRetainers")
+        Dalamud.Log("[FishingScrips] State Changed → ProcessingRetainers")
 
     elseif Inventory.GetFreeInventorySlots() <= MinInventoryFreeSlots and Inventory.GetCollectableItemCount(SelectedFish.fishId, 1) > 0 then
         State = CharacterState.gsTurnIn
-        Dalamud.Log("[FishingScrips] State Change: TurnIn")
+        Dalamud.Log("[FishingScrips] State Changed → TurnIn")
 
     elseif GrandCompanyTurnIn and Inventory.GetFreeInventorySlots() <= MinInventoryFreeSlots then
         State = CharacterState.gcTurnIn
-        Dalamud.Log("[FishingScrips] State Change: GCTurnIn")
+        Dalamud.Log("[FishingScrips] State Changed → GCTurnIn")
 
     elseif Inventory.GetFreeInventorySlots() <= MinInventoryFreeSlots and Inventory.GetCollectableItemCount(SelectedFish.fishId, 1) > 0 then
         State = CharacterState.gsGoToHubCity
-        Dalamud.Log("[FishingScrips] State Change: GoToHubCity")
+        Dalamud.Log("[FishingScrips] State Changed → GoToHubCity")
 
     elseif Inventory.GetItemCount(29717) == 0 then
         State = CharacterState.gsBuyFishingBait
-        Dalamud.Log("[FishingScrips] State Change: Buy Fishing Bait")
+        Dalamud.Log("[FishingScrips] State Changed → Buy Fishing Bait")
 
     else
         State = CharacterState.gsGoToFishingHole
-        Dalamud.Log("[FishingScrips] State Change: GoToFishingHole")
+        Dalamud.Log("[FishingScrips] State Changed → GoToFishingHole")
     end
 end
 
@@ -1281,7 +1281,7 @@ if Player.Job.Id ~= 18 then
 end
 
 State = CharacterState.gsReady
-Dalamud.Log("[FishingScrips] State changed to: Ready")
+Dalamud.Log("[FishingScrips] State Changed → Ready")
 
 while true do
     State()
