@@ -1,5 +1,5 @@
 # Introduction
-Tired of the grind? SnD has you covered.  
+Tired of the grind? SnD has you covered.
 A curated collection of lightweight, user-friendly macros—each designed to automate
 routine in-game activities like crafting, fishing, questing, and selling. Ideal for
 streamlining your daily grind and freeing you up for more exciting adventures!
@@ -34,6 +34,15 @@ streamlining your daily grind and freeing you up for more exciting adventures!
 
 ---
 
+### Gatherers
+![Status](https://img.shields.io/badge/status-working-brightgreen)
+
+- #### FishingGathererScrips
+  From fishing to turn-ins to purchases, it runs the loop for you — keeping scrip
+  farming quick and easy.
+
+---
+
 ### GoldSaucer
 ![Status](https://img.shields.io/badge/status-working-brightgreen)
 
@@ -45,7 +54,7 @@ streamlining your daily grind and freeing you up for more exciting adventures!
 
 ## Support
 
-Enjoying SnD?  
-Support development and keep it going ❤️  
+Enjoying SnD?
+Support development and keep it going ❤️
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/minnuverse)
