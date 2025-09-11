@@ -772,9 +772,6 @@ function ProcessRetainers()
                     summoningBell:Interact()
                 elseif Addons.GetAddon("RetainerList").Ready then
                     yield("/ays e")
-                    if Echo == "All" then
-                        yield("/echo [CraftersScrips] Processing retainers")
-                    end
                     yield("/wait 1")
                 end
             end
@@ -811,9 +808,6 @@ function ProcessRetainers()
             end
         elseif Addons.GetAddon("RetainerList").Ready then
             IPC.AutoRetainer.EnqueueInitiation()
-            if Echo == "All" then
-                yield("/echo [CraftersScrips] Processing retainers")
-            end
             yield("/wait 1")
         end
     end
@@ -846,7 +840,7 @@ function PotionCheck()
         if potion > 0 then
             Inventory.GetInventoryItem(27960):Use()
         else
-            LogDebug("[CraftersScrips] [PotionCheck] HQ Potion not found in inventory.")
+            Dalamud.Log("[CraftersScrips] [PotionCheck] HQ Potion not found in inventory.")
         end
     end
 end
