@@ -1,7 +1,7 @@
 --[=====[
 [[SND Metadata]]
 author:  'pot0to (https://ko-fi.com/pot0to) || Maintainer: Minnu (https://ko-fi.com/minnuverse)'
-version: 2.0.1
+version: 2.0.2
 description: Fishing Gatherer Scrips - Script for Fishing & Turning In
 plugin_dependencies:
 - AutoHook
@@ -78,12 +78,13 @@ configs:
 --[[
 ********************************************************************************
 *                            Fishing Gatherer Scrips                           *
-*                                Version 2.0.1                                 *
+*                                Version 2.0.2                                 *
 ********************************************************************************
 
 Created by:     pot0to (https://ko-fi.com/pot0to)
 Maintained by:  Minnu  (https://ko-fi.com/minnuverse)
 
+    -> 2.0.2    Fixed stuck while using mount
     -> 2.0.1    Bug Fixes
                 Added config for BuyDarkMatter
                 Removed config for unused ReduceEphemerals
@@ -363,8 +364,8 @@ HubCities = {
 function Mount()
     local mountActionId = 9
     Dalamud.Log("[FishingScrips] Using Mount Roulette...")
-    Actions.ExecuteGeneralAction(mountActionId)
     repeat
+        Actions.ExecuteGeneralAction(mountActionId)
         yield("/wait 1")
     until Svc.Condition[CharacterCondition.mounted]
 end
@@ -953,7 +954,7 @@ function CharacterState.gsAutoRetainers()
         end
 
     elseif not (Svc.ClientState.TerritoryType == SelectedHubCity.zoneId or Svc.ClientState.TerritoryType == SelectedHubCity.aethernet.aethernetZoneId) then
-        Dalamud.Log("[FishingScrips] Not in hub city zone. Teleporting to hub city.")
+        Dalamud.Log("[FishingScrips] Teleporting to hub city.")
         TeleportTo(SelectedHubCity.aetheryte)
 
     elseif SelectedHubCity.retainerBell.requiresAethernet and (Svc.ClientState.TerritoryType ~= SelectedHubCity.aethernet.aethernetZoneId or
@@ -1256,7 +1257,6 @@ IPC.AutoHook.SetPluginState(true)
 IPC.AutoHook.DeleteAllAnonymousPresets()
 IPC.AutoHook.CreateAndSelectAnonymousPreset(SelectedFish.autoHookPreset)
 
-SelectedHubCity = nil
 for _, city in ipairs(HubCities) do
     if city.zoneName == HubCity then
         SelectedHubCity = city
