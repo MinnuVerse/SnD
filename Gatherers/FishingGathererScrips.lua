@@ -1,7 +1,7 @@
 --[=====[
 [[SND Metadata]]
 author:  'pot0to (https://ko-fi.com/pot0to) || Maintainer: Minnu (https://ko-fi.com/minnuverse)'
-version: 2.0.2
+version: 2.0.3
 description: Fishing Gatherer Scrips - Script for Fishing & Turning In
 plugin_dependencies:
 - AutoHook
@@ -78,12 +78,13 @@ configs:
 --[[
 ********************************************************************************
 *                            Fishing Gatherer Scrips                           *
-*                                Version 2.0.2                                 *
+*                                Version 2.0.3                                 *
 ********************************************************************************
 
 Created by:     pot0to (https://ko-fi.com/pot0to)
 Maintained by:  Minnu  (https://ko-fi.com/minnuverse)
 
+    -> 2.0.3    Fixed index for mount tokens
     -> 2.0.2    Fixed stuck while using mount
     -> 2.0.1    Bug Fixes
                 Added config for BuyDarkMatter
@@ -172,7 +173,7 @@ ScripExchangeItems = {
         itemName        = "Mount Token",
         categoryMenu    = 4,
         subcategoryMenu = 8,
-        listIndex       = 6,
+        listIndex       = 7,
         price           = 1000
     },
     {
@@ -266,7 +267,7 @@ FishTable = {
         baitName                    = "Versatile Lure",
         zoneId                      = 1190,
         zoneName                    = "Shaaloani",
-        autoHookPreset              = "AH4_H4sIAAAAAAAACu1X227bOBD9lYDPJqALdcub6zjZAI4T2N5dYIs+0BIlE5FFl6K6zQb59w51sWVbStQgfdq+yaPRmQsPz4yf0bhQYkJzlU/iBF0+o2lG1ykbpym6VLJgI3QlMjWhWcjSOyHCDbqMaZqDfcFC+Gyc8S1VXGSVS/ORRpzxjB0Qo+bVLTxZftAP/CC5kFw9oUsTvPPp9zAtIhYdzBrnpYpRf/mMygdLP5X4rj9CN7vVRrJ8I1KwmIZxhPw6dIkReINyNN5McrIptk1mxDRIV2oDAjVoIk1ZqHo6C/jmEDTr7ayFjDhNe+K4JhkUh9Ro1zzfTJ9Y3uqDc9IHxxnUB7c5evrIlhseq0+Ul93QhrwxLBUNHyEaBKkJcR5vSLSgjvYAJGfgqAMtWKxBplSmTyu+BRscafdZuKcx3WFnbTVhJf+PTaiqSN5UcopqDWSQXaOuNjTl9DG/pt+E1MBHhqZ19ujYDhdefGPgb+qD6rrVkBoZlEhzhp94ckN1A5/ROEtSJvMmuFVB2p5BzqodFMJ/gRjT70rSWtg0K1Zi+S/d3Waq4FqzbijPmr5ioPOskOyO5TlNICWERmheJofmApRsVCE87cCiG9mBNxO5ejfeAxTIujNEGPW8ryKW7w/5LHegD5Kmk0JKlqkPqvIE9cNq7cz2rOLO6KVXRZylEjutMTxLlortytlxyL0m11h+TMptuDKHPzP+tWAaFznUIoy6DLvrgGISeSamnh1jNybEdV1mE2ojwJvxXN3HOgaw/XNFT13A/p4Hnun15/gXxAdJStmF9tCAcyG3NP1DiEcN0ejV34yWv7Ud8t/f2vrCVL/rl7q05j7Xpqp+YnpaBxvMpZIiay0Lb39u2K3PZyxhWUTl0wfkVQJfiQKcTyqtPCw32Dsc0u516Uqt7bWSfNcXyXMse+/SF+vI6ZVotZ9m9ThWTE5okWxgo9rqUQfU7aJ7uXMBGcoZqx9aQl6J5Vgptt2pppfaZ0VlwirMDkW3PSc4X1deWR307tRoU0PFBftacMkiSEcVeiTr5ayHn2/w7Wdp9ZsmP0eT9555W//C2KKR6WFqMtA/5kbYjyILr4kReSExI9fz0MuXRgDr+f15b6g0EASxLYbE9vTi1CuGNJE0UxdQWkijY+02X7tGtxHMEh7CWIGm6GCVw3griuzIDVJwgtNFxNZ70KEZvo5UyJgCY1OtWN0LuhM4Xetba3VxAOhX/7EZ/AfmMETfPTr1x9oy0V0tG9oepvUI1Y+V+eDWpXItqtkecQy69rBr0ACDHDDsG56PLTsyqBmFVuyZMBnPqOQE/QX8I2Qi5MUyFHIHGvabSv8PKnkkcEPqWNiIDQcT33dxQHwbe2bMzCByzNiBrQ1EqsKtU7weL+5u5xeT+/nV/WJ5vAdaoHTwd4hgx3AIJiQ28JoBV2OXMT8MrIA4BL38ALU2vB2AEQAA",
+        autoHookPreset              = "AH4_H4sIAAAAAAAACu1YS3PbNhD+KxqciQ5JgC/dFMVJ3bGdTOS2M/XksAKXEsYUoYBgEjej/94BHxIpiXaT8SHt+EYuFt8+uPiwy29kVhk1h9KU82xFpt/IRQHLHGd5TqZGV+iQDyigNLNCbsBIVcyhELhfnK+rzdgSlOZKFmhB3xX5Q/0OeoWdQmMp7V4vUzL148Qh77VUWpoHMvUccllefBV5lWJ6EFv9XWPgWimxthbqB98+1Thh7JC329u1xnKt8pRMPdcdID8OXWMk0WCH+6QzNhmdB9xz+RMudLtUnqMwh9wPMsI91+vv8p/2QulUQj6C5/lhOMgxb7e9keX64gHLXgDBUQBBMAgg7L4B3ONiLTPzCmQdhhWUnWBhQNyXZBq0WQ3jU9w+atKivgcjsRDY8yc83hcOE+p3W7X8G+dgmso4V2ZhfALmH30d1oLdriGXcF++gc9KW7yBoIuOOUP5BxTqM2oy9WzORlzgA4NdOl/J1VvY1HHPilWOuuyM2G+fkimLXH7i/QAq3u0ccvHVaGgPtf0Qt2rxBbaXhamkPaxvQRZdbqnnkKtK4zWWJdgDSohDbmonyI0qkDgNwsMWydQm5gzelSrND+O911jieQ8JJSPrjcV6/eDPYovCaMjnldZYmGeK8gj12WI96+1JxGet11pvlBZYn7IvsO3KqxamVtrSmBc5bSktjNragy6L1cLgtmbYQ5Rtuc308wTXh6u9/b2Qnyq0uIQlIg3SOKTBkiPlbJnQOAoEFcvU9WMfA4/FZOeQK1mad5m1UZLpXVPINoA90TfRjfn4B+oSjMxxYjUs4I3SG8h/VereQnQk8ydC/W7lJZr9ec0gL/c3VbvYT3UrauLnXmTJq8NcGK2K3pU6sv1WblAfEcS1LPZLZOolv7gnplzWM3WFKyxS0A/PEEMN/FpVy/w4K42GHyZ7hUOIoyrnXOtr3Wq5HbMUBT7bq4zZGig9Yq3VsydglhnUc6hWa3MlN/bO8pqF46NRtyyVbi5F+9Cj+6bZmRmDm63pcml1bm2P02D+27aHRUFy2i08ctPbFqWjwa6WP+CnSmpMFwZMZS9c2wONFPgTBfu9tfZSO99XO89UAj0+jX0esYy5NOFiSXmcuRQCH6iL6AUuC9Io5GTnnBIoZ3HAxgl0DsJUoCe/ydV/mj2v4WtPxvgLo/58p+KFUV8Y9Udr5xkoNEJMIiEymgSJR7nLU7oMGVA3hSCKGHgiTMnuY9eTtn8e7vaChlXvvpEhvUZBMk6vfym9UnqyEEpvpSoG7bT3WH4uUyyMFJDbpFhjjcJso6pioEamPEiOp0U2HORja6nSGQhc5JbGWt+DJHhiSA52DvlpfsEcBpkfHl/sZiuZ2zTWGewPNO0YYx8b8UHtXL32r2eWeZjyJUWIXMp5CjRhbkj9CCMv8zI3S6P6ej6qHfuDY3S2gZWGwkzmUApIh7G81M7/p3YCFwH9hNEoCQTlLMloHPmMiihZehnHjGVezUsNbuvi3eLm9cdJyy9zVaRKT+jknYZihZOF0HJbDidy3+eQcR8piwSjPGKcxhinNGNLz4U4YVnokd0/8SCndDAWAAA=",
         fishingSpots = {
             maxHeight               = 1024,
             waypoints = {
