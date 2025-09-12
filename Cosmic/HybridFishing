@@ -56,7 +56,6 @@ Preset        = "AH4_H4sIAAAAAAAACu1Y227bOBD9FYPP5kKiqJvfXG+aBnDaIs5iFyj2YSSNbCI
 ItemId        = 45922
 ItemAmount    = 2
 SuccessCount  = 0
-ClassId       = Player.Job.Id
 
 Zones = {
     SinusArdorum = 1237,
@@ -64,17 +63,28 @@ Zones = {
 }
 
 function Init()
-    if ClassId ~= 18 then
-        yield("/echo [HybridFishing] Wrong class.. Aborting.")
-        return false
+    if Player.Job and Player.Job.Id ~= 18 then
+        yield("/echo [HybridFishing] Wrong class.. Trying to switch.")
+        Dalamud.Log("[HybridFishing] Wrong class.. Trying to switch.")
+        yield("/gs change Fisher")
+        yield("/wait 2")
+        if Player.Job and Player.Job.Id ~= 18 then
+            yield("/echo [HybridFishing] Wrong class.. Aborting.")
+            Dalamud.Log("[HybridFishing] Wrong class.. Aborting.")
+            return false
+        end
+        yield("/echo [HybridFishing] Switched to Fisher.")
+        Dalamud.Log("[HybridFishing] Switched to Fisher.")
     end
 
     if not Player.Gearset or not Player.Gearset.Name or Player.Gearset.Name == "" then
         yield("/echo [HybridFishing] Fisher gearset not detected.. Aborting.")
+        Dalamud.Log("[HybridFishing] Fisher gearset not detected.. Aborting.")
         return false
     end
-    Class = Player.Gearset.Name
 
+    yield("/wait 0.1")
+    Class = Player.Gearset.Name
     return true
 end
 
@@ -109,7 +119,6 @@ function MoveToSpot()
         Dalamud.Log(string.format("[HybridFishing] Heading to %s", MissionName))
         yield(Coords)
         yield("/wait 0.1")
-        yield("/ice start")
         IPC.vnavmesh.PathfindAndMoveTo(Vector3(-264.005, 22.156, -94.770), false)
         WaitForVnavMesh()
     else
@@ -127,16 +136,6 @@ function WaitForFishingItem(maxWaitSeconds)
     IPC.AutoHook.CreateAndSelectAnonymousPreset(Preset)
     IPC.AutoHook.SetPluginState(true)
     yield("/wait 1")
-
-    if Svc.Condition[4] then
-        local dismountActionId = 23
-        Dalamud.Log("[HybridFishing] Dismounting...")
-        repeat
-            Actions.ExecuteGeneralAction(dismountActionId)
-            yield("/wait 1")
-        until not Svc.Condition[4]
-        WaitForPlayer()
-    end
 
     while not Svc.Condition[43] and retryCount < maxRetries do
         retryCount = retryCount + 1
@@ -290,7 +289,17 @@ while true do
         WaitForVnavMesh()
     end
 
+    if Svc.Condition[4] then
+        local dismountActionId = 23
+        Dalamud.Log("[HybridFishing] Dismounting...")
+        repeat
+            Actions.ExecuteGeneralAction(dismountActionId)
+            yield("/wait 1")
+        until not Svc.Condition[4]
+        WaitForPlayer()
+    end
 
+    yield("/ice start")
     local currentMissionName = ""
     while (currentMissionName ~= MissionName) do
         yield("/wait 0.5")
@@ -307,7 +316,7 @@ while true do
         SubmitReport()
         SuccessCount = 0
     elseif Inventory.GetItemCount(ItemId) >= ItemAmount then
-        Dalamud.Log("[HybridFishing] Sufficient items available, starting crafting.")
+        Dalamud.Log("[HybridFishing] Sufficient mats for crafting..")
         WaitForPlayer()
         StartCrafting()
         SubmitReport()
