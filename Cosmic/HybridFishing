@@ -1,7 +1,7 @@
 --[=====[
 [[SND Metadata]]
 author: 'SubaruYashiro || Updated by: Minnu (https://ko-fi.com/minnuverse)'
-version: 2.1.2
+version: 2.1.3
 description: HybridFishing - Script for Farming Cosmic Fishing Points
 plugin_dependencies:
 - Artisan
@@ -17,7 +17,7 @@ plugin_dependencies:
 --[[
 ********************************************************************************
 *                               HybridFishing                                  *
-*                               Version 2.1.2                                  *
+*                               Version 2.1.3                                  *
 ********************************************************************************
 
 Created by: SubaruYashiro
@@ -27,6 +27,7 @@ HybridFishing is a handy little script that helps you rack up Cosmic Fishing
 Points without all the grind. Just run it, and it takes care of the fishing
 and turn-ins for you, making point farming smoother and way less of a hassle.
 
+    -> 2.1.3    Fixed for Ice version 0.0.70.6
     -> 2.1.2    Added checks for dismount before fishing
     -> 2.1.1    Fix stuck in gathering mode before crafting
     -> 2.1.0    Updated for Patch 7.31
@@ -302,9 +303,12 @@ while true do
     yield("/ice start")
     local currentMissionName = ""
     while (currentMissionName ~= MissionName) do
-        yield("/wait 0.5")
+        yield("/wait 1")
         if Addons.GetAddon("WKSMissionInfomation").Ready then
             currentMissionName = Addons.GetAddon("WKSMissionInfomation"):GetNode(1,3).Text
+        elseif not Addons.GetAddon("WKSMissionInfomation").Ready and not Addons.GetAddon("WKSMission").Ready then
+            yield("/callback WKSHud true 11")
+            yield("/wait 1")
         end
     end
 
