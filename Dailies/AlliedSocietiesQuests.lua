@@ -1,7 +1,7 @@
 --[=====[
 [[SND Metadata]]
-author: 'pot0to (https://ko-fi.com/pot0to) || Maintainer: Minnu (https://ko-fi.com/minnuverse)' 
-version: 2.0.2
+author: 'pot0to (https://ko-fi.com/pot0to) || Maintainer: Minnu (https://ko-fi.com/minnuverse)'
+version: 2.0.3
 description: Allied Societies Quests - Script for Dailies
 plugin_dependencies:
 - Questionable
@@ -11,12 +11,13 @@ plugin_dependencies:
 configs:
   ManualQuestPickup:
     default: false
-    description: If true, accept quests Manually from the quest giver; otherwise Questionable handles quest acceptance.
+    description: If selected, accept quests Manually from the quest giver; otherwise Questionable handles quest acceptance.
   FirstAlliedSociety:
     description: The first allied society from which to accept quests.
     is_choice: true
     choices:
         - "None"
+        - "Yok Huy"
         - "Mamool Ja"
         - "Pelupelu"
         - "Omicrons"
@@ -43,6 +44,7 @@ configs:
     is_choice: true
     choices:
         - "None"
+        - "Yok Huy"
         - "Mamool Ja"
         - "Pelupelu"
         - "Omicrons"
@@ -69,6 +71,7 @@ configs:
     is_choice: true
     choices:
         - "None"
+        - "Yok Huy"
         - "Mamool Ja"
         - "Pelupelu"
         - "Omicrons"
@@ -95,6 +98,7 @@ configs:
     is_choice: true
     choices:
         - "None"
+        - "Yok Huy"
         - "Mamool Ja"
         - "Pelupelu"
         - "Omicrons"
@@ -123,7 +127,7 @@ configs:
 --[[
 ********************************************************************************
 *                           Allied Society Quests                              *
-*                               Version 2.0.2                                  *
+*                               Version 2.0.3                                  *
 ********************************************************************************
 Created by: pot0to (https://ko-fi.com/pot0to)
 Updated by: Minnu
@@ -131,6 +135,7 @@ Updated by: Minnu
 Goes around to the specified beast tribes, picks up 3 quests, does them, and
 moves on to the next beast tribe.
 
+    -> 2.0.3    Added Yok Huy for patch 7.35
     -> 2.0.2    Added option for Manual Quest Handling
                 Added dropdowns for AlliedSociety
     -> 2.0.1    Updated for Patch 7.3
@@ -404,6 +409,18 @@ AlliedSocietiesTable = {
         z                 = 730.5,
         zoneId            = 1189,
         aetheryteName     = "Mamook",
+        expac             = "Dawntrail"
+    },
+    yokhuy = {
+        alliedSocietyName = "Yok Huy",
+        questGiver        = "Vuyargur",
+        mainQuests        = { first = 5330, last = 5335 },
+        dailyQuests       = { first = 5336, last = 5363 },
+        x                 = 495.40,
+        y                 = 142.24,
+        z                 = 784.53,
+        zoneId            = 1187,
+        aetheryteName     = "Worlar's Echo",
         expac             = "Dawntrail"
     }
 }
