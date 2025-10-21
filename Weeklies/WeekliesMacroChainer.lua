@@ -1,6 +1,6 @@
 --[=====[
 [[SND Metadata]]
-author: Minnu
+author: Minnu (https://ko-fi.com/minnuverse)
 version: 2.0.0
 description: Weeklies Macro Chainer - Run multiple macros in sequence for weeklies scripts
 configs:
