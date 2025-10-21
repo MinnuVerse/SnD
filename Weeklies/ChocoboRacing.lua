@@ -2,7 +2,7 @@
 [[SND Metadata]]
 author: Minnu (https://ko-fi.com/minnuverse)
 version: 2.0.0
-description: Chocobo Racing - A barebones script for weeklies
+description: Chocobo Racing - A barebones script for weekly challenge log
 configs:
   RunsToPlay:
     description: Number of runs to play.
@@ -49,7 +49,7 @@ function DutyFinder()
     Instances.DutyFinder:QueueRoulette(22) -- Chocobo Race: Sagolii Road (No Rewards)
 
     while not Svc.Condition[CharacterCondition.occupiedInCutscene] do
-        yield("/wait 1")
+        yield("/wait 0.1")
         if Addons.GetAddon("ContentsFinderConfirm").Ready then
             yield("/wait 1")
             yield("/click ContentsFinderConfirm Commence")
@@ -88,14 +88,13 @@ function KeySpam()
 end
 
 function EndRace()
-    RunsPlayed = RunsPlayed + 1
     yield("/callback RaceChocoboResult true 1")
+    RunsPlayed = RunsPlayed + 1
     Dalamud.Log(string.format("%s Runs played: %s", LogPrefix, RunsPlayed))
 
     repeat
         yield("/wait 0.1")
     until Player.Available and not Player.IsBusy
-    yield("/wait 1")
 end
 
 --=========================== EXECUTION ==========================--
