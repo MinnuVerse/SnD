@@ -1,7 +1,7 @@
 --[=====[
 [[SND Metadata]]
 author: 'pot0to (https://ko-fi.com/pot0to) || Maintainer: Minnu (https://ko-fi.com/minnuverse)'
-version: 2.1.0
+version: 2.1.1
 description: Allied Societies Quests - Script for Dailies
 plugin_dependencies:
 - Questionable
@@ -127,7 +127,7 @@ configs:
 --[[
 ********************************************************************************
 *                           Allied Society Quests                              *
-*                               Version 2.0.3                                  *
+*                               Version 2.1.1                                  *
 ********************************************************************************
 Created by: pot0to (https://ko-fi.com/pot0to)
 Updated by: Minnu
@@ -135,6 +135,8 @@ Updated by: Minnu
 Goes around to the specified beast tribes, picks up 3 quests, does them, and
 moves on to the next beast tribe.
 
+    -> 2.1.1    Fix for grabbing quests when ManualQuestPickup is off
+    -> 2.1.0    Multi Language Support (credit: Valgrifer)
     -> 2.0.3    Added Yok Huy for patch 7.35
     -> 2.0.2    Added option for Manual Quest Handling
                 Added dropdowns for AlliedSociety
@@ -182,12 +184,26 @@ for _, entry in ipairs(societyConfigKeys) do
     end
 end
 
+function GetAttribute(sheetName, id, property)
+    local sheet = Excel.GetSheet(sheetName)
+    if not sheet then
+        return nil
+    end
+
+    local row = sheet:GetRow(id)
+    if not row then
+        return nil
+    end
+
+    return row:GetProperty(property) or nil
+end
+
 function GetNPCName(id)
-    return Excel.GetSheet("ENpcResident"):GetRow(id):GetProperty("Singular");
+    return GetAttribute("ENpcResident", id, "Singular")
 end
 
 function GetPlaceName(id)
-    return Excel.GetSheet("PlaceName"):GetRow(id):GetProperty("Name");
+    return GetAttribute("PlaceName", id, "Name")
 end
 
 AlliedSocietiesTable = {
@@ -558,12 +574,16 @@ for _, alliedSociety in ipairs(ToDoList) do
                     repeat
                         if not IPC.Questionable.IsRunning() then
                             yield("/qst start")
+                        elseif Svc.Condition[CharacterCondition.casting] then
+                            yield("/vnav movedir 0 0 0.5")  -- Small movement to cancel any active cast
+                        elseif IPC.vnavmesh.IsRunning() then
+                            IPC.vnavmesh.Stop()
                         elseif os.time() - timeout > 15 then
                             Dalamud.Log("[AlliedQuests] Took more than 15 seconds to pick up the quest. Questionable may be stuck. Reloading...")
                             yield("/qst reload")
                             timeout = os.time()
                         end
-                        yield("/wait 1.1")
+                        yield("/wait 0.1")
                     until Quests.IsQuestAccepted(questId)
 
                     timeout = os.time()
