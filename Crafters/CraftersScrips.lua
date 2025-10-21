@@ -1,7 +1,7 @@
 --[=====[
 [[SND Metadata]]
 author:  'pot0to (https://ko-fi.com/pot0to) || Maintainer: Minnu (https://ko-fi.com/minnuverse) || Contributor: Ice, Allison'
-version: 2.0.5
+version: 2.0.6
 description: Crafter Scrips - Script for Crafting & Turning In
 plugin_dependencies:
 - Artisan
@@ -66,6 +66,7 @@ Updated by: Minnu, Ice, Allison
 Crafts orange scrip item matching whatever class you're on, turns it in, buys
 stuff, repeat.
 
+    -> 2.0.6    Bug Fixes
     -> 2.0.5    Updated config and Made `HobCity` a dropdown selectable
     -> 2.0.4    Add config for home, add config for Skystell Tools Unlock, Made `Home Command` a dropdown selectable
     -> 2.0.3    Updated to SND 13.41 (fixed the config settings)
@@ -641,9 +642,9 @@ function TurnIn()
             yield("/wait 1")
         end
         yield("/wait 3")
-    elseif Addons.GetAddon("TelepotTown").Ready then
-        Dalamud.Log("[CraftersScrips] TelepotTown open")
-        yield("/callback TelepotTown false -1")
+    elseif Addons.GetAddon("TeleportTown").Ready then
+        Dalamud.Log("[CraftersScrips] TeleportTown open")
+        yield("/callback TeleportTown false -1")
     elseif GetDistanceToPoint(SelectedHubCity.scripExchange.x, SelectedHubCity.scripExchange.y, SelectedHubCity.scripExchange.z) > 1 then
         if not IPC.vnavmesh.PathfindInProgress() and not IPC.vnavmesh.IsRunning() then
             Dalamud.Log("[CraftersScrips] Path not running")
@@ -665,10 +666,11 @@ function TurnIn()
                 Dalamud.Log("[CraftersScrips] Selecting purple scrip item")
                 yield("/callback CollectablesShop true 12 1")
                 yield("/wait 0.5")
+            else
+                Dalamud.Log("[CraftersScrips] Selecting orange scrip item")
+                yield("/callback CollectablesShop true 15 0")
+                yield("/wait 1")
             end
-            Dalamud.Log("[CraftersScrips] Selecting orange scrip item")
-            yield("/callback CollectablesShop true 15 0")
-            yield("/wait 1")
         end
     end
 end
@@ -703,8 +705,8 @@ function ScripExchange()
             IPC.Lifestream.ExecuteCommand(SelectedHubCity.aethernet.aethernetName)
         end
         yield("/wait 3")
-    elseif Addons.GetAddon("TelepotTown").Ready then
-        yield("/callback TelepotTown true -1")
+    elseif Addons.GetAddon("TeleportTown").Ready then
+        yield("/callback TeleportTown true -1")
     elseif GetDistanceToPoint(SelectedHubCity.scripExchange.x, SelectedHubCity.scripExchange.y, SelectedHubCity.scripExchange.z) > 1 then
         if not IPC.vnavmesh.PathfindInProgress() and not IPC.vnavmesh.IsRunning() then
             yield("/wait 3")
@@ -787,9 +789,9 @@ function ProcessRetainers()
                 IPC.Lifestream.ExecuteCommand(SelectedHubCity.aethernet.aethernetName)
             end
             yield("/wait 3")
-        elseif not Dalamud.Log("[CraftersScrips] Close teleport town") and Addons.GetAddon("TelepotTown").Ready then
+        elseif not Dalamud.Log("[CraftersScrips] Close teleport town") and Addons.GetAddon("TeleportTown").Ready then
             Dalamud.Log("TeleportTown open")
-            yield("/callback TelepotTown false -1")
+            yield("/callback TeleportTown false -1")
         elseif not Dalamud.Log("[CraftersScrips] Move to summoning bell") and GetDistanceToPoint(SelectedHubCity.retainerBell.x, SelectedHubCity.retainerBell.y, SelectedHubCity.retainerBell.z) > 1 then
             if not IPC.vnavmesh.PathfindInProgress() and not  IPC.vnavmesh.IsRunning() then
                 Dalamud.Log("[CraftersScrips] Path not running")
