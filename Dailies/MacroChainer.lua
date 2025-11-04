@@ -5,30 +5,42 @@ version: 2.0.0
 description: Macro Chainer - Run multiple macros in sequence
 configs:
   Macros:
-    description: Select the macro to run first
-    default: TTSeller,MiniCactpot,AlliedSocietiesQuests
+    description: Macros to run, separated by commas, no spaces. Each entry
+        should be MacroName:EchoTrigger. EchoTrigger is usually whatever is in
+        the brackets whenever a script echoes something to the chat log, like
+        "[AlliedQuests] Daily Allied Quests script completed successfully..!!"
+    default: TTSeller:TTSeller,MiniCactpot:MiniCactpot,AlliedSocietiesQuests:AlliedQuests
 
 [[End Metadata]]
 --]=====]
 
 --=========================== VARIABLES ==========================--
 
-EchoTrigger = nil
 MacroDone   = false
 
 --=========================== HELPERS ============================--
 
+
+
 function GetSelectedMacros()
-    local names = {}
+    local macrosList = {
+        -- TTSeller              = "TTSeller",
+        -- MiniCactpot           = "MiniCactpot",
+        -- AlliedSocietiesQuests = "AlliedQuests",
+    }
+
     local macros = Config.Get("Macros")
+    local i = 1
     if macros ~= nil then
         for macro in string.gmatch(macros, '([^,]+)') do
-            if macro and macro ~= "" and macro ~= "None" then
-                names[#names + 1] = macro
+            local macroName, trigger = macro:match("^(.-):(.*)$")
+            if macroName ~= "" and trigger ~= "" then
+                macrosList[i] = { macroName = macroName, echoTrigger = trigger }
+                i = i + 1
             end
         end
     end
-    return names
+    return macrosList
 end
 
 --=========================== CALLBACKS ==========================--
@@ -43,27 +55,8 @@ end
 
 --=========================== EXECUTION ==========================--
 
-local selected = GetSelectedMacros()
-if #selected == 0 then
-    Dalamud.Log("[MacroChainer] No macros configured. Aborting.")
-    return
-end
-
-local EchoAlias = {
-    TTSeller              = "TTSeller",
-    MiniCactpot           = "MiniCactpot",
-    AlliedSocietiesQuests = "AlliedQuests",
-}
-
-local MacrosToRun = {}
-for _, name in ipairs(selected) do
-    MacrosToRun[#MacrosToRun + 1] = {
-        macroName   = name,
-        echoTrigger = EchoAlias[name] or name,
-    }
-end
-
-for _, mNames in ipairs(MacrosToRun) do
+local macrosList = GetSelectedMacros()
+for _, mNames in ipairs(macrosList) do
     EchoTrigger = mNames.echoTrigger
     MacroDone   = false
 
