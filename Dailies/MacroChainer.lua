@@ -24,7 +24,9 @@ MacroDone   = false
 
 
 function GetSelectedMacros()
-    local names = {}
+    local names = {
+        --[1] = { macroName = "TTSeller", echoTrigger = "TTSeller" }
+    }
 
     local macros = Config.Get("Macros")
     local i = 1
