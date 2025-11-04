@@ -4,30 +4,9 @@ author: Minnu
 version: 2.0.0
 description: Macro Chainer - Run multiple macros in sequence
 configs:
-  FirstMacro:
+  Macros:
     description: Select the macro to run first
-    is_choice: true
-    choices:
-        - "None"
-        - "TTSeller"
-        - "MiniCactpot"
-        - "AlliedSocietiesQuests"
-  SecondMacro:
-    description: Select the macro to run second
-    is_choice: true
-    choices:
-        - "None"
-        - "TTSeller"
-        - "MiniCactpot"
-        - "AlliedSocietiesQuests"
-  ThirdMacro:
-    description: Select the macro to run third
-    is_choice: true
-    choices:
-        - "None"
-        - "TTSeller"
-        - "MiniCactpot"
-        - "AlliedSocietiesQuests"
+    default: TTSeller,MiniCactpot,AlliedSocietiesQuests
 
 [[End Metadata]]
 --]=====]
@@ -40,13 +19,13 @@ MacroDone   = false
 --=========================== HELPERS ============================--
 
 function GetSelectedMacros()
-    local orderKeys = { "FirstMacro", "SecondMacro", "ThirdMacro" }
     local names = {}
-
-    for _, key in ipairs(orderKeys) do
-        local macro = Config.Get(key)
-        if macro and macro ~= "" and macro ~= "None" then
-            names[#names + 1] = macro
+    local macros = Config.Get("Macros")
+    if macros ~= nil then
+        for macro in string.gmatch(macros, '([^,]+)') do
+            if macro and macro ~= "" and macro ~= "None" then
+                names[#names + 1] = macro
+            end
         end
     end
     return names
@@ -57,7 +36,7 @@ end
 function OnChatMessage()
     local message = TriggerData and TriggerData.message
 
-    if EchoTrigger and message and message:find(EchoTrigger) then
+    if EchoTrigger and message and message:find("%[" .. EchoTrigger .. "%]") and message:find("completed successfully") then
         MacroDone = true
     end
 end
