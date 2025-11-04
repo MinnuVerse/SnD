@@ -24,11 +24,7 @@ MacroDone   = false
 
 
 function GetSelectedMacros()
-    local macrosList = {
-        -- TTSeller              = "TTSeller",
-        -- MiniCactpot           = "MiniCactpot",
-        -- AlliedSocietiesQuests = "AlliedQuests",
-    }
+    local names = {}
 
     local macros = Config.Get("Macros")
     local i = 1
@@ -36,12 +32,12 @@ function GetSelectedMacros()
         for macro in string.gmatch(macros, '([^,]+)') do
             local macroName, trigger = macro:match("^(.-):(.*)$")
             if macroName ~= "" and trigger ~= "" then
-                macrosList[i] = { macroName = macroName, echoTrigger = trigger }
+                names[i] = { macroName = macroName, echoTrigger = trigger }
                 i = i + 1
             end
         end
     end
-    return macrosList
+    return names
 end
 
 --=========================== CALLBACKS ==========================--
