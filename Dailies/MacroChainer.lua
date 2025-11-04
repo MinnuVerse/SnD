@@ -1,7 +1,7 @@
 --[=====[
 [[SND Metadata]]
 author: Minnu
-version: 2.0.0
+version: 2.0.1
 description: Macro Chainer - Run multiple macros in sequence
 configs:
   Macros:
@@ -16,6 +16,7 @@ configs:
 
 --=========================== VARIABLES ==========================--
 
+EchoTrigger = nil
 MacroDone   = false
 
 --=========================== HELPERS ============================--
