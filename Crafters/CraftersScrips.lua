@@ -668,9 +668,10 @@ function TurnIn()
                 yield("/wait 0.5")
             else
                 Dalamud.Log("[CraftersScrips] Selecting orange scrip item")
-                yield("/callback CollectablesShop true 15 0")
-                yield("/wait 1")
             end
+            
+            yield("/callback CollectablesShop true 15 0") -- submit
+            yield("/wait 1")
         end
     end
 end
