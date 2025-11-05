@@ -1,33 +1,15 @@
 --[=====[
 [[SND Metadata]]
 author: Minnu
-version: 2.0.0
+version: 2.0.1
 description: Macro Chainer - Run multiple macros in sequence
 configs:
-  FirstMacro:
-    description: Select the macro to run first
-    is_choice: true
-    choices:
-        - "None"
-        - "TTSeller"
-        - "MiniCactpot"
-        - "AlliedSocietiesQuests"
-  SecondMacro:
-    description: Select the macro to run second
-    is_choice: true
-    choices:
-        - "None"
-        - "TTSeller"
-        - "MiniCactpot"
-        - "AlliedSocietiesQuests"
-  ThirdMacro:
-    description: Select the macro to run third
-    is_choice: true
-    choices:
-        - "None"
-        - "TTSeller"
-        - "MiniCactpot"
-        - "AlliedSocietiesQuests"
+  Macros:
+    description: Macros to run, separated by commas, no spaces. Each entry
+        should be MacroName:EchoTrigger. EchoTrigger is usually whatever is in
+        the brackets whenever a script echoes something to the chat log, like
+        "[AlliedQuests] Daily Allied Quests script completed successfully..!!"
+    default: TTSeller:TTSeller,MiniCactpot:MiniCactpot,AlliedSocietiesQuests:AlliedQuests
 
 [[End Metadata]]
 --]=====]
@@ -39,14 +21,22 @@ MacroDone   = false
 
 --=========================== HELPERS ============================--
 
-function GetSelectedMacros()
-    local orderKeys = { "FirstMacro", "SecondMacro", "ThirdMacro" }
-    local names = {}
 
-    for _, key in ipairs(orderKeys) do
-        local macro = Config.Get(key)
-        if macro and macro ~= "" and macro ~= "None" then
-            names[#names + 1] = macro
+
+function GetSelectedMacros()
+    local names = {
+        --[1] = { macroName = "TTSeller", echoTrigger = "TTSeller" }
+    }
+
+    local macros = Config.Get("Macros")
+    local i = 1
+    if macros ~= nil then
+        for macro in string.gmatch(macros, '([^,]+)') do
+            local macroName, trigger = macro:match("^(.-):(.*)$")
+            if macroName ~= "" and trigger ~= "" then
+                names[i] = { macroName = macroName, echoTrigger = trigger }
+                i = i + 1
+            end
         end
     end
     return names
@@ -57,34 +47,15 @@ end
 function OnChatMessage()
     local message = TriggerData and TriggerData.message
 
-    if EchoTrigger and message and message:find(EchoTrigger) then
+    if EchoTrigger and message and message:find("%[" .. EchoTrigger .. "%]") and message:find("completed successfully") then
         MacroDone = true
     end
 end
 
 --=========================== EXECUTION ==========================--
 
-local selected = GetSelectedMacros()
-if #selected == 0 then
-    Dalamud.Log("[MacroChainer] No macros configured. Aborting.")
-    return
-end
-
-local EchoAlias = {
-    TTSeller              = "TTSeller",
-    MiniCactpot           = "MiniCactpot",
-    AlliedSocietiesQuests = "AlliedQuests",
-}
-
-local MacrosToRun = {}
-for _, name in ipairs(selected) do
-    MacrosToRun[#MacrosToRun + 1] = {
-        macroName   = name,
-        echoTrigger = EchoAlias[name] or name,
-    }
-end
-
-for _, mNames in ipairs(MacrosToRun) do
+local macrosList = GetSelectedMacros()
+for _, mNames in ipairs(macrosList) do
     EchoTrigger = mNames.echoTrigger
     MacroDone   = false
 
