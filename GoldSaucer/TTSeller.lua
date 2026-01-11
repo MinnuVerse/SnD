@@ -215,6 +215,7 @@ end
 GoToSeller()
 Main()
 
+yield(string.format("/echo %s Triple Triad Seller script completed successfully..!!", LogPrefix))
 Dalamud.Log(string.format("%s Triple Triad Seller script completed successfully..!!", LogPrefix))
 
 --============================== END =============================--

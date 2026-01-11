@@ -609,4 +609,5 @@ for _, alliedSociety in ipairs(ToDoList) do
     end
 end
 
+yield("/echo [AlliedQuests] Daily Allied Quests script completed successfully..!!")
 Dalamud.Log("[AlliedQuests] Daily Allied Quests script completed successfully..!!")
