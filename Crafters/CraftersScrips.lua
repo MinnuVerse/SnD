@@ -1,7 +1,7 @@
 --[=====[
 [[SND Metadata]]
 author:  'pot0to (https://ko-fi.com/pot0to) || Maintainer: Minnu (https://ko-fi.com/minnuverse) || Contributor: Ice, Allison'
-version: 2.0.6
+version: 2.0.7
 description: Crafter Scrips - Script for Crafting & Turning In
 plugin_dependencies:
 - Artisan
@@ -56,8 +56,8 @@ configs:
 --[[
 
 ********************************************************************************
-*                    Crafter Scrips (Solution Nine Patch 7.3)                  *
-*                                Version 2.0.5                                 *
+*                    Crafter Scrips (Solution Nine Patch 7.4)                  *
+*                                Version 2.0.7                                 *
 ********************************************************************************
 
 Created by: pot0to (https://ko-fi.com/pot0to)
