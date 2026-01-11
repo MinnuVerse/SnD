@@ -147,7 +147,7 @@ ScripExchangeItems = {
         itemName        = "Condensed Solution",
         categoryMenu    = 1,
         subcategoryMenu = 10 + (SkystellToolsUnlocked and 1 or 0),
-        listIndex       = 5,
+        listIndex       = 10,
         price           = 125
     },
     {
