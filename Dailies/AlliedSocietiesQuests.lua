@@ -1,7 +1,7 @@
 --[=====[
 [[SND Metadata]]
 author: 'pot0to (https://ko-fi.com/pot0to) || Maintainer: Minnu (https://ko-fi.com/minnuverse)'
-version: 2.1.1
+version: 2.1.2
 description: Allied Societies Quests - Script for Dailies
 plugin_dependencies:
 - Questionable
@@ -32,11 +32,24 @@ configs:
         - "Moogles"
         - "Vath"
         - "Vanu Vanu"
-        - "Ixal"
-        - "Sahagin"
-        - "Kobolds"
-        - "Sylphs"
-        - "Amalj'aa"
+        - "Ixal (Neutral)"
+        - "Ixal (Recognized)"
+        - "Ixal (Friendly)"
+        - "Ixal (Trusted)"
+        - "Ixal (Respected)"
+        - "Ixal (Honored)"
+        - "Sahagin (Neutral)"
+        - "Sahagin (Recognized)"
+        - "Sahagin (Friendly)"
+        - "Kobolds (Neutral)"
+        - "Kobolds (Recognized)"
+        - "Kobolds (Friendly)"
+        - "Sylphs (Neutral)"
+        - "Sylphs (Recognized)"
+        - "Sylphs (Friendly)"
+        - "Amalj'aa (Neutral)"
+        - "Amalj'aa (Recognized)"
+        - "Amalj'aa (Friendly)"
   FirstClass:
     description: Class to assign for first allied society.
   SecondAlliedSociety:
@@ -59,11 +72,24 @@ configs:
         - "Moogles"
         - "Vath"
         - "Vanu Vanu"
-        - "Ixal"
-        - "Sahagin"
-        - "Kobolds"
-        - "Sylphs"
-        - "Amalj'aa"
+        - "Ixal (Neutral)"
+        - "Ixal (Recognized)"
+        - "Ixal (Friendly)"
+        - "Ixal (Trusted)"
+        - "Ixal (Respected)"
+        - "Ixal (Honored)"
+        - "Sahagin (Neutral)"
+        - "Sahagin (Recognized)"
+        - "Sahagin (Friendly)"
+        - "Kobolds (Neutral)"
+        - "Kobolds (Recognized)"
+        - "Kobolds (Friendly)"
+        - "Sylphs (Neutral)"
+        - "Sylphs (Recognized)"
+        - "Sylphs (Friendly)"
+        - "Amalj'aa (Neutral)"
+        - "Amalj'aa (Recognized)"
+        - "Amalj'aa (Friendly)"
   SecondClass:
     description: Class to assign for second allied society.
   ThirdAlliedSociety:
@@ -86,11 +112,24 @@ configs:
         - "Moogles"
         - "Vath"
         - "Vanu Vanu"
-        - "Ixal"
-        - "Sahagin"
-        - "Kobolds"
-        - "Sylphs"
-        - "Amalj'aa"
+        - "Ixal (Neutral)"
+        - "Ixal (Recognized)"
+        - "Ixal (Friendly)"
+        - "Ixal (Trusted)"
+        - "Ixal (Respected)"
+        - "Ixal (Honored)"
+        - "Sahagin (Neutral)"
+        - "Sahagin (Recognized)"
+        - "Sahagin (Friendly)"
+        - "Kobolds (Neutral)"
+        - "Kobolds (Recognized)"
+        - "Kobolds (Friendly)"
+        - "Sylphs (Neutral)"
+        - "Sylphs (Recognized)"
+        - "Sylphs (Friendly)"
+        - "Amalj'aa (Neutral)"
+        - "Amalj'aa (Recognized)"
+        - "Amalj'aa (Friendly)"
   ThirdClass:
     description: Class to assign for third allied society.
   FourthAlliedSociety:
@@ -113,11 +152,24 @@ configs:
         - "Moogles"
         - "Vath"
         - "Vanu Vanu"
-        - "Ixal"
-        - "Sahagin"
-        - "Kobolds"
-        - "Sylphs"
-        - "Amalj'aa"
+        - "Ixal (Neutral)"
+        - "Ixal (Recognized)"
+        - "Ixal (Friendly)"
+        - "Ixal (Trusted)"
+        - "Ixal (Respected)"
+        - "Ixal (Honored)"
+        - "Sahagin (Neutral)"
+        - "Sahagin (Recognized)"
+        - "Sahagin (Friendly)"
+        - "Kobolds (Neutral)"
+        - "Kobolds (Recognized)"
+        - "Kobolds (Friendly)"
+        - "Sylphs (Neutral)"
+        - "Sylphs (Recognized)"
+        - "Sylphs (Friendly)"
+        - "Amalj'aa (Neutral)"
+        - "Amalj'aa (Recognized)"
+        - "Amalj'aa (Friendly)"
   FourthClass:
     description: Class to assign for fourth allied society.
 
@@ -127,7 +179,7 @@ configs:
 --[[
 ********************************************************************************
 *                           Allied Society Quests                              *
-*                               Version 2.1.1                                  *
+*                               Version 2.1.2                                  *
 ********************************************************************************
 Created by: pot0to (https://ko-fi.com/pot0to)
 Updated by: Minnu
@@ -135,6 +187,7 @@ Updated by: Minnu
 Goes around to the specified beast tribes, picks up 3 quests, does them, and
 moves on to the next beast tribe.
 
+    -> 2.1.2    Added rank-specific quest giver support for ARR beast tribes
     -> 2.1.1    Fix for grabbing quests when ManualQuestPickup is off
     -> 2.1.0    Multi Language Support (credit: Valgrifer)
     -> 2.0.3    Added Yok Huy for patch 7.35
@@ -179,7 +232,14 @@ for _, entry in ipairs(societyConfigKeys) do
     local society = Config.Get(entry.societyKey)
     local class   = Config.Get(entry.classKey)
 
-    if society and class and society ~= "" and class ~= "" then
+    if type(society) == "string" then
+        society = society:gsub("^%s+", ""):gsub("%s+$", "")
+    end
+    if type(class) == "string" then
+        class = class:gsub("^%s+", ""):gsub("%s+$", "")
+    end
+
+    if society and class and society ~= "" and society ~= "None" and class ~= "" then
         table.insert(ToDoList, { alliedSocietyName = society, class = class })
     end
 end
@@ -207,11 +267,12 @@ function GetPlaceName(id)
 end
 
 AlliedSocietiesTable = {
-    amaljaa = {
+    amaljaa_neutral = {
         alliedSocietyName = "Amalj'aa",
+        configName        = "Amalj'aa (Neutral)",
         questGiver        = GetNPCName(1005550), -- "Fibubb Gah"
         mainQuests        = { first = 1217, last = 1221 },
-        dailyQuests       = { first = 1222, last = 1251, blackList = { [1245] = true } },
+        dailyQuests       = { first = 1222, last = 1231 },
         x                 = 103.12,
         y                 = 15.05,
         z                 = -359.51,
@@ -219,11 +280,38 @@ AlliedSocietiesTable = {
         aetheryteName     = GetPlaceName(313), -- "Little Ala Mhigo"
         expac             = "A Realm Reborn"
     },
-    sylphs = {
+    amaljaa_recognized = {
+        alliedSocietyName = "Amalj'aa",
+        configName        = "Amalj'aa (Recognized)",
+        questGiver        = GetNPCName(1005551), -- "Narujj Boh"
+        mainQuests        = { first = 1217, last = 1221 },
+        dailyQuests       = { first = 1232, last = 1241 },
+        x                 = 96.38,
+        y                 = 15.29,
+        z                 = -353.32,
+        zoneId            = 146,
+        aetheryteName     = GetPlaceName(313), -- "Little Ala Mhigo"
+        expac             = "A Realm Reborn"
+    },
+    amaljaa_friendly = {
+        alliedSocietyName = "Amalj'aa",
+        configName        = "Amalj'aa (Friendly)",
+        questGiver        = GetNPCName(1005552), -- "Yadovv Gah"
+        mainQuests        = { first = 1217, last = 1221 },
+        dailyQuests       = { first = 1242, last = 1251, blackList = { [1245] = true, [1250] = true } },
+        x                 = 89.26,
+        y                 = 15.23,
+        z                 = -355.76,
+        zoneId            = 146,
+        aetheryteName     = GetPlaceName(313), -- "Little Ala Mhigo"
+        expac             = "A Realm Reborn"
+    },
+    sylphs_neutral = {
         alliedSocietyName = "Sylphs",
+        configName        = "Sylphs (Neutral)",
         questGiver        = GetNPCName(1005561), -- "Tonaxia"
         mainQuests        = { first = 1252, last = 1256 },
-        dailyQuests       = { first = 1257, last = 1286 },
+        dailyQuests       = { first = 1257, last = 1266, blackList = { [1264] = true } },
         x                 = 46.41,
         y                 = 6.07,
         z                 = 252.91,
@@ -231,23 +319,90 @@ AlliedSocietiesTable = {
         aetheryteName     = GetPlaceName(107), -- "The Hawthorne Hut"
         expac             = "A Realm Reborn"
     },
-    kobolds = {
+    sylphs_recognized = {
+        alliedSocietyName = "Sylphs",
+        configName        = "Sylphs (Recognized)",
+        questGiver        = GetNPCName(1005562), -- "Ponnixia"
+        mainQuests        = { first = 1252, last = 1256 },
+        dailyQuests       = { first = 1267, last = 1276 },
+        x                 = 35.69,
+        y                 = -5.11,
+        z                 = 249.86,
+        zoneId            = 152,
+        aetheryteName     = GetPlaceName(107), -- "The Hawthorne Hut"
+        expac             = "A Realm Reborn"
+    },
+    sylphs_friendly = {
+        alliedSocietyName = "Sylphs",
+        configName        = "Sylphs (Friendly)",
+        questGiver        = GetNPCName(1005563), -- "Moxia"
+        mainQuests        = { first = 1252, last = 1256 },
+        dailyQuests       = { first = 1277, last = 1286, blackList = { [1284] = true } },
+        x                 = 47.18,
+        y                 = 6.07,
+        z                 = 250.81,
+        zoneId            = 152,
+        aetheryteName     = GetPlaceName(107), -- "The Hawthorne Hut"
+        expac             = "A Realm Reborn"
+    },
+    kobolds_neutral = {
         alliedSocietyName = "Kobolds",
-        questGiver        = GetNPCName(1005930), -- "789th Order Dustman Bo Bu"
+        configName        = "Kobolds (Neutral)",
+        questGiver        = GetNPCName(1005928), -- "789th Order Dustman Bo Zu"
         mainQuests        = { first = 1320, last = 1324 },
-        dailyQuests       = { first = 1325, last = 1373 },
-        x                 = 12.857726,
-        y                 = 16.164295,
-        z                 = -178.77,
+        dailyQuests       = { first = 1325, last = 1334 },
+        x                 = 11.13,
+        y                 = 16.16,
+        z                 = -187.70,
         zoneId            = 180,
         aetheryteName     = GetPlaceName(237), -- "Camp Overlook"
         expac             = "A Realm Reborn"
     },
-    sahagin = {
+    kobolds_recognized = {
+        alliedSocietyName = "Kobolds",
+        configName        = "Kobolds (Recognized)",
+        questGiver        = GetNPCName(1005929), -- "789th Order Craftsman Bo Gu"
+        mainQuests        = { first = 1320, last = 1324 },
+        dailyQuests       = { first = 1335, last = 1344, blackList = { [1336] = true } },
+        x                 = 18.71,
+        y                 = 16.16,
+        z                 = -184.34,
+        zoneId            = 180,
+        aetheryteName     = GetPlaceName(237), -- "Camp Overlook"
+        expac             = "A Realm Reborn"
+    },
+    kobolds_friendly = {
+        alliedSocietyName = "Kobolds",
+        configName        = "Kobolds (Friendly)",
+        questGiver        = GetNPCName(1005930), -- "789th Order Dustman Bo Bu"
+        mainQuests        = { first = 1320, last = 1324 },
+        dailyQuests       = { first = 1364, last = 1373, blackList = { [1364] = true, [1372] = true } },
+        x                 = 12.24,
+        y                 = 16.16,
+        z                 = -179.64,
+        zoneId            = 180,
+        aetheryteName     = GetPlaceName(237), -- "Camp Overlook"
+        expac             = "A Realm Reborn"
+    },
+    sahagin_neutral = {
         alliedSocietyName = "Sahagin",
+        configName        = "Sahagin (Neutral)",
+        questGiver        = GetNPCName(1005938), -- "Fyuu"
+        mainQuests        = { first = 1374, last = 1378 },
+        dailyQuests       = { first = 1379, last = 1388, blackList = { [1379] = true } },
+        x                 = -221.98,
+        y                 = -40.86,
+        z                 = 35.61,
+        zoneId            = 138,
+        aetheryteName     = GetPlaceName(223), -- "Aleport"
+        expac             = "A Realm Reborn"
+    },
+    sahagin_recognized = {
+        alliedSocietyName = "Sahagin",
+        configName        = "Sahagin (Recognized)",
         questGiver        = GetNPCName(1005939), -- "Houu"
         mainQuests        = { first = 1374, last = 1378 },
-        dailyQuests       = { first = 1380, last = 1409 },
+        dailyQuests       = { first = 1390, last = 1399, blackList = { [1396] = true } },
         x                 = -244.53,
         y                 = -41.46,
         z                 = 52.75,
@@ -255,14 +410,93 @@ AlliedSocietiesTable = {
         aetheryteName     = GetPlaceName(223), -- "Aleport"
         expac             = "A Realm Reborn"
     },
-    ixal = {
+    sahagin_friendly = {
+        alliedSocietyName = "Sahagin",
+        configName        = "Sahagin (Friendly)",
+        questGiver        = GetNPCName(1005940), -- "Seww"
+        mainQuests        = { first = 1374, last = 1378 },
+        dailyQuests       = { first = 1400, last = 1409, blackList = { [1409] = true } },
+        x                 = -229.13,
+        y                 = -40.48,
+        z                 = 55.17,
+        zoneId            = 138,
+        aetheryteName     = GetPlaceName(223), -- "Aleport"
+        expac             = "A Realm Reborn"
+    },
+    ixal_neutral = {
         alliedSocietyName = "Ixal",
-        questGiver        = GetNPCName(1009201), -- "Ehcatl Nine Manciple"
+        configName        = "Ixal (Neutral)",
+        questGiver        = GetNPCName(1009211), -- "Yazel Ahuatan the Able"
         mainQuests        = { first = 1486, last = 1493 },
-        dailyQuests       = { first = 1494, last = 1568 },
-        x                 = 173.21,
-        y                 = -5.37,
-        z                 = 81.85,
+        dailyQuests       = { first = 1494, last = 1497 },
+        x                 = 155.02,
+        y                 = -9.35,
+        z                 = 79.24,
+        zoneId            = 154,
+        aetheryteName     = GetPlaceName(140), -- "Fallgourd Float"
+        expac             = "A Realm Reborn"
+    },
+    ixal_recognized = {
+        alliedSocietyName = "Ixal",
+        configName        = "Ixal (Recognized)",
+        questGiver        = GetNPCName(1009212), -- "Methuli Cattlan the Hard"
+        mainQuests        = { first = 1486, last = 1493 },
+        dailyQuests       = { first = 1504, last = 1508 },
+        x                 = 153.60,
+        y                 = -9.94,
+        z                 = 80.95,
+        zoneId            = 154,
+        aetheryteName     = GetPlaceName(140), -- "Fallgourd Float"
+        expac             = "A Realm Reborn"
+    },
+    ixal_friendly = {
+        alliedSocietyName = "Ixal",
+        configName        = "Ixal (Friendly)",
+        questGiver        = GetNPCName(1009213), -- "Rozol Cattlan the Prudent"
+        mainQuests        = { first = 1486, last = 1493 },
+        dailyQuests       = { first = 1514, last = 1518 },
+        x                 = 162.86,
+        y                 = -4.69,
+        z                 = 63.50,
+        zoneId            = 154,
+        aetheryteName     = GetPlaceName(140), -- "Fallgourd Float"
+        expac             = "A Realm Reborn"
+    },
+    ixal_trusted = {
+        alliedSocietyName = "Ixal",
+        configName        = "Ixal (Trusted)",
+        questGiver        = GetNPCName(1009216), -- "Jezul Ahuatan the Second"
+        mainQuests        = { first = 1486, last = 1493 },
+        dailyQuests       = { first = 1498, last = 1503 },
+        x                 = 161.42,
+        y                 = -22.79,
+        z                 = 115.27,
+        zoneId            = 154,
+        aetheryteName     = GetPlaceName(140), -- "Fallgourd Float"
+        expac             = "A Realm Reborn"
+    },
+    ixal_respected = {
+        alliedSocietyName = "Ixal",
+        configName        = "Ixal (Respected)",
+        questGiver        = GetNPCName(1009215), -- "Duzal Meyean the Steady"
+        mainQuests        = { first = 1486, last = 1493 },
+        dailyQuests       = { first = 1509, last = 1513 },
+        x                 = 166.90,
+        y                 = -13.60,
+        z                 = 106.83,
+        zoneId            = 154,
+        aetheryteName     = GetPlaceName(140), -- "Fallgourd Float"
+        expac             = "A Realm Reborn"
+    },
+    ixal_honored = {
+        alliedSocietyName = "Ixal",
+        configName        = "Ixal (Honored)",
+        questGiver        = GetNPCName(1009216), -- "Jezul Ahuatan the Second"
+        mainQuests        = { first = 1486, last = 1493 },
+        dailyQuests       = { first = 1519, last = 1523 },
+        x                 = 161.42,
+        y                 = -22.79,
+        z                 = 115.27,
         zoneId            = 154,
         aetheryteName     = GetPlaceName(140), -- "Fallgourd Float"
         expac             = "A Realm Reborn"
@@ -455,9 +689,12 @@ CharacterCondition = {
     betweenAreas     = 45
 }
 
-function GetAlliedSocietyTable(alliedSocietyName)
+function GetAlliedSocietyTable(selectedName)
     for _, alliedSociety in pairs(AlliedSocietiesTable) do
-        if alliedSociety.alliedSocietyName == alliedSocietyName then
+        if alliedSociety.configName and alliedSociety.configName == selectedName then
+            return alliedSociety
+        end
+        if alliedSociety.alliedSocietyName == selectedName then
             return alliedSociety
         end
     end
@@ -564,6 +801,7 @@ for _, alliedSociety in ipairs(ToDoList) do
             local timeout = os.time()
             local quests = {}
             local blackList = alliedSocietyTable.dailyQuests.blackList or {}
+            local acceptedCount = 0
 
             for questId = alliedSocietyTable.dailyQuests.first, alliedSocietyTable.dailyQuests.last do
                 if not IPC.Questionable.IsQuestLocked(tostring(questId)) and not blackList[questId] then
@@ -586,6 +824,9 @@ for _, alliedSociety in ipairs(ToDoList) do
                         yield("/wait 0.1")
                     until Quests.IsQuestAccepted(questId)
 
+                    acceptedCount = acceptedCount + 1
+                    Dalamud.Log(string.format("[AlliedQuests] Accepted %d/3 quest(s) via Questionable.", acceptedCount))
+
                     timeout = os.time()
                     yield("/qst stop")
                 end
@@ -601,7 +842,7 @@ for _, alliedSociety in ipairs(ToDoList) do
                 yield("/qst start")
             end
             yield("/wait 1.2")
-        until #GetAcceptedAlliedSocietyQuests(alliedSociety.alliedSocietyName) == 0
+        until #GetAcceptedAlliedSocietyQuests(alliedSocietyTable.alliedSocietyName) == 0
 
         yield("/qst stop")
     else
