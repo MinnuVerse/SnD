@@ -516,8 +516,8 @@ AlliedSocietiesTable = {
     vath = {
         alliedSocietyName = "Vath",
         questGiver        = GetNPCName(1016803), -- "Vath Keeneye"
-        mainQuests        = { first = 2164, last = 2225 },
-        dailyQuests       = { first = 2171, last = 2200 },
+        mainQuests        = { first = 2255, last = 2260 },
+        dailyQuests       = { first = 2261, last = 2280 },
         x                 = 58.80,
         y                 = -48.00,
         z                 = -171.64,
@@ -645,7 +645,7 @@ AlliedSocietiesTable = {
         aetheryteName     = GetPlaceName(3983), -- "Base Omicron"
         expac             = "Endwalker"
     },
-    pelupleu = {
+    pelupelu = {
         alliedSocietyName = "Pelupelu",
         questGiver        = GetNPCName(1051643), -- "Yubli"
         mainQuests        = { first = 5193, last = 5198 },
@@ -709,7 +709,7 @@ function GetAcceptedAlliedSocietyQuests(alliedSocietyName)
         local allAcceptedQuestId = allAcceptedQuests[i]
         local row = Excel.GetRow("Quest", allAcceptedQuestId)
 
-        if row and row.BeastTribe and row.BeastTribe.Name:lower() == alliedSocietyName:lower() then
+        if row and row.BeastTribe and row.BeastTribe.Name and row.BeastTribe.Name:lower() == alliedSocietyName:lower() then
             table.insert(accepted, allAcceptedQuestId)
         end
     end
