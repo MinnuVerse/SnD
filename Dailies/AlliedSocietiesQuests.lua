@@ -1,7 +1,7 @@
 --[=====[
 [[SND Metadata]]
 author: 'pot0to (https://ko-fi.com/pot0to) || Maintainer: Minnu (https://ko-fi.com/minnuverse)'
-version: 2.1.2
+version: 2.1.3
 description: Allied Societies Quests - Script for Dailies
 plugin_dependencies:
 - Questionable
@@ -179,7 +179,7 @@ configs:
 --[[
 ********************************************************************************
 *                           Allied Society Quests                              *
-*                               Version 2.1.2                                  *
+*                               Version 2.1.3                                  *
 ********************************************************************************
 Created by: pot0to (https://ko-fi.com/pot0to)
 Updated by: Minnu
@@ -187,6 +187,7 @@ Updated by: Minnu
 Goes around to the specified beast tribes, picks up 3 quests, does them, and
 moves on to the next beast tribe.
 
+    -> 2.1.3    Fix Questionable quest pickup and enhance logging
     -> 2.1.2    Added rank-specific quest giver support for ARR beast tribes
     -> 2.1.1    Fix for grabbing quests when ManualQuestPickup is off
     -> 2.1.0    Multi Language Support (credit: Valgrifer)
@@ -742,12 +743,10 @@ function TeleportTo(aetheryteName)
     yield(TeleportCommand.." "..aetheryteName)
     yield("/wait 1")
     while Svc.Condition[CharacterCondition.casting] do
-        Dalamud.Log("[AlliedQuests] Casting teleport...")
         yield("/wait 1")
     end
     yield("/wait 1")
     while Svc.Condition[CharacterCondition.betweenAreas] do
-        Dalamud.Log("[AlliedQuests] Teleporting...")
         yield("/wait 1")
     end
     yield("/wait 1")
@@ -802,8 +801,13 @@ for _, alliedSociety in ipairs(ToDoList) do
             local quests = {}
             local blackList = alliedSocietyTable.dailyQuests.blackList or {}
             local acceptedCount = 0
+            local blacklistedCount = 0
 
             for questId = alliedSocietyTable.dailyQuests.first, alliedSocietyTable.dailyQuests.last do
+                if blackList[questId] then
+                    blacklistedCount = blacklistedCount + 1
+                end
+
                 if not IPC.Questionable.IsQuestLocked(tostring(questId)) and not blackList[questId] then
                     table.insert(quests, questId)
                     IPC.Questionable.ClearQuestPriority()
@@ -824,6 +828,7 @@ for _, alliedSociety in ipairs(ToDoList) do
                         yield("/wait 0.1")
                     until Quests.IsQuestAccepted(questId)
 
+                    IPC.Questionable.ClearQuestPriority()
                     acceptedCount = acceptedCount + 1
                     Dalamud.Log(string.format("[AlliedQuests] Accepted %d/3 quest(s) via Questionable.", acceptedCount))
 
@@ -834,6 +839,12 @@ for _, alliedSociety in ipairs(ToDoList) do
 
             for _, questId in ipairs(quests) do
                 IPC.Questionable.AddQuestPriority(tostring(questId))
+            end
+
+            if acceptedCount < 3 and blacklistedCount > 0 then
+                Dalamud.Log(string.format("%s %s | Eligible Quest(s): %d/3 | Blacklisted Quest(s): %d", LogPrefix, alliedSocietyTable.alliedSocietyName, acceptedCount, blacklistedCount))
+            else
+                Dalamud.Log(string.format("%s %s | Eligible Quest(s): %d/3", LogPrefix, alliedSocietyTable.alliedSocietyName, acceptedCount))
             end
         end
 
