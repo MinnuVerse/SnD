@@ -842,9 +842,9 @@ for _, alliedSociety in ipairs(ToDoList) do
             end
 
             if acceptedCount < 3 and blacklistedCount > 0 then
-                Dalamud.Log(string.format("%s %s | Eligible Quest(s): %d/3 | Blacklisted Quest(s): %d", LogPrefix, alliedSocietyTable.alliedSocietyName, acceptedCount, blacklistedCount))
+                Dalamud.Log(string.format("[AlliedQuests] %s | Eligible Quest(s): %d/3 | Blacklisted Quest(s): %d", alliedSocietyTable.alliedSocietyName, acceptedCount, blacklistedCount))
             else
-                Dalamud.Log(string.format("%s %s | Eligible Quest(s): %d/3", LogPrefix, alliedSocietyTable.alliedSocietyName, acceptedCount))
+                Dalamud.Log(string.format("[AlliedQuests] %s | Eligible Quest(s): %d/3", alliedSocietyTable.alliedSocietyName, acceptedCount))
             end
         end
 
