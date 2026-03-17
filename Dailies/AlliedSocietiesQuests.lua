@@ -610,7 +610,7 @@ AlliedSocietiesTable = {
         aetheryteName     = GetPlaceName(3057), -- "The Ostall Imperative"
         expac             = "Shadowbringers"
     },
-    arkosodara = {
+    arkasodara = {
         alliedSocietyName = "Arkasodara",
         questGiver        = GetNPCName(1042257), -- "Maru"
         mainQuests        = { first = 4545, last = 4550 },
@@ -692,13 +692,18 @@ CharacterCondition = {
 
 function GetAlliedSocietyTable(selectedName)
     for _, alliedSociety in pairs(AlliedSocietiesTable) do
-        if alliedSociety.configName and alliedSociety.configName == selectedName then
+        if alliedSociety.configName == selectedName then
             return alliedSociety
         end
+    end
+
+    for _, alliedSociety in pairs(AlliedSocietiesTable) do
         if alliedSociety.alliedSocietyName == selectedName then
             return alliedSociety
         end
     end
+
+    return nil
 end
 
 function GetAcceptedAlliedSocietyQuests(alliedSocietyName)
@@ -737,10 +742,11 @@ elseif HasPlugin("Teleporter") then
 else
     Dalamud.Log("[AlliedQuests] Please install either Teleporter or Lifestream")
     yield("/snd stop all")
+    return
 end
 
 function TeleportTo(aetheryteName)
-    yield(TeleportCommand.." "..aetheryteName)
+    yield(TeleportCommand .. " " .. aetheryteName)
     yield("/wait 1")
     while Svc.Condition[CharacterCondition.casting] do
         yield("/wait 1")
@@ -764,13 +770,10 @@ for _, alliedSociety in ipairs(ToDoList) do
             TeleportTo(alliedSocietyTable.aetheryteName)
         end
 
-        if not Svc.Condition[CharacterCondition.mounted] then
+        while not Svc.Condition[CharacterCondition.mounted] do
             Actions.ExecuteGeneralAction(9) -- '/gaction "mount roulette"'
+            yield("/wait 4")
         end
-
-        repeat
-            yield("/wait 1")
-        until Svc.Condition[CharacterCondition.mounted]
 
         local destination = Vector3(alliedSocietyTable.x, alliedSocietyTable.y, alliedSocietyTable.z)
         IPC.vnavmesh.PathfindAndMoveTo(destination, true)
@@ -784,56 +787,103 @@ for _, alliedSociety in ipairs(ToDoList) do
 
         if ManualQuestPickup then
             for i = 1, 3 do
+                local acceptedNow = #GetAcceptedAlliedSocietyQuests(alliedSocietyTable.alliedSocietyName)
+
+                if acceptedNow >= 3 then
+                    break
+                end
+
                 yield("/target " .. alliedSocietyTable.questGiver)
                 yield("/interact")
 
+                local menuStart = os.time()
+                local menuOpened = false
+                local menuTimeout = 10
+
                 repeat
+                    local addon = Addons.GetAddon("SelectIconString")
+                    if addon and addon.Ready then
+                        menuOpened = true
+                        break
+                    end
+
+                    if os.time() - menuStart > menuTimeout then
+                        Dalamud.Log(string.format("[AlliedQuests] Timed out waiting for quest window from '%s'.", alliedSocietyTable.questGiver))
+                        break
+                    end
+
                     yield("/wait 1")
-                until Addons.GetAddon("SelectIconString").Ready
+                until false
+
+                if not menuOpened then
+                    Dalamud.Log(string.format("[AlliedQuests] Skipping manual pickup attempt %d/3 for '%s'.", i, alliedSocietyTable.alliedSocietyName))
+                    break
+                end
+
                 yield("/callback SelectIconString true 0")
+                local busyStart   = os.time()
+                local busyTimeout = 10
+
                 repeat
+                    if not Player.IsBusy then
+                        break
+                    end
+
+                    if os.time() - busyStart > busyTimeout then
+                        Dalamud.Log(string.format("[AlliedQuests] Timed out waiting for manual quest pickup %d/3 to complete for '%s'.", i, alliedSocietyTable.alliedSocietyName))
+                        break
+                    end
+
                     yield("/wait 1")
-                until not Player.IsBusy
-                Dalamud.Log(string.format("[AlliedQuests] Accepted %d/3 quest(s) via quest giver.", i))
+                until false
+
+                acceptedNow = #GetAcceptedAlliedSocietyQuests(alliedSocietyTable.alliedSocietyName)
+                Dalamud.Log(string.format("[AlliedQuests] Accepted %d/3 quest(s) via quest giver.", acceptedNow))
             end
         else
-            local timeout = os.time()
+            local timeout
             local quests = {}
             local blackList = alliedSocietyTable.dailyQuests.blackList or {}
             local acceptedCount = 0
             local blacklistedCount = 0
 
             for questId = alliedSocietyTable.dailyQuests.first, alliedSocietyTable.dailyQuests.last do
-                if blackList[questId] then
-                    blacklistedCount = blacklistedCount + 1
+                if acceptedCount >= 3 then
+                    break
                 end
 
-                if not IPC.Questionable.IsQuestLocked(tostring(questId)) and not blackList[questId] then
-                    table.insert(quests, questId)
-                    IPC.Questionable.ClearQuestPriority()
-                    IPC.Questionable.AddQuestPriority(tostring(questId))
+                if not IPC.Questionable.IsQuestLocked(tostring(questId)) then
+                    if blackList[questId] then
+                        blacklistedCount = blacklistedCount + 1
+                    else
+                        IPC.Questionable.ClearQuestPriority()
+                        IPC.Questionable.AddQuestPriority(tostring(questId))
+                        timeout = os.time()
 
-                    repeat
-                        if not IPC.Questionable.IsRunning() then
-                            yield("/qst start")
-                        elseif Svc.Condition[CharacterCondition.casting] then
-                            yield("/vnav movedir 0 0 0.5")  -- Small movement to cancel any active cast
-                        elseif IPC.vnavmesh.IsRunning() then
-                            IPC.vnavmesh.Stop()
-                        elseif os.time() - timeout > 15 then
-                            Dalamud.Log("[AlliedQuests] Took more than 15 seconds to pick up the quest. Questionable may be stuck. Reloading...")
-                            yield("/qst reload")
-                            timeout = os.time()
+                        repeat
+                            if not IPC.Questionable.IsRunning() and not Quests.IsQuestAccepted(questId) then
+                                yield("/qst start")
+                            elseif Svc.Condition[CharacterCondition.casting] then
+                                yield("/vnav movedir 0 0 0.5")  -- Small movement to cancel any active cast
+                            elseif IPC.vnavmesh.IsRunning() then
+                                IPC.vnavmesh.Stop()
+                            elseif os.time() - timeout > 15 then
+                                Dalamud.Log("[AlliedQuests] Took more than 15 seconds to pick up the quest. Questionable may be stuck. Reloading...")
+                                yield("/qst reload")
+                                timeout = os.time()
+                            end
+                            yield("/wait 0.1")
+                        until Quests.IsQuestAccepted(questId)
+
+                        yield("/qst stop")
+                        IPC.Questionable.ClearQuestPriority()
+
+                        if Quests.IsQuestAccepted(questId) then
+                            table.insert(quests, questId)
+                            acceptedCount = acceptedCount + 1
+                            Dalamud.Log(string.format("[AlliedQuests] Accepted %d/3 quest(s) via Questionable.", acceptedCount))
                         end
-                        yield("/wait 0.1")
-                    until Quests.IsQuestAccepted(questId)
-
-                    IPC.Questionable.ClearQuestPriority()
-                    acceptedCount = acceptedCount + 1
-                    Dalamud.Log(string.format("[AlliedQuests] Accepted %d/3 quest(s) via Questionable.", acceptedCount))
-
-                    timeout = os.time()
-                    yield("/qst stop")
+                    end
                 end
             end
 
@@ -856,6 +906,7 @@ for _, alliedSociety in ipairs(ToDoList) do
         until #GetAcceptedAlliedSocietyQuests(alliedSocietyTable.alliedSocietyName) == 0
 
         yield("/qst stop")
+        IPC.Questionable.ClearQuestPriority()
     else
         Dalamud.Log(string.format("[AlliedQuests] Allied society '%s' not found in data table.", alliedSociety.alliedSocietyName))
     end
