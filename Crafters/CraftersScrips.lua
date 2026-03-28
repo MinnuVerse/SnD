@@ -1,7 +1,7 @@
 --[=====[
 [[SND Metadata]]
 author:  'pot0to (https://ko-fi.com/pot0to) || Maintainer: Minnu (https://ko-fi.com/minnuverse) || Contributor: Ice, Allison'
-version: 2.0.7
+version: 2.0.8
 description: Crafter Scrips - Script for Crafting & Turning In
 plugin_dependencies:
 - Artisan
@@ -57,7 +57,7 @@ configs:
 
 ********************************************************************************
 *                    Crafter Scrips (Solution Nine Patch 7.4)                  *
-*                                Version 2.0.7                                 *
+*                                Version 2.0.8                                 *
 ********************************************************************************
 
 Created by: pot0to (https://ko-fi.com/pot0to)
@@ -66,6 +66,7 @@ Updated by: Minnu, Ice, Allison
 Crafts orange scrip item matching whatever class you're on, turns it in, buys
 stuff, repeat.
 
+    -> 2.0.8    Ensure correct crafter job is equipped before turn-ins
     -> 2.0.6    Bug Fixes
     -> 2.0.5    Updated config and Made `HobCity` a dropdown selectable
     -> 2.0.4    Add config for home, add config for Skystell Tools Unlock, Made `Home Command` a dropdown selectable
@@ -542,6 +543,26 @@ function HasPlugin(name)
     return false
 end
 
+function EnsureCrafterJob()
+    local player = Svc.ClientState.LocalPlayer
+    if not player then
+        return false
+    end
+
+    for _, class in pairs(ClassList) do
+        if CrafterClass == class.className then
+            if player.ClassJob.RowId ~= class.classId then
+                yield("/gs change " .. class.classId)
+                return true
+            end
+            return false
+        end
+    end
+
+    yield("/echo [CraftersScrips] Could not find crafter class: " .. tostring(CrafterClass))
+    return false
+end
+
 function Crafting()
     if IPC.Lifestream.IsBusy() or Svc.Condition[CharacterCondition.occupiedInQuestEvent] then
         yield("/wait 1")
@@ -622,6 +643,11 @@ function TurnIn()
     AtInn = false
     AtHome = false
 
+    if EnsureCrafterJob() then
+        yield("/wait 1")
+        return
+    end
+
     if Inventory.GetCollectableItemCount(ItemId, 1) == 0 or Inventory.GetItemCount(CrafterScripId) >= 3800 then
         if Addons.GetAddon("CollectablesShop").Ready then
             yield("/callback CollectablesShop true -1")
@@ -669,7 +695,7 @@ function TurnIn()
             else
                 Dalamud.Log("[CraftersScrips] Selecting orange scrip item")
             end
-            
+
             yield("/callback CollectablesShop true 15 0") -- submit
             yield("/wait 1")
         end
@@ -1003,3 +1029,4 @@ while not StopFlag do
     end
     yield("/wait 0.1")
 end
+
