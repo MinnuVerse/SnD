@@ -466,12 +466,12 @@ AlliedSocietiesTable = {
     ixal_trusted = {
         alliedSocietyName = "Ixal",
         configName        = "Ixal (Trusted)",
-        questGiver        = GetNPCName(1009216), -- "Jezul Ahuatan the Second"
+        questGiver        = GetNPCName(1009214), -- "Tazel Meyean the Lettered"
         mainQuests        = { first = 1486, last = 1493 },
         dailyQuests       = { first = 1498, last = 1503 },
-        x                 = 161.42,
-        y                 = -22.79,
-        z                 = 115.27,
+        x                 = 161.57,
+        y                 = -6.53,
+        z                 = 70.51,
         zoneId            = 154,
         aetheryteName     = GetPlaceName(140), -- "Fallgourd Float"
         expac             = "A Realm Reborn"
