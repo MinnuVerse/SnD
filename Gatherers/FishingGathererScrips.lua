@@ -1,7 +1,7 @@
 --[=====[
 [[SND Metadata]]
 author:  'pot0to (https://ko-fi.com/pot0to) || Maintainer: Minnu (https://ko-fi.com/minnuverse)'
-version: 2.0.3
+version: 2.0.4
 description: Fishing Gatherer Scrips - Script for Fishing & Turning In
 plugin_dependencies:
 - AutoHook
@@ -78,12 +78,13 @@ configs:
 --[[
 ********************************************************************************
 *                            Fishing Gatherer Scrips                           *
-*                                Version 2.0.3                                 *
+*                                Version 2.0.4                                 *
 ********************************************************************************
 
 Created by:     pot0to (https://ko-fi.com/pot0to)
 Maintained by:  Minnu  (https://ko-fi.com/minnuverse)
 
+    -> 2.0.4    Use Svc.Objects.LocalPlayer for distance checks
     -> 2.0.3    Fixed index for mount tokens
     -> 2.0.2    Fixed stuck while using mount
     -> 2.0.1    Bug Fixes
@@ -778,7 +779,7 @@ end
 --------------------
 
 function GetDistanceToPoint(dX, dY, dZ)
-    local player = Svc.ClientState.LocalPlayer
+    local player = Svc.Objects.LocalPlayer
     if not player or not player.Position then
         Dalamud.Log("[FishingScrips] GetDistanceToPoint: Player position unavailable.")
         return math.huge

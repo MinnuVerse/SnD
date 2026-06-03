@@ -1,7 +1,7 @@
 --[=====[
 [[SND Metadata]]
 author:  'pot0to (https://ko-fi.com/pot0to) || Maintainer: Minnu (https://ko-fi.com/minnuverse) || Contributor: Ice, Allison'
-version: 2.0.8
+version: 2.0.9
 description: Crafter Scrips - Script for Crafting & Turning In
 plugin_dependencies:
 - Artisan
@@ -56,8 +56,8 @@ configs:
 --[[
 
 ********************************************************************************
-*                    Crafter Scrips (Solution Nine Patch 7.4)                  *
-*                                Version 2.0.8                                 *
+*                    Crafter Scrips (Solution Nine Patch 7.5)                  *
+*                                Version 2.0.9                                 *
 ********************************************************************************
 
 Created by: pot0to (https://ko-fi.com/pot0to)
@@ -66,6 +66,7 @@ Updated by: Minnu, Ice, Allison
 Crafts orange scrip item matching whatever class you're on, turns it in, buys
 stuff, repeat.
 
+    -> 2.0.9    Use Svc.Objects.LocalPlayer for player position and job checks
     -> 2.0.8    Ensure correct crafter job is equipped before turn-ins
     -> 2.0.6    Bug Fixes
     -> 2.0.5    Updated config and Made `HobCity` a dropdown selectable
@@ -419,7 +420,7 @@ function TeleportTo(aetheryteName)
 end
 
 function GetDistanceToPoint(dX, dY, dZ)
-    local player = Svc.ClientState.LocalPlayer
+    local player = Svc.Objects.LocalPlayer
     if not player or not player.Position then
         return math.huge
     end
@@ -544,7 +545,7 @@ function HasPlugin(name)
 end
 
 function EnsureCrafterJob()
-    local player = Svc.ClientState.LocalPlayer
+    local player = Svc.Objects.LocalPlayer
     if not player then
         return false
     end

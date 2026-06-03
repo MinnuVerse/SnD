@@ -1,7 +1,7 @@
 --[=====[
 [[SND Metadata]]
 author: Minnu (https://ko-fi.com/minnuverse)
-version: 2.0.0
+version: 2.0.1
 description: Triple Triad Seller - Sells your acumulated Triple Triad cards
 plugin_dependencies:
 - Lifestream
@@ -9,6 +9,19 @@ plugin_dependencies:
 
 [[End Metadata]]
 --]=====]
+
+--[[
+********************************************************************************
+*                            Triple Triad Seller                               *
+*                                Version 2.0.1                                 *
+********************************************************************************
+
+Created by: Minnu (https://ko-fi.com/minnuverse)
+
+    -> 2.0.1    Use Svc.Objects.LocalPlayer for distance checks
+    -> 2.0.0    Initial SND v2 release
+
+]]
 
 --========================== DEPENDENCIES ========================--
 
@@ -96,7 +109,7 @@ function WaitForAddon(name, timeout)
 end
 
 function GetDistanceToPoint(dX, dY, dZ)
-    local player = Svc.ClientState.LocalPlayer
+    local player = Svc.Objects.LocalPlayer
     if not player or not player.Position then
         Dalamud.Log(string.format("%s GetDistanceToPoint: Player position unavailable.", LogPrefix))
         return math.huge
