@@ -41,6 +41,10 @@ streamlining your daily grind and freeing you up for more exciting adventures!
   From fishing to turn-ins to purchases, it runs the loop for you — keeping scrip
   farming quick and easy.
 
+- #### BigFish(DT)
+  Tracks and automates Dawntrail big fish windows so you can chase rare catches
+  with less timer-watching and menu juggling.
+
 ---
 
 ### GoldSaucer
