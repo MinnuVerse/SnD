@@ -18,7 +18,7 @@ configs:
       Seconds to wait before retrying a fish you've already caught this window.
       Should comfortably outlast its time/weather window so it doesn't get
       reselected and refished while the window is still open.
-    default: 1800
+    default: 7200
     min: 60
     max: 7200
   ForceQuitDelaySeconds:
@@ -35,7 +35,7 @@ configs:
       spot once idle and begin fishing before the real window opens.
       This lets AutoHook work the prep period for swim bait automatically.
       Only kicks in when no other fish window is currently open.
-    default: 300
+    default: 600
     min: 0
     max: 1800
   RequireAutoHookPreset:
@@ -43,7 +43,7 @@ configs:
       When enabled, fish with no exported AutoHook preset (autoHookPreset = "")
       are skipped during selection entirely, instead of falling back to a
       named AutoHook preset that matches the fish name.
-    default: false
+    default: true
   EnabledFish:
     description: |
       A list of fish names to restrict the rotation to.
