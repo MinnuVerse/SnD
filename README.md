@@ -42,8 +42,8 @@ streamlining your daily grind and freeing you up for more exciting adventures!
   farming quick and easy.
 
 - #### BigFish(DT)
-  Tracks and automates Dawntrail big fish windows so you can chase rare catches
-  with less timer-watching and menu juggling.
+  Handles Dawntrail big fish for you — tracking windows, moving to the right
+  spots, fishing, and managing the process from start to finish.
 
 ---
 
