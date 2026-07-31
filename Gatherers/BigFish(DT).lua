@@ -176,6 +176,7 @@ EorzeaWeatherRates = {
     [1190] = {{1, 5}, {2, 50}, {3, 70}, {11, 85}, {6, 100}},                    -- Shaaloani
     [1187] = {{1, 20}, {2, 50}, {3, 70}, {4, 80}, {5, 90}, {15, 100}},          -- Urqopacha
     [1186] = {{2, 100}},                                                        -- Solution Nine
+    [137]  = {{4, 5}, {1, 50}, {2, 80}, {3, 90}, {7, 95}, {8, 100}},             -- Eastern La Noscea
 }
 
 ----------------------------
@@ -197,6 +198,7 @@ BaitItemIds = {
     ["Dragonfly"]             = 43857,
     ["Red Maggots"]           = 43858,
     ["Ghost Nipper"]          = 43859,
+    ["Northern Krill"]        = 2606,
 }
 
 --------------------
@@ -878,6 +880,23 @@ FishData = {
         x = 16.1, y = 38.2, radius = 1000,
         worldX = -164.92, worldY = -27.46, worldZ = 643.97,
         fishX = -168.57, fishY = -31.44, fishZ = 655.41,
+    },
+    {
+        name            = "Nepto Dragon",
+        expansion       = "A Realm Reborn",
+        zone            = "Eastern La Noscea",
+        zoneId          = 137,
+        aetheryte       = "Costa del Sol",
+        spotName        = "Rhotano Sea (Privateer Sterncastle)",
+        time            = "Always",
+        weather         = "Rain, Showers",
+        previousWeather = "",
+        bait            = "Northern Krill",
+        swimBait        = true,
+        autoHookPreset  = "AH7_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",
+        x = 38.7, y = 24.7, radius = 500,
+        worldX = 863.738, worldY = 22.3, worldZ = 163.008,
+        fishX = 860.738, fishY = 22.3, fishZ = 166.008,
     },
 }
 
