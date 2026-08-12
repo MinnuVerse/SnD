@@ -56,6 +56,32 @@ streamlining your daily grind and freeing you up for more exciting adventures!
 
 ---
 
+### Macro
+![Status](https://img.shields.io/badge/status-working-brightgreen)
+
+- #### MacroChainer
+  Runs any configured SnD macros in order, tracking each by name and skipping
+  invalid or timed-out entries before continuing with the chain.
+
+---
+
+### Weeklies
+![Status](https://img.shields.io/badge/status-working-brightgreen)
+
+- #### ChocoboRacing
+  Handles your weekly Chocobo Racing runs for you, keeping the challenge log
+  moving without having to grind through race after race yourself.
+
+- #### LoV
+  Takes care of Lord of Verminion runs for your weekly challenge log, so you
+  can get the matches done and move on with your week.
+
+- #### TripleTriad
+  Runs Triple Triad matches to help chip away at the weekly challenge log,
+  saving you from playing through the same card games over and over.
+
+---
+
 ## Support
 
 Enjoying SnD?
