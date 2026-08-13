@@ -1,7 +1,7 @@
 --[=====[
 [[SND Metadata]]
 author: Minnu (https://ko-fi.com/minnuverse)
-version: 3.0.0
+version: 3.1.0
 description: Macro Chainer - Run multiple macros in sequence for repetitive tasks
 configs:
   MacrosToRun:
@@ -23,6 +23,7 @@ configs:
     default: 0
     min: 0
     max: 14400
+
 [[End Metadata]]
 --]=====]
 
@@ -32,6 +33,7 @@ configs:
 --    General    --
 -------------------
 
+MacrosToRun   = Config.Get("MacrosToRun")
 StartTimeout  = Config.Get("StartTimeout")
 RunTimeout    = Config.Get("RunTimeout")
 LogPrefix     = "[MacroChainer]"
@@ -40,7 +42,6 @@ LogPrefix     = "[MacroChainer]"
 --    Scheduler    --
 ---------------------
 
-local MacrosToRun           = {}
 local MacroScheduler        = nil
 local MacroSchedulerFailed  = false
 local SndConfig             = nil
@@ -53,35 +54,6 @@ local SndConfig             = nil
 
 function Wait(time)
     yield(string.format("/wait %g", time))
-end
-
-function GetConfigList(configKey)
-    local config = Config.Get(configKey)
-    local values = {}
-
-    local function add(value)
-        value = tostring(value or ""):gsub("^%s+", ""):gsub("%s+$", "")
-        if value ~= "" then
-            values[#values + 1] = value
-        end
-    end
-
-    if config and config.GetEnumerator then
-        local enumerator = config:GetEnumerator()
-        while enumerator:MoveNext() do
-            add(enumerator.Current)
-        end
-    elseif type(config) == "table" then
-        for _, value in ipairs(config) do
-            add(value)
-        end
-    elseif type(config) == "string" then
-        for value in config:gmatch("[^\r\n,]+") do
-            add(value)
-        end
-    end
-
-    return values
 end
 
 ------------------
@@ -236,21 +208,21 @@ end
 
 --=========================== EXECUTION ==========================--
 
-MacrosToRun = GetConfigList("MacrosToRun")
-
 if not GetMacroScheduler() then
     Dalamud.Log(string.format("%s Aborting.", LogPrefix))
     return
 end
 
-if #MacrosToRun == 0 then
+if not MacrosToRun or MacrosToRun.Count == 0 then
     Dalamud.Log(string.format("%s No macros configured; add them in the script settings.", LogPrefix))
     return
 end
 
 local KnownMacros = GetKnownMacroNames()
+local Macros = MacrosToRun:GetEnumerator()
 
-for _, macroName in ipairs(MacrosToRun) do
+while Macros:MoveNext() do
+    local macroName = tostring(Macros.Current)
     if next(KnownMacros) and not KnownMacros[macroName] then
         Dalamud.Log(string.format("%s Skipping macro; name not found in SND -> %s", LogPrefix, macroName))
     else
@@ -266,6 +238,7 @@ for _, macroName in ipairs(MacrosToRun) do
     Wait(1)
 end
 
+yield(string.format("/echo %s All macros completed. Stopping any remaining..!!", LogPrefix))
 Dalamud.Log(string.format("%s All macros completed. Stopping any remaining..!!", LogPrefix))
 StopRunningMacros()
 
