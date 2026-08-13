@@ -1,7 +1,7 @@
 --[=====[
 [[SND Metadata]]
 author: 'pot0to (https://ko-fi.com/pot0to) || Maintainer: Minnu (https://ko-fi.com/minnuverse)'
-version: 2.1.3
+version: 2.2.0
 description: Allied Societies Quests - Script for Dailies
 plugin_dependencies:
 - Questionable
@@ -176,52 +176,26 @@ configs:
 [[End Metadata]]
 --]=====]
 
---[[
-********************************************************************************
-*                           Allied Society Quests                              *
-*                               Version 2.1.3                                  *
-********************************************************************************
-Created by: pot0to (https://ko-fi.com/pot0to)
-Updated by: Minnu
-
-Goes around to the specified beast tribes, picks up 3 quests, does them, and
-moves on to the next beast tribe.
-
-    -> 2.1.3    Fix Questionable quest pickup and enhance logging
-    -> 2.1.2    Added rank-specific quest giver support for ARR beast tribes
-    -> 2.1.1    Fix for grabbing quests when ManualQuestPickup is off
-    -> 2.1.0    Multi Language Support (credit: Valgrifer)
-    -> 2.0.3    Added Yok Huy for patch 7.35
-    -> 2.0.2    Added option for Manual Quest Handling
-                Added dropdowns for AlliedSociety
-    -> 2.0.1    Updated for Patch 7.3
-    -> 2.0.0    Updated to SND v2
-    -> 0.2.1    Fixed Mamool Ja name and removed main quests from presets
-    -> 0.2.0    Added Mamool Jas for patch 7.25 (credit: Leonhart)
-    -> 0.1.3    Fixed "Arkasodara" tribe name
-                Added /qst stop after finishing one set of quests
-                Updated Namazu aetheryte to Dhoro Iloh
-                Added ability to change classes for different Allied Socieities
-                First working version
-
-********************************************************************************
-*                               Required Plugins                               *
-********************************************************************************
-1. Vnavmesh
-2. Questionable
-3. Lifestream
-4. TextAdvance
-
-********************************************************************************
-*            Code: Don't touch this unless you know what you're doing          *
-********************************************************************************
---]]
+--========================== DEPENDENCIES ========================--
 
 import("System.Numerics")
 
-ToDoList = {}
-ManualQuestPickup = Config.Get("ManualQuestPickup")
+--=========================== VARIABLES ==========================--
 
+-------------------
+--    General    --
+-------------------
+
+ManualQuestPickup = Config.Get("ManualQuestPickup")
+LogPrefix         = "[AlliedQuests]"
+
+--========================= INITIALIZATION =======================--
+
+------------------
+--    Config    --
+------------------
+
+ToDoList = {}
 local societyConfigKeys = {
     { societyKey = "FirstAlliedSociety",  classKey = "FirstClass"  },
     { societyKey = "SecondAlliedSociety", classKey = "SecondClass" },
@@ -245,6 +219,10 @@ for _, entry in ipairs(societyConfigKeys) do
     end
 end
 
+----------------
+--    Data    --
+----------------
+
 function GetAttribute(sheetName, id, property)
     local sheet = Excel.GetSheet(sheetName)
     if not sheet then
@@ -266,6 +244,12 @@ end
 function GetPlaceName(id)
     return GetAttribute("PlaceName", id, "Name")
 end
+
+--============================ CONSTANT ==========================--
+
+---------------------------
+--    AlliedSocieties    --
+---------------------------
 
 AlliedSocietiesTable = {
     amaljaa_neutral = {
@@ -684,11 +668,37 @@ AlliedSocietiesTable = {
     }
 }
 
+---------------------
+--    Condition    --
+---------------------
+
 CharacterCondition = {
     mounted          =  4,
     casting          = 27,
     betweenAreas     = 45
 }
+
+--=========================== FUNCTIONS ==========================--
+
+-------------------
+--    Utility    --
+-------------------
+
+function Wait(time)
+    yield(string.format("/wait %g", time))
+end
+
+function Log(message)
+    Dalamud.Log(string.format("%s %s", LogPrefix, message))
+end
+
+function Echo(message)
+    yield(string.format("/echo %s %s", LogPrefix, message))
+end
+
+---------------------------
+--    AlliedSocieties    --
+---------------------------
 
 function GetAlliedSocietyTable(selectedName)
     for _, alliedSociety in pairs(AlliedSocietiesTable) do
@@ -723,47 +733,31 @@ function GetAcceptedAlliedSocietyQuests(alliedSocietyName)
     return accepted
 end
 
-function HasPlugin(name)
-    for plugin in luanet.each(Svc.PluginInterface.InstalledPlugins) do
-        if plugin.InternalName == name and plugin.IsLoaded then
-            Dalamud.Log(string.format("[AlliedQuests] Plugin '%s' found in InstalledPlugins.", name))
-            return true
-        end
-    end
-
-    Dalamud.Log(string.format("[AlliedQuests] Plugin '%s' not found in InstalledPlugins list.", name))
-    return false
-end
-
-if HasPlugin("Lifestream") then
-    TeleportCommand = "/li tp"
-elseif HasPlugin("Teleporter") then
-    TeleportCommand = "/tp"
-else
-    Dalamud.Log("[AlliedQuests] Please install either Teleporter or Lifestream")
-    yield("/snd stop all")
-    return
-end
+----------------------
+--    Navigation    --
+----------------------
 
 function TeleportTo(aetheryteName)
-    yield(TeleportCommand .. " " .. aetheryteName)
-    yield("/wait 1")
+    yield("/li tp " .. aetheryteName)
+    Wait(1)
     while Svc.Condition[CharacterCondition.casting] do
-        yield("/wait 1")
+        Wait(1)
     end
-    yield("/wait 1")
+    Wait(1)
     while Svc.Condition[CharacterCondition.betweenAreas] do
-        yield("/wait 1")
+        Wait(1)
     end
-    yield("/wait 1")
+    Wait(1)
 end
+
+--=========================== EXECUTION ==========================--
 
 yield("/at y")
 for _, alliedSociety in ipairs(ToDoList) do
     local alliedSocietyTable = GetAlliedSocietyTable(alliedSociety.alliedSocietyName)
     if alliedSocietyTable ~= nil then
         repeat
-            yield("/wait 1")
+            Wait(1)
         until not Player.IsBusy
 
         if Svc.ClientState.TerritoryType ~= alliedSocietyTable.zoneId then
@@ -772,18 +766,18 @@ for _, alliedSociety in ipairs(ToDoList) do
 
         while not Svc.Condition[CharacterCondition.mounted] do
             Actions.ExecuteGeneralAction(9) -- '/gaction "mount roulette"'
-            yield("/wait 4")
+            Wait(4)
         end
 
         local destination = Vector3(alliedSocietyTable.x, alliedSocietyTable.y, alliedSocietyTable.z)
         IPC.vnavmesh.PathfindAndMoveTo(destination, true)
 
         repeat
-            yield("/wait 1")
+            Wait(1)
         until not IPC.vnavmesh.IsRunning() and not IPC.vnavmesh.PathfindInProgress()
 
         yield("/gs change " .. alliedSociety.class)
-        yield("/wait 3")
+        Wait(3)
 
         if ManualQuestPickup then
             for i = 1, 3 do
@@ -808,15 +802,15 @@ for _, alliedSociety in ipairs(ToDoList) do
                     end
 
                     if os.time() - menuStart > menuTimeout then
-                        Dalamud.Log(string.format("[AlliedQuests] Timed out waiting for quest window from '%s'.", alliedSocietyTable.questGiver))
+                        Log(string.format("Timed out waiting for quest window from '%s'.", alliedSocietyTable.questGiver))
                         break
                     end
 
-                    yield("/wait 1")
+                    Wait(1)
                 until false
 
                 if not menuOpened then
-                    Dalamud.Log(string.format("[AlliedQuests] Skipping manual pickup attempt %d/3 for '%s'.", i, alliedSocietyTable.alliedSocietyName))
+                    Log(string.format("Skipping manual pickup attempt %d/3 for '%s'.", i, alliedSocietyTable.alliedSocietyName))
                     break
                 end
 
@@ -830,15 +824,15 @@ for _, alliedSociety in ipairs(ToDoList) do
                     end
 
                     if os.time() - busyStart > busyTimeout then
-                        Dalamud.Log(string.format("[AlliedQuests] Timed out waiting for manual quest pickup %d/3 to complete for '%s'.", i, alliedSocietyTable.alliedSocietyName))
+                        Log(string.format("Timed out waiting for manual quest pickup %d/3 to complete for '%s'.", i, alliedSocietyTable.alliedSocietyName))
                         break
                     end
 
-                    yield("/wait 1")
+                    Wait(1)
                 until false
 
                 acceptedNow = #GetAcceptedAlliedSocietyQuests(alliedSocietyTable.alliedSocietyName)
-                Dalamud.Log(string.format("[AlliedQuests] Accepted %d/3 quest(s) via quest giver.", acceptedNow))
+                Log(string.format("Accepted %d/3 quest(s) via quest giver.", acceptedNow))
             end
         else
             local timeout
@@ -864,15 +858,16 @@ for _, alliedSociety in ipairs(ToDoList) do
                             if not IPC.Questionable.IsRunning() and not Quests.IsQuestAccepted(questId) then
                                 yield("/qst start")
                             elseif Svc.Condition[CharacterCondition.casting] then
+                                Actions.CancelCast()
                                 yield("/vnav movedir 0 0 0.5")  -- Small movement to cancel any active cast
                             elseif IPC.vnavmesh.IsRunning() then
                                 IPC.vnavmesh.Stop()
                             elseif os.time() - timeout > 15 then
-                                Dalamud.Log("[AlliedQuests] Took more than 15 seconds to pick up the quest. Questionable may be stuck. Reloading...")
+                                Log("Took more than 15 seconds to pick up the quest. Questionable may be stuck. Reloading...")
                                 yield("/qst reload")
                                 timeout = os.time()
                             end
-                            yield("/wait 0.1")
+                            Wait(0.1)
                         until Quests.IsQuestAccepted(questId)
 
                         yield("/qst stop")
@@ -881,7 +876,7 @@ for _, alliedSociety in ipairs(ToDoList) do
                         if Quests.IsQuestAccepted(questId) then
                             table.insert(quests, questId)
                             acceptedCount = acceptedCount + 1
-                            Dalamud.Log(string.format("[AlliedQuests] Accepted %d/3 quest(s) via Questionable.", acceptedCount))
+                            Log(string.format("Accepted %d/3 quest(s) via Questionable.", acceptedCount))
                         end
                     end
                 end
@@ -892,9 +887,9 @@ for _, alliedSociety in ipairs(ToDoList) do
             end
 
             if acceptedCount < 3 and blacklistedCount > 0 then
-                Dalamud.Log(string.format("[AlliedQuests] %s | Eligible Quest(s): %d/3 | Blacklisted Quest(s): %d", alliedSocietyTable.alliedSocietyName, acceptedCount, blacklistedCount))
+                Log(string.format("%s | Eligible Quest(s): %d/3 | Blacklisted Quest(s): %d", alliedSocietyTable.alliedSocietyName, acceptedCount, blacklistedCount))
             else
-                Dalamud.Log(string.format("[AlliedQuests] %s | Eligible Quest(s): %d/3", alliedSocietyTable.alliedSocietyName, acceptedCount))
+                Log(string.format("%s | Eligible Quest(s): %d/3", alliedSocietyTable.alliedSocietyName, acceptedCount))
             end
         end
 
@@ -902,15 +897,17 @@ for _, alliedSociety in ipairs(ToDoList) do
             if not IPC.Questionable.IsRunning() then
                 yield("/qst start")
             end
-            yield("/wait 1.2")
+            Wait(1.2)
         until #GetAcceptedAlliedSocietyQuests(alliedSocietyTable.alliedSocietyName) == 0
 
         yield("/qst stop")
         IPC.Questionable.ClearQuestPriority()
     else
-        Dalamud.Log(string.format("[AlliedQuests] Allied society '%s' not found in data table.", alliedSociety.alliedSocietyName))
+        Log(string.format("Allied society '%s' not found in data table.", alliedSociety.alliedSocietyName))
     end
 end
 
-yield("/echo [AlliedQuests] Daily Allied Quests script completed successfully..!!")
-Dalamud.Log("[AlliedQuests] Daily Allied Quests script completed successfully..!!")
+Echo("Daily Allied Quests script completed successfully..!!")
+Log("Daily Allied Quests script completed successfully..!!")
+
+--============================== END =============================--
