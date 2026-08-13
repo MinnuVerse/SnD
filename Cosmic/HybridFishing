@@ -1,7 +1,7 @@
 --[=====[
 [[SND Metadata]]
 author: 'SubaruYashiro || Updated by: Minnu (https://ko-fi.com/minnuverse)'
-version: 2.1.3
+version: 2.2.0
 description: HybridFishing - Script for Farming Cosmic Fishing Points
 plugin_dependencies:
 - Artisan
@@ -14,42 +14,15 @@ plugin_dependencies:
 [[End Metadata]]
 --]=====]
 
---[[
-********************************************************************************
-*                               HybridFishing                                  *
-*                               Version 2.1.3                                  *
-********************************************************************************
-
-Created by: SubaruYashiro
-Updated by: Minnu
-
-HybridFishing is a handy little script that helps you rack up Cosmic Fishing
-Points without all the grind. Just run it, and it takes care of the fishing
-and turn-ins for you, making point farming smoother and way less of a hassle.
-
-    -> 2.1.3    Fixed for Ice version 0.0.70.6
-    -> 2.1.2    Added checks for dismount before fishing
-    -> 2.1.1    Fix stuck in gathering mode before crafting
-    -> 2.1.0    Updated for Patch 7.31
-    -> 2.0.0    Updated for Patch 7.3
-                Renamed Mission Names
-
-********************************************************************************
-*                               Required Plugins                               *
-********************************************************************************
--> Autohook
--> Artisan
--> vnavmesh
--> Lifestream
--> ChatCoordinates
--> Ice's Cosmic Exploration
-
-********************************************************************************
-*            Code: Don't touch this unless you know what you're doing          *
-********************************************************************************
---]]
+--========================== DEPENDENCIES ========================--
 
 import("System.Numerics")
+
+--=========================== VARIABLES ==========================--
+
+-------------------
+--    General    --
+-------------------
 
 MissionName   = "EX: Refined Moon Gel"
 Coords        = "/coord 15.8 19.4"
@@ -57,77 +30,114 @@ Preset        = "AH4_H4sIAAAAAAAACu1Y227bOBD9FYPP5kKiqJvfXG+aBnDaIs5iFyj2YSSNbCI
 ItemId        = 45922
 ItemAmount    = 2
 SuccessCount  = 0
+LogPrefix     = "[HybridFishing]"
+
+--============================ CONSTANT ==========================--
+
+-----------------
+--    Zones    --
+-----------------
 
 Zones = {
     SinusArdorum = 1237,
     Phaenna      = 1291
 }
 
+--=========================== FUNCTIONS ==========================--
+
+-------------------
+--    Utility    --
+-------------------
+
+function Wait(time)
+    yield(string.format("/wait %g", time))
+end
+
+function Log(message)
+    Dalamud.Log(string.format("%s %s", LogPrefix, message))
+end
+
+function Echo(message)
+    yield(string.format("/echo %s %s", LogPrefix, message))
+end
+
+--------------------------
+--    Initialization    --
+--------------------------
+
 function Init()
     if Player.Job and Player.Job.Id ~= 18 then
-        yield("/echo [HybridFishing] Wrong class.. Trying to switch.")
-        Dalamud.Log("[HybridFishing] Wrong class.. Trying to switch.")
+        Echo("Wrong class.. Trying to switch.")
+        Log("Wrong class.. Trying to switch.")
         yield("/gs change Fisher")
-        yield("/wait 2")
+        Wait(2)
         if Player.Job and Player.Job.Id ~= 18 then
-            yield("/echo [HybridFishing] Wrong class.. Aborting.")
-            Dalamud.Log("[HybridFishing] Wrong class.. Aborting.")
+            Echo("Wrong class.. Aborting.")
+            Log("Wrong class.. Aborting.")
             return false
         end
-        yield("/echo [HybridFishing] Switched to Fisher.")
-        Dalamud.Log("[HybridFishing] Switched to Fisher.")
+        Echo("Switched to Fisher.")
+        Log("Switched to Fisher.")
     end
 
     if not Player.Gearset or not Player.Gearset.Name or Player.Gearset.Name == "" then
-        yield("/echo [HybridFishing] Fisher gearset not detected.. Aborting.")
-        Dalamud.Log("[HybridFishing] Fisher gearset not detected.. Aborting.")
+        Echo("Fisher gearset not detected.. Aborting.")
+        Log("Fisher gearset not detected.. Aborting.")
         return false
     end
 
-    yield("/wait 0.1")
+    Wait(0.1)
     Class = Player.Gearset.Name
     return true
 end
 
 function WaitForPlayer()
-    Dalamud.Log("[HybridFishing] Waiting For Player...")
+    Log("Waiting For Player...")
     while not Player.Available or Player.IsBusy do
-        yield("/wait 0.1")
+        Wait(0.1)
     end
-    yield("/wait 1")
+    Wait(1)
 end
+
+----------------------
+--    Navigation    --
+----------------------
 
 function WaitForZoneChange()
     repeat
-        yield("/wait 0.1")
+        Wait(0.1)
     until Svc.Condition[45]
-    yield("/wait 1")
+    Wait(1)
     repeat
-        yield("/wait 0.1")
+        Wait(0.1)
     until not Svc.Condition[45]
-    yield("/wait 1")
+    Wait(1)
 end
 
 function WaitForVnavMesh()
     repeat
-        yield("/wait 0.1")
+        Wait(0.1)
     until not IPC.vnavmesh.PathfindInProgress() and not IPC.vnavmesh.IsRunning()
-    yield("/wait 0.1")
+    Wait(0.1)
 end
 
 function MoveToSpot()
     if Svc.ClientState.TerritoryType == Zones.SinusArdorum then
-        Dalamud.Log(string.format("[HybridFishing] Heading to %s", MissionName))
+        Log(string.format("Heading to %s", MissionName))
         yield(Coords)
-        yield("/wait 0.1")
+        Wait(0.1)
         IPC.vnavmesh.PathfindAndMoveTo(Vector3(-264.005, 22.156, -94.770), false)
         WaitForVnavMesh()
     else
-        yield("/echo [HybridFishing] Stopping Script..Move to Sinus Ardorum, then start the script..")
-        Dalamud.Log("[HybridFishing] Stopping Script..Move to Sinus Ardorum, then start the script..")
+        Echo("Stopping Script.. Move to Sinus Ardorum, then start the script..")
+        Log("Stopping Script.. Move to Sinus Ardorum, then start the script..")
         yield("/snd stop all")
     end
 end
+
+-------------------
+--    Fishing    --
+-------------------
 
 function WaitForFishingItem(maxWaitSeconds)
     local waitElapsed = 0
@@ -136,67 +146,71 @@ function WaitForFishingItem(maxWaitSeconds)
 
     IPC.AutoHook.CreateAndSelectAnonymousPreset(Preset)
     IPC.AutoHook.SetPluginState(true)
-    yield("/wait 1")
+    Wait(1)
 
     while not Svc.Condition[43] and retryCount < maxRetries do
         retryCount = retryCount + 1
-        Dalamud.Log("[HybridFishing] Attempting to start fishing (retry " .. retryCount .. ")")
+        Log("Attempting to start fishing (retry " .. retryCount .. ")")
         yield("/ahstart")
-        yield("/wait 5")
+        Wait(5)
     end
 
     if not Svc.Condition[43] then
-        yield("/echo [HybridFishing] Failed to start fishing after retries.")
-        Dalamud.Log("[HybridFishing] Fishing did not start after retries.")
+        Echo("Failed to start fishing after retries.")
+        Log("Fishing did not start after retries.")
         return false
     end
 
-    Dalamud.Log("[HybridFishing] Waiting to obtain item ID " .. ItemId .. " x" .. ItemAmount)
+    Log("Waiting to obtain item ID " .. ItemId .. " x" .. ItemAmount)
     while Inventory.GetItemCount(ItemId) < ItemAmount and waitElapsed < maxWaitSeconds do
-        yield("/wait 1")
+        Wait(1)
         waitElapsed = waitElapsed + 1
     end
 
     if Inventory.GetItemCount(ItemId) < ItemAmount then
         IPC.AutoHook.SetPluginState(false)
-        yield("/wait 1")
+        Wait(1)
         while Svc.Condition[6] do
             yield("/ac Quit")
-            yield("/wait 0.1")
+            Wait(0.1)
         end
-        yield("/echo [HybridFishing] Timeout waiting for item ID " .. ItemId)
-        Dalamud.Log("[HybridFishing] Timeout acquiring item ID " .. ItemId)
+        Echo("Timeout waiting for item ID " .. ItemId)
+        Log("Timeout acquiring item ID " .. ItemId)
         return false
     end
 
     if Svc.Condition[43] then
-        Dalamud.Log("[HybridFishing] Still in fishing mode, waiting to exit.")
-        yield("/wait 1")
+        Log("Still in fishing mode, waiting to exit.")
+        Wait(1)
         while Svc.Condition[43] do
-            yield("/wait 0.1")
+            Wait(0.1)
         end
     end
 
     if Svc.Condition[6] then
-        Dalamud.Log("[HybridFishing] Still in gathering mode, waiting to exit.")
-        yield("/wait 1")
+        Log("Still in gathering mode, waiting to exit.")
+        Wait(1)
         while Svc.Condition[6] do
             yield("/ac Quit")
-            yield("/wait 0.1")
+            Wait(0.1)
         end
     end
 
     IPC.AutoHook.DeleteAllAnonymousPresets()
     IPC.AutoHook.SetPluginState(false)
-    Dalamud.Log("[HybridFishing] Successfully acquired required items.")
+    Log("Successfully acquired required items.")
     return true
 end
+
+--------------------
+--    Crafting    --
+--------------------
 
 function StartCrafting()
     if not Addons.GetAddon("WKSRecipeNotebook").Ready then
         if not Addons.GetAddon("WKSMissionInfomation").Ready then
             yield("/callback WKSHud true 11")
-            yield("/wait 0.2")
+            Wait(0.2)
         end
 
         if not Addons.GetAddon("WKSRecipeNotebook").Ready then
@@ -204,24 +218,28 @@ function StartCrafting()
         end
     end
 
-    yield("/wait 0.5")
-    Dalamud.Log("[HybridFishing] Crafting..")
+    Wait(0.5)
+    Log("Crafting..")
     IPC.Artisan.SetEnduranceStatus(true)
-    yield("/wait 10")
+    Wait(10)
 
     while IPC.Artisan.GetEnduranceStatus() == true do
-        yield("/wait 0.5")
+        Wait(0.5)
     end
 
-    Dalamud.Log("[HybridFishing] Crafting completed successfully.")
-    yield("/wait 1")
+    Log("Crafting completed successfully.")
+    Wait(1)
 end
 
+---------------------
+--    Reporting    --
+---------------------
+
 function SubmitReport()
-    Dalamud.Log("[HybridFishing] Reporting the Mission..")
+    Log("Reporting the Mission..")
     if not Addons.GetAddon("WKSMissionInfomation").Ready then
         yield("/callback WKSHud true 11")
-        yield("/wait 0.2")
+        Wait(0.2)
     end
 
     if Addons.GetAddon("WKSRecipeNotebook").Ready then
@@ -229,52 +247,58 @@ function SubmitReport()
     end
 
     while Svc.Condition[5] do
-        yield("/wait 0.1")
+        Wait(0.1)
     end
 
-    yield("/wait 1")
-    Dalamud.Log("[HybridFishing] Changing Gearset to " .. Class)
+    Wait(1)
+    Log("Changing Gearset to " .. Class)
     yield("/gs change " .. Class)
-    yield("/wait 1")
+    Wait(1)
     yield("/callback WKSMissionInfomation true 11 1")
-    yield("/wait 1")
+    Wait(1)
 end
+
+-------------------
+--    Repairs    --
+-------------------
 
 function RepairIfNeeded(RepairCount)
     if SuccessCount == 0 or SuccessCount % RepairCount ~= 0 then
         return
     end
 
-    yield("/wait 2")
-    Dalamud.Log("[HybridFishing] Attempting to repair gear...")
+    Wait(2)
+    Log("Attempting to repair gear...")
 
     while not Addons.GetAddon("Repair").Ready do
         yield("/generalaction repair")
-        yield("/wait 0.5")
+        Wait(0.5)
     end
 
     yield("/callback Repair true 0")
-    yield("/wait 0.1")
+    Wait(0.1)
 
     if Addons.GetAddon("SelectYesno").Ready then
         yield("/callback SelectYesno true 0")
-        yield("/wait 0.1")
+        Wait(0.1)
     end
 
     while Svc.Condition[39] do
-        yield("/wait 1")
+        Wait(1)
     end
 
-    yield("/wait 1")
+    Wait(1)
     yield("/callback Repair true -1")
-    yield("/wait 2")
-    Dalamud.Log("[HybridFishing] Repair complete.")
+    Wait(2)
+    Log("Repair complete.")
 end
 
+--=========================== EXECUTION ==========================--
+
 if Init() then
-    Dalamud.Log("[HybridFishing] MissionName: " .. MissionName)
-    Dalamud.Log("[HybridFishing] MissionCoords: " .. Coords)
-    Dalamud.Log("[HybridFishing] MissionPreset: " .. Preset)
+    Log("MissionName: " .. MissionName)
+    Log("MissionCoords: " .. Coords)
+    Log("MissionPreset: " .. Preset)
 else
     return
 end
@@ -292,10 +316,10 @@ while true do
 
     if Svc.Condition[4] then
         local dismountActionId = 23
-        Dalamud.Log("[HybridFishing] Dismounting...")
+        Log("Dismounting...")
         repeat
             Actions.ExecuteGeneralAction(dismountActionId)
-            yield("/wait 1")
+            Wait(1)
         until not Svc.Condition[4]
         WaitForPlayer()
     end
@@ -303,30 +327,30 @@ while true do
     yield("/ice start")
     local currentMissionName = ""
     while (currentMissionName ~= MissionName) do
-        yield("/wait 1")
+        Wait(1)
         if Addons.GetAddon("WKSMissionInfomation").Ready then
             currentMissionName = Addons.GetAddon("WKSMissionInfomation"):GetNode(1,3).Text
         elseif not Addons.GetAddon("WKSMissionInfomation").Ready and not Addons.GetAddon("WKSMission").Ready then
             yield("/callback WKSHud true 11")
-            yield("/wait 1")
+            Wait(1)
         end
     end
 
-    yield("/wait 1")
+    Wait(1)
     if not WaitForFishingItem(500) then
-        yield("/echo [HybridFishing] Fishing failed. Proceeding to submit report only.")
-        Dalamud.Log("[HybridFishing] Fishing step failed or timed out.")
+        Echo("Fishing failed. Proceeding to submit report only.")
+        Log("Fishing step failed or timed out.")
         WaitForPlayer()
         SubmitReport()
         SuccessCount = 0
     elseif Inventory.GetItemCount(ItemId) >= ItemAmount then
-        Dalamud.Log("[HybridFishing] Sufficient mats for crafting..")
+        Log("Sufficient mats for crafting..")
         WaitForPlayer()
         StartCrafting()
         SubmitReport()
         SuccessCount = SuccessCount + 1
-        yield("/echo [HybridFishing] SuccessCount: " .. SuccessCount)
-        Dalamud.Log("[HybridFishing] SuccessCount: " .. SuccessCount)
+        Echo("SuccessCount: " .. SuccessCount)
+        Log("SuccessCount: " .. SuccessCount)
     end
 
     WaitForPlayer()
@@ -336,3 +360,5 @@ while true do
         SuccessCount = 0
     end
 end
+
+--============================== END =============================--
