@@ -1,7 +1,7 @@
 --[=====[
 [[SND Metadata]]
 author:  'pot0to (https://ko-fi.com/pot0to) || Maintainer: Minnu (https://ko-fi.com/minnuverse) || Contributor: Ice, Allison'
-version: 2.0.9
+version: 2.1.0
 description: Crafter Scrips - Script for Crafting & Turning In
 plugin_dependencies:
 - Artisan
@@ -12,12 +12,22 @@ configs:
   CrafterClass:
     description: Select the crafting class to use for turn-ins and crafting tasks.
     is_choice: true
-    choices: ["Carpenter", "Blacksmith", "Armorer", "Goldsmith", "Leatherworker", "Weaver", "Alchemist", "Culinarian"]
+    choices:
+        - "Carpenter"
+        - "Blacksmith"
+        - "Armorer"
+        - "Goldsmith"
+        - "Leatherworker"
+        - "Weaver"
+        - "Alchemist"
+        - "Culinarian"
   ScripColor:
     default: "Orange"
     description: Type of scrip to use for crafting / purchases (Orange, Purple).
     is_choice: true
-    choices: ["Orange", "Purple"]
+    choices:
+        - "Orange"
+        - "Purple"
   ArtisanListId:
     default: 1
     description: Id of Artisan list for crafting all the intermediate materials (eg black star, claro walnut lumber, etc.).
@@ -28,12 +38,19 @@ configs:
     default: Inn
     description: Inn - if you want to hide in an Inn. Home - if you want to use Lifestream Home. None to move to Solution Nine.
     is_choice: true
-    choices: ["Inn", "Home", "None"]
+    choices:
+        - "Inn"
+        - "Home"
+        - "None"
   HubCity:
     default: Solution Nine
     description: Main city to use as a hub for turn-ins and purchases.
     is_choice: true
-    choices: ["Ul'dah", "Limsa", "Gridania", "Solution Nine"]
+    choices:
+        - "Ul'dah"
+        - "Limsa"
+        - "Gridania"
+        - "Solution Nine"
   Potion:
     default: false
     description: Use Potion (Supports only Superior Spiritbond Potion <hq>)
@@ -53,90 +70,42 @@ configs:
 [[End Metadata]]
 --]=====]
 
---[[
-
-********************************************************************************
-*                    Crafter Scrips (Solution Nine Patch 7.5)                  *
-*                                Version 2.0.9                                 *
-********************************************************************************
-
-Created by: pot0to (https://ko-fi.com/pot0to)
-Updated by: Minnu, Ice, Allison
-
-Crafts orange scrip item matching whatever class you're on, turns it in, buys
-stuff, repeat.
-
-    -> 2.0.9    Use Svc.Objects.LocalPlayer for player position and job checks
-    -> 2.0.8    Ensure correct crafter job is equipped before turn-ins
-    -> 2.0.6    Bug Fixes
-    -> 2.0.5    Updated config and Made `HobCity` a dropdown selectable
-    -> 2.0.4    Add config for home, add config for Skystell Tools Unlock, Made `Home Command` a dropdown selectable
-    -> 2.0.3    Updated to SND 13.41 (fixed the config settings)
-    -> 2.0.2    Updated for Patch 7.3
-    -> 2.0.1    Fixed Potions
-    -> 2.0.0    Updated to SND v2
-    -> 0.5.7    Add nil checks and logging to mats and crystals check
-                Added max purchase quantity check
-                Fixed purple scrip selector for turn in
-                Wait while Artisan Endurance is active, click menus once for
-                    scrip exchange
-                Fixes for some stuff
-                Fixed Deliveroo interrupt
-                Fixed name of Artful Afflatus Ring
-                Added feature to purchase items that can only be bought one at a
-                    time, such as gear
-                Fixed purple scrip turn ins (credit: Telain)
-                Added purple scrips, fixed /li inn
-                Added HQ item count to out of materials check, continue turn in
-                    items after dumping scrips
-                Fixed up some bugs
-                Fixed out of crystals check if recipe only needs one type of
-                    crystal, added option to select what you want to buy with
-                    scrips
-                Added check for ArtisanX crafting
-                Fixed some bugs with stop condition
-                Stops script when you're out of mats
-                Fixed some bugs related to /li inn
-
-********************************************************************************
-*                               Required Plugins                               *
-********************************************************************************
-
-1. SND
-2. Artisan
-3. Vnavmesh
-4. Optional: Lifestream (for hiding in inn)
-
---------------------------------------------------------------------------------------------------------------------------------------------------------------
-]]
-
---#region Settings
-
---[[
-********************************************************************************
-*                                   Settings                                   *
-********************************************************************************
-
-]]
+--========================== DEPENDENCIES ========================--
 
 import("System.Numerics")
 
-CrafterClass                = Config.Get("CrafterClass")
-ScripColor                  = Config.Get("ScripColor")
-ArtisanListId               = Config.Get("ArtisanListId")
-ItemToBuy                   = Config.Get("ItemToBuy")
-HomeCommand                 = Config.Get("HomeCommand")
-HubCity                     = Config.Get("HubCity")
-Potion                      = Config.Get("Potion")
-Retainers                   = Config.Get("Retainers")
-GrandCompanyTurnIn          = Config.Get("GrandCompanyTurnIn")
-MinInventoryFreeSlots       = Config.Get("MinInventoryFreeSlots")
+--=========================== VARIABLES ==========================--
 
-SkystellToolsUnlocked       = Config.Get("SkystellToolsUnlocked")
+-------------------
+--    General    --
+-------------------
 
--- IMPORTANT: Your scrip exchange list may be different depending on whether
--- you've unlocked Skystell tools. Please make sure the menu item #s match what
--- you have in game.
+CrafterClass            = Config.Get("CrafterClass")
+ScripColor              = Config.Get("ScripColor")
+ArtisanListId           = Config.Get("ArtisanListId")
+ItemToBuy               = Config.Get("ItemToBuy")
+HomeCommand             = Config.Get("HomeCommand")
+HubCity                 = Config.Get("HubCity")
+Potion                  = Config.Get("Potion")
+Retainers               = Config.Get("Retainers")
+GrandCompanyTurnIn      = Config.Get("GrandCompanyTurnIn")
+MinInventoryFreeSlots   = Config.Get("MinInventoryFreeSlots")
+SkystellToolsUnlocked   = Config.Get("SkystellToolsUnlocked")
+LogPrefix               = "[CraftersScrips]"
+
+--============================ CONSTANT ==========================--
+
+------------------
+--    Scrips    --
+------------------
+
+OrangeCrafterScripId = 41784
+PurpleCrafterScripId = 33913
+
+-----------------
+--    Items    --
+-----------------
+
 ScripExchangeItems = {
     {
         itemName        = "Mason's Abrasive",
@@ -204,15 +173,9 @@ ScripExchangeItems = {
     }
 }
 
---#endregion Settings
-
---[[
-********************************************************************************
-*            Code: Don't touch this unless you know what you're doing          *
-********************************************************************************
-]]
-
-OrangeCrafterScripId = 41784
+------------------------
+--    Collectables    --
+------------------------
 
 OrangeScripRecipes = {
     {
@@ -273,8 +236,6 @@ OrangeScripRecipes = {
     }
 }
 
-PurpleCrafterScripId = 33913
-
 PurpleScripRecipes = {
     {
         className  = "Carpenter",
@@ -334,6 +295,10 @@ PurpleScripRecipes = {
     }
 }
 
+-------------------
+--    HubCity    --
+-------------------
+
 HubCities = {
     {
         zoneName = "Limsa",
@@ -381,6 +346,10 @@ HubCities = {
     }
 }
 
+-----------------
+--    Class    --
+-----------------
+
 ClassList = {
     crp = { classId =  8, className = "Carpenter"      },
     bsm = { classId =  9, className = "Blacksmith"     },
@@ -391,6 +360,10 @@ ClassList = {
     alc = { classId = 14, className = "Alchemist"      },
     cul = { classId = 15, className = "Culinarian"     }
 }
+
+---------------------
+--    Condition    --
+---------------------
 
 CharacterCondition = {
     craftingMode                        =  5,
@@ -404,19 +377,41 @@ CharacterCondition = {
     beingMoved                          = 70
 }
 
+--=========================== FUNCTIONS ==========================--
+
+-------------------
+--    Utility    --
+-------------------
+
+function Wait(time)
+    yield(string.format("/wait %g", time))
+end
+
+function Log(message)
+    Dalamud.Log(string.format("%s %s", LogPrefix, message))
+end
+
+function Echo(message)
+    yield(string.format("/echo %s %s", LogPrefix, message))
+end
+
+----------------------
+--    Navigation    --
+----------------------
+
 function TeleportTo(aetheryteName)
-    yield("/li tp "..aetheryteName)
-    yield("/wait 1") -- wait for casting to begin
+    yield("/li tp " .. aetheryteName)
+    Wait(1)
     while Svc.Condition[CharacterCondition.casting] do
-        Dalamud.Log("[CraftersScrips] Casting teleport...")
-        yield("/wait 1")
+        Log("Casting teleport...")
+        Wait(1)
     end
-    yield("/wait 1") -- wait for that microsecond in between the cast finishing and the transition beginning
+    Wait(1)
     while Svc.Condition[CharacterCondition.betweenAreas] do
-        Dalamud.Log("[CraftersScrips] Teleporting...")
-        yield("/wait 1")
+        Log("Teleporting...")
+        Wait(1)
     end
-    yield("/wait 1")
+    Wait(1)
 end
 
 function GetDistanceToPoint(dX, dY, dZ)
@@ -446,11 +441,9 @@ function GetDistanceToTarget()
         return nil
     end
 
-    -- Retrieve positions
     local playerPos = Entity.Player.Position
     local targetPos = Entity.Target.Position
 
-    -- Calculate the distance manually using Euclidean formula
     local dx = playerPos.X - targetPos.X
     local dy = playerPos.Y - targetPos.Y
     local dz = playerPos.Z - targetPos.Z
@@ -466,6 +459,21 @@ function DistanceBetween(px1, py1, pz1, px2, py2, pz2)
 
     return math.sqrt(dx * dx + dy * dy + dz * dz)
 end
+
+function GoToHubCity()
+    if not Player.Available then
+        Wait(1)
+    elseif not Svc.ClientState.TerritoryType == SelectedHubCity.zoneId then
+        TeleportTo(SelectedHubCity.aetheryte)
+    else
+        State = CharacterState.ready
+        Log("State Change: Ready")
+    end
+end
+
+------------------
+--    Checks    --
+------------------
 
 function HasStatusId(targetId)
     local statusList = Player.Status
@@ -503,7 +511,7 @@ end
 
 function OutOfMaterials()
     while not Addons.GetAddon("RecipeNote").Ready do
-        yield("/wait 0.1")
+        Wait(0.1)
     end
 
     for i = 0, 5 do
@@ -513,34 +521,22 @@ function OutOfMaterials()
         if materialCountNQ ~= "" and materialCountHQ ~= "" and materialRequirement ~= "" and
             materialCountNQ ~= nil and materialCountHQ ~= nil and materialRequirement ~= nil
         then
-            Dalamud.Log("[CraftersScrips] materialCountNQ: "..materialCountNQ..", materialCountHQ: "..materialCountHQ..", materialRequirement: "..materialRequirement)
+            Log("materialCountNQ: " .. materialCountNQ .. ", materialCountHQ: " .. materialCountHQ .. ", materialRequirement: " .. materialRequirement)
             if tonumber(materialCountNQ) + tonumber(materialCountHQ) < tonumber(materialRequirement) then
                 return true
             end
         end
     end
 
-    Dalamud.Log("[CraftersScrips] Regular mats available. Checking crystals.")
+    Log("Regular mats available. Checking crystals.")
 
     if OutOfCrystals() then
-        yield("/echo [CraftersScrips] Out of crystals. Stopping script.")
+        Echo("Out of crystals. Stopping script.")
         StopFlag = true
         return true
     end
 
-    Dalamud.Log("[CraftersScrips] All mats and crystals available.")
-    return false
-end
-
-function HasPlugin(name)
-    for plugin in luanet.each(Svc.PluginInterface.InstalledPlugins) do
-        if plugin.InternalName == name and plugin.IsLoaded then
-            Dalamud.Log(string.format("[CraftersScrips] Plugin '%s' found in InstalledPlugins.", name))
-            return true
-        end
-    end
-
-    Dalamud.Log(string.format("[CraftersScrips] Plugin '%s' not found in InstalledPlugins list.", name))
+    Log("All mats and crystals available.")
     return false
 end
 
@@ -560,25 +556,29 @@ function EnsureCrafterJob()
         end
     end
 
-    yield("/echo [CraftersScrips] Could not find crafter class: " .. tostring(CrafterClass))
+    Echo("Could not find crafter class: " .. tostring(CrafterClass))
     return false
 end
 
+--------------------
+--    Crafting    --
+--------------------
+
 function Crafting()
     if IPC.Lifestream.IsBusy() or Svc.Condition[CharacterCondition.occupiedInQuestEvent] then
-        yield("/wait 1")
+        Wait(1)
         return
     elseif not AtInn and HomeCommand == "Inn" then
         IPC.Lifestream.ExecuteCommand(HomeCommand)
         while IPC.Lifestream.IsBusy() do
-            yield("/wait 1")
+            Wait(1)
         end
         AtInn = true
         return
     elseif not AtHome and HomeCommand == "Home" then
         IPC.Lifestream.ExecuteCommand(HomeCommand)
         while IPC.Lifestream.IsBusy() do
-            yield("/wait 1")
+            Wait(1)
         end
         AtHome = true
         return
@@ -588,64 +588,55 @@ function Crafting()
     if IPC.Artisan.GetEnduranceStatus() then
         return
     elseif slots == nil then
-        yield("/echo [CraftersScrips] GetFreeInventorySlots() is nil. WHYYY???")
-    elseif not Dalamud.Log("[CraftersScrips] Check Artisan running") and (IPC.Artisan.IsListRunning() and not IPC.Artisan.IsListPaused()) or Addons.GetAddon("Synthesis").Ready then
-        yield("/wait 1")
-    elseif not Dalamud.Log("[CraftersScrips] Check slots count") and slots <= MinInventoryFreeSlots then
-        Dalamud.Log("[CraftersScrips] Out of inventory space")
+        Echo("GetFreeInventorySlots() is nil. WHYYY???")
+    elseif not Log("Check Artisan running") and (IPC.Artisan.IsListRunning() and not IPC.Artisan.IsListPaused()) or Addons.GetAddon("Synthesis").Ready then
+        Wait(1)
+    elseif not Log("Check slots count") and slots <= MinInventoryFreeSlots then
+        Log("Out of inventory space")
         if Addons.GetAddon("RecipeNote").Ready then
             yield("/callback RecipeNote true -1")
         elseif not Svc.Condition[CharacterCondition.craftingMode] then
             State = CharacterState.turnIn
-            Dalamud.Log("[CraftersScrips] State Change: TurnIn")
+            Log("State Change: TurnIn")
         end
-    elseif not Dalamud.Log("[CraftersScrips] Check out of materials") and Addons.GetAddon("RecipeNote").Ready and OutOfMaterials() then
-        Dalamud.Log("[CraftersScrips] Out of materials")
+    elseif not Log("Check out of materials") and Addons.GetAddon("RecipeNote").Ready and OutOfMaterials() then
+        Log("Out of materials")
         if not StopFlag then
             if slots > MinInventoryFreeSlots and (ArtisanTimeoutStartTime == 0) then
-                Dalamud.Log("[CraftersScrips] Attempting to craft intermediate materials")
-                yield("/artisan lists "..ArtisanListId.." start")
+                Log("Attempting to craft intermediate materials")
+                yield("/artisan lists " .. ArtisanListId .. " start")
                 ArtisanTimeoutStartTime = os.clock()
             elseif Inventory.GetCollectableItemCount(ItemId, 1) > 0 then
-                Dalamud.Log("[CraftersScrips] Turning In")
+                Log("Turning In")
                 yield("/callback RecipeNote true -1")
                 State = CharacterState.turnIn
-                Dalamud.Log("[CraftersScrips] State Change: TurnIn")
+                Log("State Change: TurnIn")
             elseif os.clock() - ArtisanTimeoutStartTime > 5 then
-                Dalamud.Log("[CraftersScrips] Artisan not starting, StopFlag = true")
-                -- if artisan has not entered crafting mode within 15s of being called,
-                -- then you're probably out of mats so just stop the script
-                yield("/echo [CraftersScrips] Artisan took too long to start. Are you out of intermediate mat materials?")
+                Log("Artisan not starting, StopFlag = true")
+                Echo("Artisan took too long to start. Are you out of intermediate mat materials?")
                 StopFlag = true
             end
         end
-    elseif not Dalamud.Log("[CraftersScrips] Check new Artisan craft") and not Addons.GetAddon("Synthesis").Ready then -- Svc.Condition[CharacterCondition.craftingMode] then
-        Dalamud.Log("[CraftersScrips] Attempting to craft "..(slots - MinInventoryFreeSlots).." of recipe #"..RecipeId)
+    elseif not Log("Check new Artisan craft") and not Addons.GetAddon("Synthesis").Ready then
+        Log("Attempting to craft " .. (slots - MinInventoryFreeSlots) .. " of recipe #" .. RecipeId)
         ArtisanTimeoutStartTime = 0
         IPC.Artisan.CraftItem(RecipeId, slots - MinInventoryFreeSlots)
-        yield("/wait 5")
+        Wait(5)
     else
-        Dalamud.Log("[CraftersScrips] Else condition hit")
+        Log("Else condition hit")
     end
 end
 
-function GoToHubCity()
-    if not Player.Available then
-        yield("/wait 1")
-    elseif not Svc.ClientState.TerritoryType == SelectedHubCity.zoneId then
-        TeleportTo(SelectedHubCity.aetheryte)
-    else
-        State = CharacterState.ready
-        Dalamud.Log("[CraftersScrips] State Change: Ready")
-    end
-end
+-------------------
+--    Turn In    --
+-------------------
 
 function TurnIn()
     AtInn = false
     AtHome = false
 
     if EnsureCrafterJob() then
-        yield("/wait 1")
+        Wait(1)
         return
     end
 
@@ -654,27 +645,27 @@ function TurnIn()
             yield("/callback CollectablesShop true -1")
         else
             State = CharacterState.ready
-            Dalamud.Log("[CraftersScrips] State Change: Ready")
+            Log("State Change: Ready")
         end
     elseif not Svc.ClientState.TerritoryType == SelectedHubCity.zoneId and
         (not SelectedHubCity.scripExchange.requiresAethernet or (SelectedHubCity.scripExchange.requiresAethernet and not Svc.ClientState.TerritoryType == SelectedHubCity.aethernet.aethernetZoneId))
     then
         State = CharacterState.goToHubCity
-        Dalamud.Log("[CraftersScrips] State Change: GoToHubCity")
+        Log("State Change: GoToHubCity")
     elseif SelectedHubCity.scripExchange.requiresAethernet and (not Svc.ClientState.TerritoryType == SelectedHubCity.aethernet.aethernetZoneId or
         GetDistanceToPoint(SelectedHubCity.scripExchange.x, SelectedHubCity.scripExchange.y, SelectedHubCity.scripExchange.z) > DistanceBetween(SelectedHubCity.aethernet.x, SelectedHubCity.aethernet.y, SelectedHubCity.aethernet.z, SelectedHubCity.scripExchange.x, SelectedHubCity.scripExchange.y, SelectedHubCity.scripExchange.z) + 10) then
         if not IPC.Lifestream.IsBusy() and not Player.IsBusy then
-            Dalamud.Log("[CraftersScrips] /li "..SelectedHubCity.aethernet.aethernetName)
+            Log("/li " .. SelectedHubCity.aethernet.aethernetName)
             IPC.Lifestream.ExecuteCommand(SelectedHubCity.aethernet.aethernetName)
-            yield("/wait 1")
+            Wait(1)
         end
-        yield("/wait 3")
+        Wait(3)
     elseif Addons.GetAddon("TeleportTown").Ready then
-        Dalamud.Log("[CraftersScrips] TeleportTown open")
+        Log("TeleportTown open")
         yield("/callback TeleportTown false -1")
     elseif GetDistanceToPoint(SelectedHubCity.scripExchange.x, SelectedHubCity.scripExchange.y, SelectedHubCity.scripExchange.z) > 1 then
         if not IPC.vnavmesh.PathfindInProgress() and not IPC.vnavmesh.IsRunning() then
-            Dalamud.Log("[CraftersScrips] Path not running")
+            Log("Path not running")
             IPC.vnavmesh.PathfindAndMoveTo(Vector3(SelectedHubCity.scripExchange.x, SelectedHubCity.scripExchange.y, SelectedHubCity.scripExchange.z), false)
         end
     else
@@ -690,18 +681,22 @@ function TurnIn()
             end
         else
             if ScripColor == "Purple" then
-                Dalamud.Log("[CraftersScrips] Selecting purple scrip item")
+                Log("Selecting purple scrip item")
                 yield("/callback CollectablesShop true 12 1")
-                yield("/wait 0.5")
+                Wait(0.5)
             else
-                Dalamud.Log("[CraftersScrips] Selecting orange scrip item")
+                Log("Selecting orange scrip item")
             end
 
-            yield("/callback CollectablesShop true 15 0") -- submit
-            yield("/wait 1")
+            yield("/callback CollectablesShop true 15 0")
+            Wait(1)
         end
     end
 end
+
+--------------------------
+--    Scrip Exchange    --
+--------------------------
 
 SelectTurnInPage = false
 function ScripExchange()
@@ -711,57 +706,57 @@ function ScripExchange()
         elseif Inventory.GetCollectableItemCount(ItemId, 1) > 0 and Inventory.GetItemCount(CrafterScripId) < 3800 then
             SelectTurnInPage = false
             State = CharacterState.turnIn
-            Dalamud.Log("[CraftersScrips] State Change: TurnIn")
+            Log("State Change: TurnIn")
         elseif Inventory.GetFreeInventorySlots() <= MinInventoryFreeSlots then
             SelectTurnInPage = false
             State = CharacterState.gcTurnIn
-            Dalamud.Log("[CraftersScrips] State Change: GCTurnIn")
+            Log("State Change: GCTurnIn")
         else
             SelectTurnInPage = false
             State = CharacterState.ready
-            Dalamud.Log("[CraftersScrips] State Change: Ready")
+            Log("State Change: Ready")
         end
     elseif not Svc.ClientState.TerritoryType == SelectedHubCity.zoneId and
         (not SelectedHubCity.scripExchange.requiresAethernet or (SelectedHubCity.scripExchange.requiresAethernet and not Svc.ClientState.TerritoryType == SelectedHubCity.aethernet.aethernetZoneId))
     then
         SelectTurnInPage = false
         State = CharacterState.goToHubCity
-        Dalamud.Log("[CraftersScrips] State Change: GoToHubCity")
+        Log("State Change: GoToHubCity")
     elseif SelectedHubCity.scripExchange.requiresAethernet and (not Svc.ClientState.TerritoryType == SelectedHubCity.aethernet.aethernetZoneId or
         GetDistanceToPoint(SelectedHubCity.scripExchange.x, SelectedHubCity.scripExchange.y, SelectedHubCity.scripExchange.z) > DistanceBetween(SelectedHubCity.aethernet.x, SelectedHubCity.aethernet.y, SelectedHubCity.aethernet.z, SelectedHubCity.scripExchange.x, SelectedHubCity.scripExchange.y, SelectedHubCity.scripExchange.z) + 10) then
         if not IPC.Lifestream.IsBusy() then
             IPC.Lifestream.ExecuteCommand(SelectedHubCity.aethernet.aethernetName)
         end
-        yield("/wait 3")
+        Wait(3)
     elseif Addons.GetAddon("TeleportTown").Ready then
         yield("/callback TeleportTown true -1")
     elseif GetDistanceToPoint(SelectedHubCity.scripExchange.x, SelectedHubCity.scripExchange.y, SelectedHubCity.scripExchange.z) > 1 then
         if not IPC.vnavmesh.PathfindInProgress() and not IPC.vnavmesh.IsRunning() then
-            yield("/wait 3")
-            Dalamud.Log("[CraftersScrips] Path not running")
+            Wait(3)
+            Log("Path not running")
             IPC.vnavmesh.PathfindAndMoveTo(Vector3(SelectedHubCity.scripExchange.x, SelectedHubCity.scripExchange.y, SelectedHubCity.scripExchange.z), false)
         end
     elseif Addons.GetAddon("ShopExchangeItemDialog").Ready then
         yield("/callback ShopExchangeItemDialog true 0")
-        yield("/wait 1")
+        Wait(1)
     elseif Addons.GetAddon("SelectIconString").Ready then
         yield("/callback SelectIconString true 0")
     elseif Addons.GetAddon("InclusionShop").Ready then
-        Dalamud.Log("[CraftersScrips] Free inventory slots: "..Inventory.GetFreeInventorySlots())
+        Log("Free inventory slots: " .. Inventory.GetFreeInventorySlots())
 
         if not SelectTurnInPage then
-            yield("/callback InclusionShop true 12 "..SelectedItemToBuy.categoryMenu)
-            yield("/wait 1")
-            yield("/callback InclusionShop true 13 "..SelectedItemToBuy.subcategoryMenu)
-            yield("/wait 1")
+            yield("/callback InclusionShop true 12 " .. SelectedItemToBuy.categoryMenu)
+            Wait(1)
+            yield("/callback InclusionShop true 13 " .. SelectedItemToBuy.subcategoryMenu)
+            Wait(1)
             SelectTurnInPage = true
         end
         local qty = 1
         if not SelectedItemToBuy.oneAtATime then
             qty = math.min(Inventory.GetItemCount(CrafterScripId)//SelectedItemToBuy.price, 99)
         end
-        yield("/callback InclusionShop true 14 "..SelectedItemToBuy.listIndex.." "..qty)
-        yield("/wait 1")
+        yield("/callback InclusionShop true 14 " .. SelectedItemToBuy.listIndex .. " " .. qty)
+        Wait(1)
     else
         local scripExchange = Entity.GetEntityByName("Scrip Exchange")
         if scripExchange then
@@ -771,23 +766,27 @@ function ScripExchange()
     end
 end
 
+---------------------
+--    Retainers    --
+---------------------
+
 function ProcessRetainers()
     CurrentRetainer = nil
 
-    Dalamud.Log("[CraftersScrips] Handling retainers...")
-    if not Dalamud.Log("[CraftersScrips] check retainers ready") and not IPC.AutoRetainer.AreAnyRetainersAvailableForCurrentChara() or Inventory.GetFreeInventorySlots() <= 1 then
+    Log("Handling retainers...")
+    if not Log("check retainers ready") and not IPC.AutoRetainer.AreAnyRetainersAvailableForCurrentChara() or Inventory.GetFreeInventorySlots() <= 1 then
         if Addons.GetAddon("RetainerList").Ready then
             yield("/callback RetainerList true -1")
         elseif not Svc.Condition[CharacterCondition.occupiedSummoningBell] then
             State = CharacterState.ready
-            Dalamud.Log("[CraftersScrips] State Change: Ready")
+            Log("State Change: Ready")
         end
     else
         local summoningBell = Entity.GetEntityByName("Summoning Bell")
         if summoningBell then
             summoningBell:SetAsTarget()
         end
-        yield("/wait 1")
+        Wait(1)
 
         if summoningBell then
             if GetDistanceToTarget() > 5 then
@@ -802,27 +801,27 @@ function ProcessRetainers()
                     summoningBell:Interact()
                 elseif Addons.GetAddon("RetainerList").Ready then
                     yield("/ays e")
-                    yield("/wait 1")
+                    Wait(1)
                 end
             end
-        elseif not Dalamud.Log("[CraftersScrips] is in hub city zone?") and not Svc.ClientState.TerritoryType == SelectedHubCity.zoneId and
+        elseif not Log("is in hub city zone?") and not Svc.ClientState.TerritoryType == SelectedHubCity.zoneId and
             (not SelectedHubCity.scripExchange.requiresAethernet or (SelectedHubCity.scripExchange.requiresAethernet and not Svc.ClientState.TerritoryType == SelectedHubCity.aethernet.aethernetZoneId))
         then
             TeleportTo(SelectedHubCity.aetheryte)
-        elseif not Dalamud.Log("[CraftersScrips] use aethernet?") and
+        elseif not Log("use aethernet?") and
             SelectedHubCity.retainerBell.requiresAethernet and (not Svc.ClientState.TerritoryType == SelectedHubCity.aethernet.aethernetZoneId or
             (GetDistanceToPoint(SelectedHubCity.retainerBell.x, SelectedHubCity.retainerBell.y, SelectedHubCity.retainerBell.z) > (DistanceBetween(SelectedHubCity.aethernet.x, SelectedHubCity.aethernet.y, SelectedHubCity.aethernet.z, SelectedHubCity.retainerBell.x, SelectedHubCity.retainerBell.y, SelectedHubCity.retainerBell.z) + 10)))
         then
             if not IPC.Lifestream.IsBusy() then
                 IPC.Lifestream.ExecuteCommand(SelectedHubCity.aethernet.aethernetName)
             end
-            yield("/wait 3")
-        elseif not Dalamud.Log("[CraftersScrips] Close teleport town") and Addons.GetAddon("TeleportTown").Ready then
-            Dalamud.Log("TeleportTown open")
+            Wait(3)
+        elseif not Log("Close teleport town") and Addons.GetAddon("TeleportTown").Ready then
+            Log("TeleportTown open")
             yield("/callback TeleportTown false -1")
-        elseif not Dalamud.Log("[CraftersScrips] Move to summoning bell") and GetDistanceToPoint(SelectedHubCity.retainerBell.x, SelectedHubCity.retainerBell.y, SelectedHubCity.retainerBell.z) > 1 then
+        elseif not Log("Move to summoning bell") and GetDistanceToPoint(SelectedHubCity.retainerBell.x, SelectedHubCity.retainerBell.y, SelectedHubCity.retainerBell.z) > 1 then
             if not IPC.vnavmesh.PathfindInProgress() and not  IPC.vnavmesh.IsRunning() then
-                Dalamud.Log("[CraftersScrips] Path not running")
+                Log("Path not running")
                 IPC.vnavmesh.PathfindAndMoveTo(Vector3(SelectedHubCity.retainerBell.x, SelectedHubCity.retainerBell.y, SelectedHubCity.retainerBell.z), false)
             end
         elseif IPC.vnavmesh.PathfindInProgress() or IPC.vnavmesh.IsRunning() then
@@ -838,10 +837,14 @@ function ProcessRetainers()
             end
         elseif Addons.GetAddon("RetainerList").Ready then
             IPC.AutoRetainer.EnqueueInitiation()
-            yield("/wait 1")
+            Wait(1)
         end
     end
 end
+
+------------------------
+--    GrandCompany    --
+------------------------
 
 local deliveroo = false
 function ExecuteGrandCompanyTurnIn()
@@ -850,18 +853,22 @@ function ExecuteGrandCompanyTurnIn()
     elseif Inventory.GetFreeInventorySlots() <= MinInventoryFreeSlots and not deliveroo then
         IPC.Lifestream.ExecuteCommand("gc")
         repeat
-            yield("/wait 1")
+            Wait(1)
         until not IPC.Lifestream.IsBusy()
-        yield("/wait 1")
-        yield("/deliveroo enable")
-        yield("/wait 1")
+        Wait(1)
+        yield("/ays deliver")
+        Wait(1)
         deliveroo = true
     else
         State = CharacterState.ready
-        Dalamud.Log("[CraftersScrips] State Change: Ready")
+        Log("State Change: Ready")
         deliveroo = false
     end
 end
+
+-----------------------
+--    Consumables    --
+-----------------------
 
 function PotionCheck()
     if not HasStatusId(49) and Potion then
@@ -870,31 +877,35 @@ function PotionCheck()
         if potion > 0 then
             Inventory.GetInventoryItem(27960):Use()
         else
-            Dalamud.Log("[CraftersScrips] [PotionCheck] HQ Potion not found in inventory.")
+            Log("[PotionCheck] HQ Potion not found in inventory.")
         end
     end
 end
+
+----------------------------
+--    State Management    --
+----------------------------
 
 function Ready()
     PotionCheck()
 
     if not Player.Available then
-        -- do nothing
+        return
     elseif Retainers and IPC.AutoRetainer.AreAnyRetainersAvailableForCurrentChara() and Inventory.GetFreeInventorySlots() > 1 then
         State = CharacterState.processRetainers
-        Dalamud.Log("[CraftersScrips] State Change: ProcessingRetainers")
+        Log("State Change: ProcessingRetainers")
     elseif Inventory.GetItemCount(CrafterScripId) >= 3800 then
         State = CharacterState.scripExchange
-        Dalamud.Log("[CraftersScrips] State Change: ScripExchange")
+        Log("State Change: ScripExchange")
     elseif Inventory.GetFreeInventorySlots() <= MinInventoryFreeSlots and Inventory.GetCollectableItemCount(ItemId, 1) > 0 then
         State = CharacterState.turnIn
-        Dalamud.Log("[CraftersScrips] State Change: TurnIn")
+        Log("State Change: TurnIn")
     elseif GrandCompanyTurnIn and Inventory.GetFreeInventorySlots() <= MinInventoryFreeSlots then
         State = CharacterState.gcTurnIn
-        Dalamud.Log("[CraftersScrips] State Change: GCTurnIn")
+        Log("State Change: GCTurnIn")
     else
         State = CharacterState.crafting
-        Dalamud.Log("[CraftersScrips] State Change: Crafting")
+        Log("State Change: Crafting")
     end
 end
 
@@ -909,29 +920,9 @@ CharacterState =
     gcTurnIn         = ExecuteGrandCompanyTurnIn
 }
 
+--=========================== EXECUTION ==========================--
+
 StopFlag = false
-
-RequiredPlugins = {
-    "Artisan",
-    "vnavmesh"
-}
--- add optional plugins
-if HomeCommand == "Inn" or HomeCommand == "Home" then
-    table.insert(RequiredPlugins, "Lifestream")
-end
-if Retainers then
-    table.insert(RequiredPlugins, "AutoRetainer")
-end
-if GrandCompanyTurnIn then
-    table.insert(RequiredPlugins, "Deliveroo")
-end
-
-for _, plugin in ipairs(RequiredPlugins) do
-    if not HasPlugin(plugin) then
-        yield("/e [CraftersScrips] Missing required plugin: "..plugin.."! Stopping script. Please install the required plugin and try again.")
-        StopFlag = true
-    end
-end
 
 local classId = 0
 for _, class in pairs(ClassList) do
@@ -941,7 +932,7 @@ for _, class in pairs(ClassList) do
 end
 
 if classId == 0 then
-    yield("/echo [CraftersScrips] Could not find crafter class: " .. CrafterClass)
+    Echo("Could not find crafter class: " .. CrafterClass)
     StopFlag = true
 end
 
@@ -952,7 +943,7 @@ elseif ScripColor == "Purple" then
     CrafterScripId = PurpleCrafterScripId
     ScripRecipes = PurpleScripRecipes
 else
-    yield("/echo [CraftersScrips] Cannot recognize crafter scrip color: "..ScripColor)
+    Echo("Cannot recognize crafter scrip color: " .. ScripColor)
     StopFlag = true
 end
 
@@ -972,7 +963,7 @@ for _, item in ipairs(ScripExchangeItems) do
 end
 
 if SelectedItemToBuy == nil then
-    yield("/echo [CraftersScrips] Could not find "..ItemToBuy.." on the list of scrip exchange items.")
+    Echo("Could not find " .. ItemToBuy .. " on the list of scrip exchange items.")
     StopFlag = true
 end
 
@@ -984,7 +975,7 @@ for _, city in ipairs(HubCities) do
 end
 
 if SelectedHubCity == nil then
-    yield("/echo [CraftersScrips] Could not find hub city: " .. HubCity)
+    Echo("Could not find hub city: " .. HubCity)
     StopFlag = true
 end
 
@@ -997,24 +988,24 @@ end
 
 if not AtInn and HomeCommand == "Inn" then
     IPC.Lifestream.ExecuteCommand(HomeCommand)
-    Dalamud.Log("[CraftersScrips] Moving to Inn")
+    Log("Moving to Inn")
     AtInn = true
 elseif not AtHome and HomeCommand == "Home" then
     IPC.Lifestream.ExecuteCommand(HomeCommand)
-    Dalamud.Log("[CraftersScrips] Moving Home")
+    Log("Moving Home")
     AtHome = true
 elseif not AtInn and Svc.ClientState.TerritoryType ~= 1186 then
     IPC.Lifestream.ExecuteCommand("Nexus Arcade")
-    Dalamud.Log("[CraftersScrips] Moving to Solution Nine")
+    Log("Moving to Solution Nine")
 end
 
-yield("/wait 1")
+Wait(1)
 while IPC.Lifestream.IsBusy() or Player.IsBusy or Svc.Condition[CharacterCondition.casting] do
-    yield("/wait 1")
+    Wait(1)
 end
 
 ArtisanTimeoutStartTime = 0
-Dalamud.Log("[CraftersScrips] Start")
+Log("Start")
 
 State = CharacterState.ready
 
@@ -1028,6 +1019,7 @@ while not StopFlag do
     then
         State()
     end
-    yield("/wait 0.1")
+    Wait(0.1)
 end
 
+--============================== END =============================--
