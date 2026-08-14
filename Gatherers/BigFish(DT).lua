@@ -1,7 +1,7 @@
 --[=====[
 [[SND Metadata]]
 author: Minnu (https://ko-fi.com/minnuverse)
-version: 2.3.0
+version: 2.4.0
 description: BigFish (DT) - Automates catching newly-tracked Dawntrail Big Fish.
 plugin_dependencies:
 - AutoHook
@@ -436,7 +436,7 @@ FishData = {
         previousWeather = "Thunderstorms",
         bait            = "Red Maggots",
         swimBait        = true,
-        autoHookPreset  = "AH7_G+coIKwK7HYPn0RD6dIy9PIQwz/ZnohGF/n4w1a9SYS3TbVpzWkOKb3/7aIYy3YA1+8vlyofHf6YAZyogAzjmixdfaXTFzB+tfxmD/DJnZAIiU6xPJKi/Nn/+s02MaTZ2Z4hxKBOIRQuGpWNBoexQYkN6uoUxqF5iNN1u1oUCJK0nMvsx30JzlNHpUtPgzdiD22ZRxEYhcny4UM0wHR58869BBU5bd3LT1QK2H6gcHIR2wEyeSQtfqqsoZV6uE96ibbscFu3XAEu+zVFRWDxf++mDsDms7XCv5bPJzeupfORrVgXxD9g89LrP8vSz9/QP2UItREjyGv2JsuLMMiSwu/D7UJdFex9GpU97GlQazL62uXOwGYmJJGE0RPDa5F/8qIAV697FOgwAaTziLW1NN26hv3WxPtsGsjzEHAAw38PLnwn43JGg3C6YQf/NfHVe3SBlA1qoFYMADq8YUbKCDXQdUMWtrcmoR/l7uhBl/s6VgqPePkYEYap02p4RNnJWXVLP1RkXkb+gicnpF+vLhnEUVCFIrhLyRRd+px9wIL0Ft+EfnI7KmVcafHQXO9bG96ObxgtewSqkWHNclCAMWqVED9KKKgA6cQLEkz0+PMTXfpkeS39tktYQNOJ4yoY1SQcLsTa5DTHRFYPASWpaF3cb8ZJGbJMU602G9hmvyzMGWkmf3RwgQGpOWio2XC2HXOxGXnfVxO/DfXhfIv/6sZmoGxoHn1ZTFP9lJf1v6fepirjLCMQ0fyT2GV1GUnKCeGn/7AGvqjDYkEqSJWu+8fTR8WAMdF8NU4n/6mHCjIlyhEyeZ06rdyFCXlYs0Y3skCsjY+6RaDl/4h1wBij2XVD79IxaoQDOlV3q2oFVMXSiC0JOD6eZrVurxrF6LQuUyWCCE44D0U9Gzun1RBX9dlXDxHqTnwBhesNQA9jMMppO9uQmW547yMJWStSlel6Z9x4Yb6v8F2qLNM6acjTKmu3jLbpXuw9jC0Udf63oZa8b9bCnQ1GBgxVonudTa5pQIw2SMF0z0qlFK/4ho9CyLwYN5YLn1M+63OSV663VueJSq8Xz9+8/NXydPIze276aVVyK9BQqX2WaISKgl0z3QQE1eNJrSJt89lKlRYPdmtvMk4NXIcmx+Nst5wdfFF7lSmU7PtdGN4Ws/62KJeWCWmR+A2nVy7xzim1g1X6I0i3VXrt0mmXPhZ1O9A/cMYvEP+mj1TtKiPDoCKpF1cUNcMuaL4QmaXOVqeooCjuFrAwhepHb04Tzc6yZJU1vCafZnBqE1jy+ZOPP4UOZdKVbVDpJmh7PSjJO4C3aXkbqagHmm105Tj5Vrnss5L08/rw/jhcN3kVlNK6+2IfV+Wk1yrVt73llhVi4L/osvYxCpSrUghGU2F8g5mtnky4fQsdUKZe9FbJD0mGy2/++I10fDGKN52tIQv8W6zftlwua3CIF6jnZRkZ4CwUaS27FCfuoin5Vn3LGXnZ3/y0Q90udwN1yr9gtXN+kHvCbNlU2Sw/o1RLtZo1Al+rmcinYw56WwSa1YVqN7LN+GSz2i67NW73rztWP+PSYBdE7nLWZ/3cRQPNYJw0/4qWhxSvu+1Iq/shSU97RuhG2LV+Ae0grnVRlMA9wb6T4DswUV4e7dDIA65nNacFUHjNXr6sx4u7t3YT4SBtwaMTndhrY5PlbYnZVQ/7FMqecnODsjD6r0KpetVVBAyrC7qUoO114O1aoMaqdjbEyP/yMqefUnBuXXEnKVfujTzjfsIeYkIBnr+VlWnDykXcEZ6GufaPc5JYVDVlYPVvgi08ze42W6e5mYYGlOwKoD3eF2dRvCdPYXc3bEutZbuJpkU/nbd73X2dzWh3N1OVzap+PLYf56J2efsohBEfTS9T0/kCe0Hu7cBvOnbSr1AhYcp+1pDRpeVuf5yXivDovP9+xO5Wu32f9nlDC8laKMFFYn29O7asOAQ=",
+        autoHookPreset  = "AH7_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",
         x = 6.8, y = 34.0, radius = 1000,
         worldX = -674.07, worldY = -14.00, worldZ = 611.24,
         fishX = -678.18, fishY = -14.00, fishZ = 623.29,
@@ -986,167 +986,73 @@ FishData = {
 --=========================== FUNCTIONS ===========================--
 
 -------------------
---    Helpers    --
+--    Utility    --
 -------------------
 
 function Wait(time)
     yield(string.format("/wait %g", time))
 end
 
-function GetPlayerPosition()
-    if Player and Player.Entity and Player.Entity.Position then
-        return Player.Entity.Position
-    end
+function Log(message)
+    Dalamud.Log(string.format("%s %s", LogPrefix, message))
+end
 
-    if Entity and Entity.Player and Entity.Player.Position then
-        return Entity.Player.Position
-    end
+function Debug(message)
+    Dalamud.LogDebug(string.format("%s %s", LogPrefix, message))
+end
 
+---------------------
+--    Fish Data    --
+---------------------
+
+function GetFishName(fish)
+    if fish and type(fish.name) == "string" and fish.name ~= "" then
+        return fish.name
+    end
     return nil
 end
 
-function GetDistance(pos1, pos2)
-    if not pos1 or not pos2 then
-        Dalamud.LogDebug(string.format("%s [GetDistance] One or both positions are nil, returning math.huge", LogPrefix))
-        return math.huge
+function GetFishLogLabel(fish)
+    local fishName = GetFishName(fish)
+    if fishName then
+        return fishName
     end
-
-    local dx = pos1.X - pos2.X
-    local dy = pos1.Y - pos2.Y
-    local dz = pos1.Z - pos2.Z
-    local distance = math.sqrt(dx * dx + dy * dy + dz * dz)
-    Dalamud.LogDebug(string.format("%s [GetDistance] Pos1: (%.2f, %.2f, %.2f), Pos2: (%.2f, %.2f, %.2f), Distance: %.2f", LogPrefix, pos1.X, pos1.Y, pos1.Z, pos2.X, pos2.Y, pos2.Z, distance))
-    return distance
+    if fish and fish.name ~= nil then
+        return tostring(fish.name)
+    end
+    return "<unnamed fish>"
 end
 
-function MoveTo(x, y, z, stopDistance, fly)
-    fly = fly or false
-    stopDistance = stopDistance or 0.0
-    local destination = Vector3(x, y, z)
-    local arrivalTolerance = 1.0
+function GetFishStateKey(fish)
+    return GetFishName(fish) or GetFishLogLabel(fish)
+end
 
-    local playerPos = GetPlayerPosition()
-    if not playerPos then
-        Dalamud.LogDebug(string.format("%s MoveTo: Player position unavailable.", LogPrefix))
-        return false
-    end
+function GetFishLogKey(fish, suffix)
+    return GetFishLogLabel(fish) .. ":" .. suffix
+end
 
-    if GetDistance(playerPos, destination) <= math.max(stopDistance, arrivalTolerance) then
-        Dalamud.LogDebug(string.format("%s MoveTo: Already at destination.", LogPrefix))
-        return true
-    end
-
-    if IPC.vnavmesh.PathfindInProgress() or IPC.vnavmesh.IsRunning() then
-        IPC.vnavmesh.Stop()
-        Wait(0.5)
-    end
-
-    if not IPC.vnavmesh.PathfindAndMoveTo(destination, fly) then
-        Dalamud.LogDebug(string.format("%s MoveTo: PathfindAndMoveTo failed to start pathing.", LogPrefix))
-        return false
-    end
-
-    local startTime = os.time()
-    local maxSeconds = 120
-
-    while IPC.vnavmesh.PathfindInProgress() or IPC.vnavmesh.IsRunning() do
-        Wait(0.1)
-
-        if stopDistance > 0 then
-            local currentPos = GetPlayerPosition()
-            if currentPos and GetDistance(currentPos, destination) <= stopDistance then
-                IPC.vnavmesh.Stop()
-                break
+function GetFishDataNames()
+    if not fishDataNames then
+        fishDataNames = {}
+        for _, fish in ipairs(FishData) do
+            local fishName = GetFishName(fish)
+            if fishName then
+                fishDataNames[fishName] = true
+            else
+                local logKey = GetFishLogKey(fish, "missing-name")
+                if not invalidNameLog[logKey] then
+                    Log("WARNING: encountered a FishData entry without a valid string name - config name validation will skip it until fixed.")
+                    invalidNameLog[logKey] = true
+                end
             end
         end
-
-        if (os.time() - startTime) > maxSeconds then
-            IPC.vnavmesh.Stop()
-            Dalamud.LogDebug(string.format("%s MoveTo: Timed out, stopping path.", LogPrefix))
-            return false
-        end
     end
-
-    local finalPos = GetPlayerPosition()
-    if not finalPos then
-        Dalamud.LogDebug(string.format("%s MoveTo: Player position unavailable after pathing.", LogPrefix))
-        return false
-    end
-
-    local okDist = (stopDistance > 0) and stopDistance or arrivalTolerance
-    local finalDist = GetDistance(finalPos, destination)
-    Dalamud.LogDebug(string.format("%s MoveTo: finished, dist=%.2f.", LogPrefix, finalDist))
-    return finalDist <= okDist
+    return fishDataNames
 end
 
-function GetEorzeaTime(unixSeconds)
-    unixSeconds = unixSeconds or os.time()
-    local eorzeaTotalMinutes = math.floor(unixSeconds * 3600 / 175 / 60)
-    local hour = math.floor(eorzeaTotalMinutes / 60) % 24
-    local minute = eorzeaTotalMinutes % 60
-    Dalamud.LogDebug(string.format("%s GetEorzeaTime(%d) -> %02d:%02d", LogPrefix, unixSeconds, hour, minute))
-    return hour, minute
-end
-
-function GetWeatherForecastTarget(unixSeconds)
-    local bell = unixSeconds // 175
-    local increment = (bell + 8 - (bell % 8)) % 24
-    local totalDays = unixSeconds // 4200
-
-    local calcBase = (totalDays * 100 + increment) & 0xFFFFFFFF
-    local step1 = ((calcBase << 11) & 0xFFFFFFFF) ~ calcBase
-    local step2 = (step1 >> 8) ~ step1
-
-    return step2 % 100
-end
-
-function GetCurrentWeatherId(territoryId, unixSeconds)
-    unixSeconds = unixSeconds or os.time()
-    local rates = EorzeaWeatherRates[territoryId]
-    if not rates then
-        Dalamud.LogDebug(string.format("%s GetCurrentWeatherId: no weather rates for territory %d", LogPrefix, territoryId))
-        return nil
-    end
-
-    local target = GetWeatherForecastTarget(unixSeconds)
-    for _, entry in ipairs(rates) do
-        local weatherId, cumulativeChance = entry[1], entry[2]
-        if target < cumulativeChance then
-            return weatherId
-        end
-    end
-
-    return nil
-end
-
-function GetCurrentWeatherName(territoryId, unixSeconds)
-    local weatherId = GetCurrentWeatherId(territoryId, unixSeconds)
-    return weatherId and WeatherName[weatherId] or nil
-end
-
-function GetPreviousWeatherName(territoryId, unixSeconds)
-    unixSeconds = unixSeconds or os.time()
-    return GetCurrentWeatherName(territoryId, unixSeconds - 1400)
-end
-
--------------------
---    Utility    --
--------------------
-
-function OnChatMessage()
-    local message = TriggerData and TriggerData.message
-
-    if type(message) ~= "string" or not SelectedFish or not fishingStarted then
-        return
-    end
-
-    local selectedFishName = GetFishName(SelectedFish)
-    if selectedFishName and message:find(selectedFishName, 1, true) then
-        catchDetected = true
-        catchMessage = message
-        Dalamud.Log(string.format("%s Detected chat match for %s: %s", LogPrefix, selectedFishName, message))
-    end
-end
+-------------------------
+--    Configuration    --
+-------------------------
 
 function ConfigListAt(list, index)
     if not list then return nil end
@@ -1195,10 +1101,27 @@ function BuildEnabledFishSet()
     ValidateFishNameSet("EnabledFish", enabledFish)
 end
 
+function ValidateFishNameSet(configKey, set)
+    local validNames = GetFishDataNames()
+    for fishName in pairs(set) do
+        if not validNames[fishName] then
+            local logKey = configKey .. ":" .. fishName
+            if not unknownFishLog[logKey] then
+                Log(string.format("WARNING: '%s' in %s does not match any DT Big Fish. Check spelling.", fishName, configKey))
+                unknownFishLog[logKey] = true
+            end
+        end
+    end
+end
+
+----------------
+--    Bait    --
+----------------
+
 function BuildBaitItemIdMap()
     baitItemIds = BaitItemIds
     baitChecksReady = true
-    Dalamud.Log(string.format("%s Loaded static bait item ID map.", LogPrefix))
+    Debug("Loaded static bait item ID map.")
 end
 
 function HasRequiredBait(fish)
@@ -1215,7 +1138,7 @@ function HasRequiredBait(fish)
     local fishLabel = GetFishLogLabel(fish)
     if not baitItemId then
         if not missingBaitLog[fishKey] then
-            Dalamud.Log(string.format("%s Skipping %s: could not resolve bait item ID for '%s'.", LogPrefix, fishLabel, fish.bait))
+            Log(string.format("Skipping %s: could not resolve bait item ID for '%s'.", fishLabel, fish.bait))
             missingBaitLog[fishKey] = true
         end
         return false
@@ -1231,7 +1154,7 @@ function HasRequiredBait(fish)
 
     if baitCount <= 0 then
         if not missingBaitLog[fishKey] then
-            Dalamud.Log(string.format("%s Skipping %s: no bait '%s' in inventory.", LogPrefix, fishLabel, fish.bait))
+            Log(string.format("Skipping %s: no bait '%s' in inventory.", fishLabel, fish.bait))
             missingBaitLog[fishKey] = true
         end
         return false
@@ -1241,37 +1164,9 @@ function HasRequiredBait(fish)
     return true
 end
 
-function GetFishDataNames()
-    if not fishDataNames then
-        fishDataNames = {}
-        for _, fish in ipairs(FishData) do
-            local fishName = GetFishName(fish)
-            if fishName then
-                fishDataNames[fishName] = true
-            else
-                local logKey = GetFishLogKey(fish, "missing-name")
-                if not invalidNameLog[logKey] then
-                    Dalamud.Log(string.format("%s WARNING: encountered a FishData entry without a valid string name - config name validation will skip it until fixed.", LogPrefix))
-                    invalidNameLog[logKey] = true
-                end
-            end
-        end
-    end
-    return fishDataNames
-end
-
-function ValidateFishNameSet(configKey, set)
-    local validNames = GetFishDataNames()
-    for fishName in pairs(set) do
-        if not validNames[fishName] then
-            local logKey = configKey .. ":" .. fishName
-            if not unknownFishLog[logKey] then
-                Dalamud.Log(string.format("%s WARNING: '%s' in %s does not match any DT Big Fish. Check spelling.", LogPrefix, fishName, configKey))
-                unknownFishLog[logKey] = true
-            end
-        end
-    end
-end
+--------------------
+--    AutoHook    --
+--------------------
 
 function HasExportedAutoHookPreset(fish)
     return fish and fish.autoHookPreset and fish.autoHookPreset ~= ""
@@ -1296,16 +1191,16 @@ end
 function SelectAutoHookPreset(fish)
     if UseAnonymousAutoHookPreset(fish) then
         IPC.AutoHook.CreateAndSelectAnonymousPreset(fish.autoHookPreset)
-        Dalamud.Log(string.format("%s Selected anonymous AutoHook preset for %s.", LogPrefix, GetFishLogLabel(fish)))
+        Debug(string.format("Selected anonymous AutoHook preset for %s.", GetFishLogLabel(fish)))
     else
         local fishName = GetFishName(fish)
         if not fishName then
-            Dalamud.Log(string.format("%s WARNING: %s has no valid preset name for the named AutoHook path - skipping preset selection.", LogPrefix, GetFishLogLabel(fish)))
+            Log(string.format("WARNING: %s has no valid preset name for the named AutoHook path - skipping preset selection.", GetFishLogLabel(fish)))
             return
         end
         IPC.AutoHook.DeleteAllAnonymousPresets()
         IPC.AutoHook.SetPreset(fishName)
-        Dalamud.Log(string.format("%s Selected named AutoHook preset for %s.", LogPrefix, fishName))
+        Debug(string.format("Selected named AutoHook preset for %s.", fishName))
     end
 end
 
@@ -1315,31 +1210,67 @@ function CleanupAutoHookPreset(fish)
     end
 end
 
-function GetFishName(fish)
-    if fish and type(fish.name) == "string" and fish.name ~= "" then
-        return fish.name
+----------------
+--    Time    --
+----------------
+
+function GetEorzeaTime(unixSeconds)
+    unixSeconds = unixSeconds or os.time()
+    local eorzeaTotalMinutes = math.floor(unixSeconds * 3600 / 175 / 60)
+    local hour = math.floor(eorzeaTotalMinutes / 60) % 24
+    local minute = eorzeaTotalMinutes % 60
+    Debug(string.format("GetEorzeaTime(%d) -> %02d:%02d", unixSeconds, hour, minute))
+    return hour, minute
+end
+
+-------------------
+--    Weather    --
+-------------------
+
+function GetWeatherForecastTarget(unixSeconds)
+    local bell = unixSeconds // 175
+    local increment = (bell + 8 - (bell % 8)) % 24
+    local totalDays = unixSeconds // 4200
+
+    local calcBase = (totalDays * 100 + increment) & 0xFFFFFFFF
+    local step1 = ((calcBase << 11) & 0xFFFFFFFF) ~ calcBase
+    local step2 = (step1 >> 8) ~ step1
+
+    return step2 % 100
+end
+
+function GetCurrentWeatherId(territoryId, unixSeconds)
+    unixSeconds = unixSeconds or os.time()
+    local rates = EorzeaWeatherRates[territoryId]
+    if not rates then
+        Debug(string.format("GetCurrentWeatherId: no weather rates for territory %d", territoryId))
+        return nil
     end
+
+    local target = GetWeatherForecastTarget(unixSeconds)
+    for _, entry in ipairs(rates) do
+        local weatherId, cumulativeChance = entry[1], entry[2]
+        if target < cumulativeChance then
+            return weatherId
+        end
+    end
+
     return nil
 end
 
-function GetFishLogLabel(fish)
-    local fishName = GetFishName(fish)
-    if fishName then
-        return fishName
-    end
-    if fish and fish.name ~= nil then
-        return tostring(fish.name)
-    end
-    return "<unnamed fish>"
+function GetCurrentWeatherName(territoryId, unixSeconds)
+    local weatherId = GetCurrentWeatherId(territoryId, unixSeconds)
+    return weatherId and WeatherName[weatherId] or nil
 end
 
-function GetFishStateKey(fish)
-    return GetFishName(fish) or GetFishLogLabel(fish)
+function GetPreviousWeatherName(territoryId, unixSeconds)
+    unixSeconds = unixSeconds or os.time()
+    return GetCurrentWeatherName(territoryId, unixSeconds - 1400)
 end
 
-function GetFishLogKey(fish, suffix)
-    return GetFishLogLabel(fish) .. ":" .. suffix
-end
+----------------------
+--    Validation    --
+----------------------
 
 function HasValidFishName(fish)
     local fishName = GetFishName(fish)
@@ -1349,7 +1280,7 @@ function HasValidFishName(fish)
 
     local logKey = GetFishLogKey(fish, "missing-name")
     if not invalidNameLog[logKey] then
-        Dalamud.Log(string.format("%s WARNING: %s has no valid string name - skipping this fish until fixed.", LogPrefix, GetFishLogLabel(fish)))
+        Log(string.format("WARNING: %s has no valid string name - skipping this fish until fixed.", GetFishLogLabel(fish)))
         invalidNameLog[logKey] = true
     end
     return false
@@ -1391,7 +1322,7 @@ function WarnInvalidCoordinatesOnce(fish)
 
     local logKey = GetFishLogKey(fish, "missing-coordinates")
     if not invalidCoordinateLog[logKey] then
-        Dalamud.Log(string.format("%s WARNING: %s is missing required coordinates (%s) - skipping until fixed.", LogPrefix, GetFishLogLabel(fish), table.concat(missing, ", ")))
+        Log(string.format("WARNING: %s is missing required coordinates (%s) - skipping until fixed.", GetFishLogLabel(fish), table.concat(missing, ", ")))
         invalidCoordinateLog[logKey] = true
     end
 end
@@ -1410,7 +1341,7 @@ function GetWeatherRequirement(fish, fieldName)
         local fishLabel = GetFishLogLabel(fish)
         local logKey = GetFishLogKey(fish, fieldName .. "-non-string")
         if not invalidWeatherLog[logKey] then
-            Dalamud.Log(string.format("%s WARNING: %s has a non-string %s requirement (%s) - skipping this fish until fixed.", LogPrefix, fishLabel, fieldName, type(value)))
+            Log(string.format("WARNING: %s has a non-string %s requirement (%s) - skipping this fish until fixed.", fishLabel, fieldName, type(value)))
             invalidWeatherLog[logKey] = true
         end
         return false, nil
@@ -1428,7 +1359,7 @@ function ParseFishTimeWindow(fish)
         local fishLabel = GetFishLogLabel(fish)
         local logKey = GetFishLogKey(fish, "missing")
         if not invalidTimeLog[logKey] then
-            Dalamud.Log(string.format("%s WARNING: %s is missing a time window - skipping this fish until fixed. Expected 'H:MM-H:MM' or 'Always'.", LogPrefix, fishLabel))
+            Log(string.format("WARNING: %s is missing a time window - skipping this fish until fixed. Expected 'H:MM-H:MM' or 'Always'.", fishLabel))
             invalidTimeLog[logKey] = true
         end
         return false, nil, nil
@@ -1442,7 +1373,7 @@ function ParseFishTimeWindow(fish)
         local fishLabel = GetFishLogLabel(fish)
         local logKey = GetFishLogKey(fish, "non-string")
         if not invalidTimeLog[logKey] then
-            Dalamud.Log(string.format("%s WARNING: %s has a non-string time window (%s) - skipping this fish until fixed. Expected 'H:MM-H:MM' or 'Always'.", LogPrefix, fishLabel, type(fish.time)))
+            Log(string.format("WARNING: %s has a non-string time window (%s) - skipping this fish until fixed. Expected 'H:MM-H:MM' or 'Always'.", fishLabel, type(fish.time)))
             invalidTimeLog[logKey] = true
         end
         return false, nil, nil
@@ -1453,7 +1384,7 @@ function ParseFishTimeWindow(fish)
         local fishLabel = GetFishLogLabel(fish)
         local logKey = GetFishLogKey(fish, "malformed")
         if not invalidTimeLog[logKey] then
-            Dalamud.Log(string.format("%s WARNING: %s has an unparseable time window '%s' - skipping this fish until fixed. Expected 'H:MM-H:MM' or 'Always'.", LogPrefix, fishLabel, fish.time))
+            Log(string.format("WARNING: %s has an unparseable time window '%s' - skipping this fish until fixed. Expected 'H:MM-H:MM' or 'Always'.", fishLabel, fish.time))
             invalidTimeLog[logKey] = true
         end
         return false, nil, nil
@@ -1475,7 +1406,7 @@ function ParseFishTimeWindow(fish)
         local fishLabel = GetFishLogLabel(fish)
         local logKey = GetFishLogKey(fish, "out-of-range")
         if not invalidTimeLog[logKey] then
-            Dalamud.Log(string.format("%s WARNING: %s has an out-of-range time window '%s' - skipping this fish until fixed. Expected 0:00-23:59, with 24:00 only allowed as an end time.", LogPrefix, fishLabel, fish.time))
+            Log(string.format("WARNING: %s has an out-of-range time window '%s' - skipping this fish until fixed. Expected 0:00-23:59, with 24:00 only allowed as an end time.", fishLabel, fish.time))
             invalidTimeLog[logKey] = true
         end
         return false, nil, nil
@@ -1487,7 +1418,7 @@ function ParseFishTimeWindow(fish)
         local fishLabel = GetFishLogLabel(fish)
         local logKey = GetFishLogKey(fish, "zero-width")
         if not invalidTimeLog[logKey] then
-            Dalamud.Log(string.format("%s WARNING: %s has a zero-width time window '%s' - skipping this fish until fixed.", LogPrefix, fishLabel, fish.time))
+            Log(string.format("WARNING: %s has a zero-width time window '%s' - skipping this fish until fixed.", fishLabel, fish.time))
             invalidTimeLog[logKey] = true
         end
         return false, nil, nil
@@ -1495,6 +1426,10 @@ function ParseFishTimeWindow(fish)
 
     return true, startMinutes, endMinutes
 end
+
+------------------------
+--    Availability    --
+------------------------
 
 function IsFishRuntimeValid(fish)
     if not HasValidFishName(fish) then
@@ -1613,9 +1548,9 @@ function IsFishReady(fish, unixSeconds)
     return false
 end
 
--------------------
---    Fishing    --
--------------------
+--------------------------
+--    Fish Selection    --
+--------------------------
 
 function IsFishAllowed(fish)
     if next(enabledFish) ~= nil then
@@ -1666,6 +1601,96 @@ function SelectNextFish()
     return nil
 end
 
+----------------------
+--    Navigation    --
+----------------------
+
+function GetPlayerPosition()
+    if Player and Player.Entity and Player.Entity.Position then
+        return Player.Entity.Position
+    end
+
+    if Entity and Entity.Player and Entity.Player.Position then
+        return Entity.Player.Position
+    end
+
+    return nil
+end
+
+function GetDistance(pos1, pos2)
+    if not pos1 or not pos2 then
+        Debug("[GetDistance] One or both positions are nil, returning math.huge")
+        return math.huge
+    end
+
+    local dx = pos1.X - pos2.X
+    local dy = pos1.Y - pos2.Y
+    local dz = pos1.Z - pos2.Z
+    local distance = math.sqrt(dx * dx + dy * dy + dz * dz)
+    Debug(string.format("[GetDistance] Pos1: (%.2f, %.2f, %.2f), Pos2: (%.2f, %.2f, %.2f), Distance: %.2f", pos1.X, pos1.Y, pos1.Z, pos2.X, pos2.Y, pos2.Z, distance))
+    return distance
+end
+
+function MoveTo(x, y, z, stopDistance, fly)
+    fly = fly or false
+    stopDistance = stopDistance or 0.0
+    local destination = Vector3(x, y, z)
+    local arrivalTolerance = 1.0
+
+    local playerPos = GetPlayerPosition()
+    if not playerPos then
+        Debug("MoveTo: Player position unavailable.")
+        return false
+    end
+
+    if GetDistance(playerPos, destination) <= math.max(stopDistance, arrivalTolerance) then
+        Debug("MoveTo: Already at destination.")
+        return true
+    end
+
+    if IPC.vnavmesh.PathfindInProgress() or IPC.vnavmesh.IsRunning() then
+        IPC.vnavmesh.Stop()
+        Wait(0.5)
+    end
+
+    if not IPC.vnavmesh.PathfindAndMoveTo(destination, fly) then
+        Debug("MoveTo: PathfindAndMoveTo failed to start pathing.")
+        return false
+    end
+
+    local startTime = os.time()
+    local maxSeconds = 120
+
+    while IPC.vnavmesh.PathfindInProgress() or IPC.vnavmesh.IsRunning() do
+        Wait(0.1)
+
+        if stopDistance > 0 then
+            local currentPos = GetPlayerPosition()
+            if currentPos and GetDistance(currentPos, destination) <= stopDistance then
+                IPC.vnavmesh.Stop()
+                break
+            end
+        end
+
+        if (os.time() - startTime) > maxSeconds then
+            IPC.vnavmesh.Stop()
+            Debug("MoveTo: Timed out, stopping path.")
+            return false
+        end
+    end
+
+    local finalPos = GetPlayerPosition()
+    if not finalPos then
+        Debug("MoveTo: Player position unavailable after pathing.")
+        return false
+    end
+
+    local okDist = (stopDistance > 0) and stopDistance or arrivalTolerance
+    local finalDist = GetDistance(finalPos, destination)
+    Debug(string.format("MoveTo: finished, dist=%.2f.", finalDist))
+    return finalDist <= okDist
+end
+
 function TeleportToIdleOnce()
     if not UseIdleTeleport then
         return
@@ -1677,7 +1702,7 @@ function TeleportToIdleOnce()
 
     if HasUpcomingSelectableFish(idleHoldoff) then
         if not loggedIdleBusy then
-            Dalamud.Log(string.format("%s Idle teleport skipped: fish window or swim-bait prep is close.", LogPrefix))
+            Debug("Idle teleport skipped: fish window or swim-bait prep is close.")
             loggedIdleBusy = true
         end
         return
@@ -1689,7 +1714,7 @@ function TeleportToIdleOnce()
         or IPC.Lifestream.IsBusy()
     then
         if not loggedIdleBusy then
-            Dalamud.Log(string.format("%s Idle teleport postponed: player is busy or unavailable.", LogPrefix))
+            Debug("Idle teleport postponed: player is busy or unavailable.")
             loggedIdleBusy = true
         end
         return
@@ -1697,9 +1722,32 @@ function TeleportToIdleOnce()
 
     idleTeleported = true
     loggedIdleBusy = false
-    Dalamud.Log(string.format("%s Returning to Lifestream auto idle spot.", LogPrefix))
+    Log("Returning to Lifestream auto idle spot.")
     IPC.Lifestream.ExecuteCommand("auto")
 end
+
+-------------------------
+--    Chat Handling    --
+-------------------------
+
+function OnChatMessage()
+    local message = TriggerData and TriggerData.message
+
+    if type(message) ~= "string" or not SelectedFish or not fishingStarted then
+        return
+    end
+
+    local selectedFishName = GetFishName(SelectedFish)
+    if selectedFishName and message:find(selectedFishName, 1, true) then
+        catchDetected = true
+        catchMessage = message
+        Debug(string.format("Detected chat match for %s: %s", selectedFishName, message))
+    end
+end
+
+----------------------------
+--    State Management    --
+----------------------------
 
 function CharacterState.selectFish()
     BuildDisabledFishSet()
@@ -1709,7 +1757,7 @@ function CharacterState.selectFish()
 
     if not fish then
         if not loggedIdle then
-            Dalamud.Log(string.format("%s No fish window currently open. Waiting...", LogPrefix))
+            Log("No fish window currently open. Waiting...")
             loggedIdle = true
         end
         TeleportToIdleOnce()
@@ -1720,17 +1768,17 @@ function CharacterState.selectFish()
     idleTeleported = false
     loggedIdleBusy = false
     SelectedFish = fish
-    Dalamud.Log(string.format("%s Selected fish: %s (%s, bait: %s)", LogPrefix, GetFishLogLabel(SelectedFish), tostring(SelectedFish.spotName), tostring(SelectedFish.bait)))
+    Log(string.format("Selected fish: %s (%s, bait: %s)", GetFishLogLabel(SelectedFish), tostring(SelectedFish.spotName), tostring(SelectedFish.bait)))
     State = CharacterState.teleportToZone
-    Dalamud.Log(string.format("%s State Changed -> TeleportToZone", LogPrefix))
+    Log("State Changed -> TeleportToZone")
     Wait(0.3)
 end
 
 function CharacterState.teleportToZone()
     if not IsFishReady(SelectedFish) then
-        Dalamud.Log(string.format("%s %s's window closed before arrival.", LogPrefix, GetFishLogLabel(SelectedFish)))
+        Log(string.format("%s's window closed before arrival.", GetFishLogLabel(SelectedFish)))
         State = CharacterState.selectFish
-        Dalamud.Log(string.format("%s State Changed -> SelectFish", LogPrefix))
+        Log("State Changed -> SelectFish")
         return
     end
 
@@ -1767,21 +1815,21 @@ function CharacterState.teleportToZone()
     end
 
     State = CharacterState.travelToSpot
-    Dalamud.Log(string.format("%s State Changed -> TravelToSpot", LogPrefix))
+    Log("State Changed -> TravelToSpot")
     Wait(0.3)
 end
 
 function CharacterState.travelToSpot()
     if not IsFishReady(SelectedFish) then
-        Dalamud.Log(string.format("%s %s's window closed before arrival.", LogPrefix, GetFishLogLabel(SelectedFish)))
+        Log(string.format("%s's window closed before arrival.", GetFishLogLabel(SelectedFish)))
         State = CharacterState.selectFish
-        Dalamud.Log(string.format("%s State Changed -> SelectFish", LogPrefix))
+        Log("State Changed -> SelectFish")
         return
     end
 
     if Svc.ClientState.TerritoryType ~= SelectedFish.zoneId then
         State = CharacterState.teleportToZone
-        Dalamud.Log(string.format("%s State Changed -> TeleportToZone", LogPrefix))
+        Log("State Changed -> TeleportToZone")
         return
     end
 
@@ -1792,7 +1840,7 @@ function CharacterState.travelToSpot()
     local arrived
 
     if not Player.CanMount then
-        Dalamud.Log(string.format("%s Walking to %s (%.1f, %.1f)", LogPrefix, SelectedFish.spotName, SelectedFish.worldX, SelectedFish.worldZ))
+        Debug(string.format("Walking to %s (%.1f, %.1f)", SelectedFish.spotName, SelectedFish.worldX, SelectedFish.worldZ))
         arrived = MoveTo(SelectedFish.worldX, SelectedFish.worldY, SelectedFish.worldZ)
         Wait(0.3)
     else
@@ -1805,7 +1853,7 @@ function CharacterState.travelToSpot()
         end
         Wait(0.3)
         local fly = Player.CanFly
-        Dalamud.Log(string.format("%s %s to %s (%.1f, %.1f)", LogPrefix, fly and "Flying" or "Riding", SelectedFish.spotName, SelectedFish.worldX, SelectedFish.worldZ))
+        Debug(string.format("%s to %s (%.1f, %.1f)", fly and "Flying" or "Riding", SelectedFish.spotName, SelectedFish.worldX, SelectedFish.worldZ))
         MoveTo(SelectedFish.worldX, SelectedFish.worldY, SelectedFish.worldZ, 0, fly)
 
         while Svc.Condition[CharacterCondition.mounted] do
@@ -1819,10 +1867,10 @@ function CharacterState.travelToSpot()
     end
 
     if not arrived then
-        Dalamud.Log(string.format("%s Failed to reach %s's spot. Cooling down and retrying later.", LogPrefix, GetFishLogLabel(SelectedFish)))
+        Log(string.format("Failed to reach %s's spot. Cooling down and retrying later.", GetFishLogLabel(SelectedFish)))
         lastAttempt[GetFishStateKey(SelectedFish)] = os.time() + RetryCooldownSeconds
         State = CharacterState.selectFish
-        Dalamud.Log(string.format("%s State Changed -> SelectFish", LogPrefix))
+        Log("State Changed -> SelectFish")
         return
     end
 
@@ -1830,31 +1878,31 @@ function CharacterState.travelToSpot()
     local fishY = SelectedFish.fishY or SelectedFish.worldY
     local fishZ = SelectedFish.fishZ or SelectedFish.worldZ
     if fishX ~= SelectedFish.worldX or fishZ ~= SelectedFish.worldZ then
-        Dalamud.Log(string.format("%s Walking to casting spot (%.1f, %.1f)", LogPrefix, fishX, fishZ))
+        Debug(string.format("Walking to casting spot (%.1f, %.1f)", fishX, fishZ))
         local fishArrived = MoveTo(fishX, fishY, fishZ)
         Wait(0.3)
 
         if not fishArrived then
-            Dalamud.Log(string.format("%s Failed to reach %s's casting spot. Cooling down and retrying later.", LogPrefix, GetFishLogLabel(SelectedFish)))
+            Log(string.format("Failed to reach %s's casting spot. Cooling down and retrying later.", GetFishLogLabel(SelectedFish)))
             lastAttempt[GetFishStateKey(SelectedFish)] = os.time() + RetryCooldownSeconds
             State = CharacterState.selectFish
-            Dalamud.Log(string.format("%s State Changed -> SelectFish", LogPrefix))
+        Log("State Changed -> SelectFish")
             return
         end
     end
 
     State = CharacterState.fishing
-    Dalamud.Log(string.format("%s State Changed -> Fishing", LogPrefix))
+    Log("State Changed -> Fishing")
     Wait(0.3)
 end
 
 function CharacterState.fishing()
     if not fishingStarted then
         if not IsFishReady(SelectedFish) then
-            Dalamud.Log(string.format("%s %s's window closed before fishing started.", LogPrefix, GetFishLogLabel(SelectedFish)))
+            Log(string.format("%s's window closed before fishing started.", GetFishLogLabel(SelectedFish)))
             CleanupAutoHookPreset(SelectedFish)
             State = CharacterState.selectFish
-            Dalamud.Log(string.format("%s State Changed -> SelectFish", LogPrefix))
+            Log("State Changed -> SelectFish")
             return
         end
 
@@ -1862,7 +1910,7 @@ function CharacterState.fishing()
             return
         end
 
-        Dalamud.Log(string.format("%s Starting AutoHook preset: %s", LogPrefix, GetFishLogLabel(SelectedFish)))
+        Log(string.format("Starting AutoHook preset: %s", GetFishLogLabel(SelectedFish)))
         catchDetected = false
         catchMessage = nil
         forcedQuit = false
@@ -1880,7 +1928,7 @@ function CharacterState.fishing()
         if Svc.Condition[CharacterCondition.fishing] then
             fishingStarted = true
         else
-            Dalamud.Log(string.format("%s AutoHook failed to start fishing for %s. Forcing quit to recover.", LogPrefix, GetFishLogLabel(SelectedFish)))
+            Log(string.format("AutoHook failed to start fishing for %s. Forcing quit to recover.", GetFishLogLabel(SelectedFish)))
             CleanupAutoHookPreset(SelectedFish)
             Actions.ExecuteAction(CharacterAction.Actions.quitFishing, ActionType.Action)
             Wait(0.3)
@@ -1895,7 +1943,7 @@ function CharacterState.fishing()
         if Svc.Condition[CharacterCondition.fishing] or Svc.Condition[CharacterCondition.gathering] then
             if not windowClosedAt then
                 windowClosedAt = os.time()
-                Dalamud.Log(string.format("%s %s's window closed while fishing. Forcing quit in %.0f seconds.", LogPrefix, GetFishLogLabel(SelectedFish), ForceQuitDelaySeconds))
+                Log(string.format("%s's window closed while fishing. Forcing quit in %.0f seconds.", GetFishLogLabel(SelectedFish), ForceQuitDelaySeconds))
             end
 
             if os.time() - windowClosedAt >= ForceQuitDelaySeconds then
@@ -1913,14 +1961,14 @@ function CharacterState.fishing()
     end
 
     if catchDetected then
-        Dalamud.Log(string.format("%s Confirmed catch for %s.", LogPrefix, GetFishLogLabel(SelectedFish)))
+        Log(string.format("Confirmed catch for %s.", GetFishLogLabel(SelectedFish)))
         if catchMessage then
-            Dalamud.Log(string.format("%s Catch message: %s", LogPrefix, catchMessage))
+            Log(string.format("Catch message: %s", catchMessage))
         end
     elseif forcedQuit then
-        Dalamud.Log(string.format("%s Ended attempt on %s after the window closed.", LogPrefix, GetFishLogLabel(SelectedFish)))
+        Log(string.format("Ended attempt on %s after the window closed.", GetFishLogLabel(SelectedFish)))
     else
-        Dalamud.Log(string.format("%s Finished attempt on %s without a confirmed catch.", LogPrefix, GetFishLogLabel(SelectedFish)))
+        Log(string.format("Finished attempt on %s without a confirmed catch.", GetFishLogLabel(SelectedFish)))
     end
 
     local cooldownSeconds = catchDetected and CaughtCooldownSeconds or RetryCooldownSeconds
@@ -1933,7 +1981,7 @@ function CharacterState.fishing()
     windowClosedAt = nil
     windowOpenedAt = false
     State = CharacterState.selectFish
-    Dalamud.Log(string.format("%s State Changed -> SelectFish", LogPrefix))
+    Log("State Changed -> SelectFish")
     Wait(0.3)
 end
 
@@ -1946,13 +1994,13 @@ end
 BuildBaitItemIdMap()
 
 if not (Player and Player.Job and Player.Job.Id == 18) then
-    Dalamud.Log(string.format("%s Switching to Fisher.", LogPrefix))
+    Log("Switching to Fisher.")
     Engines.Run("/gs change Fisher")
     Wait(1)
 end
 
 State = CharacterState.selectFish
-Dalamud.Log(string.format("%s State Changed -> SelectFish", LogPrefix))
+Log("State Changed -> SelectFish")
 
 while true do
     State()
