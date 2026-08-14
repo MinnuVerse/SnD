@@ -1,27 +1,14 @@
 --[=====[
 [[SND Metadata]]
 author: Minnu (https://ko-fi.com/minnuverse)
-version: 2.0.1
-description: Triple Triad Seller - Sells your acumulated Triple Triad cards
+version: 2.1.0
+description: Triple Triad Seller - Sells your accumulated Triple Triad cards
 plugin_dependencies:
 - Lifestream
 - vnavmesh
 
 [[End Metadata]]
 --]=====]
-
---[[
-********************************************************************************
-*                            Triple Triad Seller                               *
-*                                Version 2.0.1                                 *
-********************************************************************************
-
-Created by: Minnu (https://ko-fi.com/minnuverse)
-
-    -> 2.0.1    Use Svc.Objects.LocalPlayer for distance checks
-    -> 2.0.0    Initial SND v2 release
-
-]]
 
 --========================== DEPENDENCIES ========================--
 
@@ -33,60 +20,86 @@ import("System.Numerics")
 --    General    --
 -------------------
 
-Npc         = { Name = "Triple Triad Trader", Position = { X = -52.42, Y = 1.6, Z = 15.77 } }
-LogPrefix   = "[TTSeller]"
+LogPrefix = "[TTSeller]"
+
+--============================ CONSTANT ==========================--
+
+---------------
+--    NPC    --
+---------------
+
+Npc = {
+    Name = "Triple Triad Trader",
+    Position = {
+        X = -52.42,
+        Y = 1.6,
+        Z = 15.77
+    }
+}
 
 --=========================== FUNCTIONS ==========================--
 
---------------------
---    Wrappers    --
---------------------
+-------------------
+--    Utility    --
+-------------------
 
 function Wait(time)
-    yield("/wait " .. time)
+    yield(string.format("/wait %g", time))
+end
+
+function Log(message)
+    Dalamud.Log(string.format("%s %s", LogPrefix, message))
+end
+
+function Debug(message)
+    Dalamud.LogDebug(string.format("%s %s", LogPrefix, message))
+end
+
+function Echo(message)
+    yield(string.format("/echo %s %s", LogPrefix, message))
 end
 
 function WaitForPlayer()
-    Dalamud.Log(string.format("%s WaitForPlayer: Waiting for player to become available...", LogPrefix))
+    Debug("WaitForPlayer: Waiting for player to become available...")
     repeat
         Wait(0.1)
     until Player.Available and not Player.IsBusy
-    Dalamud.Log(string.format("%s WaitForPlayer: Player is now available.", LogPrefix))
+    Debug("WaitForPlayer: Player is now available.")
     Wait(0.1)
 end
 
 function WaitForTeleport()
-    Dalamud.Log(string.format("%s Waiting for teleport to begin...", LogPrefix))
+    Debug("Waiting for teleport to begin...")
 
     repeat
         Wait(0.1)
     until not Svc.Condition[27]
     Wait(0.1)
 
-    Dalamud.Log(string.format("%s Teleport started, waiting for zoning to complete...", LogPrefix))
+    Debug("Teleport started, waiting for zoning to complete...")
 
     repeat
         Wait(0.1)
     until not Svc.Condition[45] and Player.Available and not Player.IsBusy
     Wait(0.1)
 
-    Dalamud.Log(string.format("%s Teleport complete.", LogPrefix))
+    Debug("Teleport complete.")
 end
 
 function WaitForPathRunning(timeout)
-    timeout = timeout or 300  -- Default timeout to 5 minutes (300 seconds)
-    Dalamud.Log(string.format("%s Waiting for navmesh pathing to complete...", LogPrefix))
+    timeout = timeout or 300
+    Debug("Waiting for navmesh pathing to complete...")
 
     local startTime = os.clock()
     while IPC.vnavmesh.PathfindInProgress() or IPC.vnavmesh.IsRunning() do
         if (os.clock() - startTime) >= timeout then
-            Dalamud.Log(string.format("%s WaitForPathRunning: Timeout reached waiting for pathing to complete.", LogPrefix))
+            Log("WaitForPathRunning: Timeout reached waiting for pathing to complete.")
             return false
         end
         Wait(0.1)
     end
 
-    Dalamud.Log(string.format("%s Pathing complete.", LogPrefix))
+    Debug("Pathing complete.")
     return true
 end
 
@@ -94,24 +107,28 @@ function WaitForAddon(name, timeout)
     timeout = timeout or 60
     local startTime = os.clock()
 
-    Dalamud.Log(string.format("%s Waiting for addon '%s' to become ready...", LogPrefix, name))
+    Debug(string.format("Waiting for addon '%s' to become ready...", name))
 
     while not Addons.GetAddon(name).Ready do
         if os.clock() - startTime >= timeout then
-            Dalamud.Log(string.format("%s WaitForAddon('%s') timed out after %.1f seconds", LogPrefix, name, timeout))
+            Log(string.format("WaitForAddon('%s') timed out after %.1f seconds", name, timeout))
             return false
         end
         Wait(0.1)
     end
 
-    Dalamud.Log(string.format("%s Addon '%s' is ready.", LogPrefix, name))
+    Debug(string.format("Addon '%s' is ready.", name))
     return true
 end
+
+----------------------
+--    Navigation    --
+----------------------
 
 function GetDistanceToPoint(dX, dY, dZ)
     local player = Svc.Objects.LocalPlayer
     if not player or not player.Position then
-        Dalamud.Log(string.format("%s GetDistanceToPoint: Player position unavailable.", LogPrefix))
+        Debug("GetDistanceToPoint: Player position unavailable.")
         return math.huge
     end
 
@@ -124,20 +141,24 @@ function GetDistanceToPoint(dX, dY, dZ)
     local dz = dZ - pz
 
     local distance = math.sqrt(dx * dx + dy * dy + dz * dz)
-    Dalamud.Log(string.format("%s [Distance] From (%.2f, %.2f, %.2f) to (%.2f, %.2f, %.2f) = %.2f", LogPrefix, px, py, pz, dX, dY, dZ, distance))
+    Debug(string.format("[Distance] From (%.2f, %.2f, %.2f) to (%.2f, %.2f, %.2f) = %.2f", px, py, pz, dX, dY, dZ, distance))
     return distance
 end
 
 function Teleport(location)
-    Dalamud.Log(string.format("%s Initiating teleport to '%s'.", LogPrefix, location))
+    Log(string.format("Initiating teleport to '%s'.", location))
     IPC.Lifestream.ExecuteCommand(location)
     Wait(0.1)
     WaitForTeleport()
 end
 
+-----------------------
+--    Interaction    --
+-----------------------
+
 function Interact(name, maxRetries, sleepTime)
-    maxRetries = maxRetries or 20 -- Default retries if not provided
-    sleepTime = sleepTime or 0.1 -- Default sleep interval if not provided
+    maxRetries = maxRetries or 20
+    sleepTime = sleepTime or 0.1
 
     yield('/target ' .. tostring(name))
 
@@ -149,22 +170,22 @@ function Interact(name, maxRetries, sleepTime)
 
     if Entity and Entity.Target and Entity.Target.Name then
         yield('/interact')
-        Dalamud.Log(string.format("%s Interacted with: %s", LogPrefix, Entity.Target.Name))
+        Debug(string.format("Interacted with: %s", Entity.Target.Name))
         return true
     else
-        Dalamud.Log(string.format("%s Interact() failed to acquire target.", LogPrefix))
+        Log("Interact() failed to acquire target.")
         return false
     end
 end
 
-----------------
---    Misc    --
-----------------
+-----------------------------
+--    Seller Navigation    --
+-----------------------------
 
 function DistanceToSeller()
     if Svc.ClientState.TerritoryType == 144 then
         Distance_Test = GetDistanceToPoint(Npc.Position.X, Npc.Position.Y, Npc.Position.Z)
-        Dalamud.Log(string.format("%s Distance to seller: %.2f", LogPrefix, Distance_Test))
+        Debug(string.format("Distance to seller: %.2f", Distance_Test))
     end
 end
 
@@ -186,9 +207,9 @@ function GoToSeller()
     WaitForPathRunning()
 end
 
-----------------
---    Main    --
-----------------
+-------------------
+--    Selling    --
+-------------------
 
 function Main()
     Interact(Npc.Name)
@@ -228,7 +249,7 @@ end
 GoToSeller()
 Main()
 
-yield(string.format("/echo %s Triple Triad Seller script completed successfully..!!", LogPrefix))
-Dalamud.Log(string.format("%s Triple Triad Seller script completed successfully..!!", LogPrefix))
+Echo("Triple Triad Seller script completed successfully..!!")
+Log("Triple Triad Seller script completed successfully..!!")
 
 --============================== END =============================--
