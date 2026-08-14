@@ -1,7 +1,7 @@
 --[=====[
 [[SND Metadata]]
 author: Minnu (https://ko-fi.com/minnuverse)
-version: 2.0.0
+version: 2.1.0
 description: Lord of Verminion - A barebones script for weekly challenge log
 configs:
   RunsToPlay:
@@ -54,27 +54,47 @@ ModeIDs = {
 
 --=========================== FUNCTIONS ==========================--
 
-----------------
---    Main    --
-----------------
+-------------------
+--    Utility    --
+-------------------
+
+function Wait(time)
+    yield(string.format("/wait %g", time))
+end
+
+function Log(message)
+    Dalamud.Log(string.format("%s %s", LogPrefix, message))
+end
+
+function Debug(message)
+    Dalamud.LogDebug(string.format("%s %s", LogPrefix, message))
+end
+
+function Echo(message)
+    yield(string.format("/echo %s %s", LogPrefix, message))
+end
+
+-----------------
+--    Match    --
+-----------------
 
 function DutyFinder()
     local modeId = ModeIDs[Mode]
 
     if not modeId then
-        Dalamud.Log(string.format("%s Invalid mode '%s' — defaulting to Normal (576).", LogPrefix, tostring(Mode)))
+        Log(string.format("Invalid mode '%s'; defaulting to Normal (576).", tostring(Mode)))
         modeId = ModeIDs.Normal
     end
 
-    Dalamud.Log(string.format("%s Starting new match. Currently at %s/%s runs.", LogPrefix, RunsPlayed, RunsToPlay))
+    Log(string.format("Starting new match. Currently at %s/%s runs.", RunsPlayed, RunsToPlay))
     Instances.DutyFinder.IsUnrestrictedParty = false
     Instances.DutyFinder.IsLevelSync = false
     Instances.DutyFinder:QueueDuty(modeId)
 
     while not Svc.Condition[CharacterCondition.playingLordOfVerminion] do
-        yield("/wait 0.1")
+        Wait(0.1)
         if Addons.GetAddon("ContentsFinderConfirm").Ready then
-            yield("/wait 1")
+            Wait(1)
             yield("/click ContentsFinderConfirm Commence")
         end
     end
@@ -82,21 +102,21 @@ end
 
 function EndMatch()
     while not Addons.GetAddon("LovmResult").Ready do
-        yield("/wait 1")
+        Wait(1)
     end
 
     yield("/callback LovmResult false -2")
     yield("/callback LovmResult true -1")
 
     while not Addons.GetAddon("NamePlate").Ready do
-        yield("/wait 1")
+        Wait(1)
     end
 
     RunsPlayed = RunsPlayed + 1
-    Dalamud.Log(string.format("%s Runs played: %s", LogPrefix, RunsPlayed))
+    Log(string.format("Runs played: %s", RunsPlayed))
 
     repeat
-        yield("/wait 0.1")
+        Wait(0.1)
     until Player.Available and not Player.IsBusy
 end
 
@@ -107,7 +127,7 @@ while RunsPlayed < RunsToPlay do
     EndMatch()
 end
 
-yield(string.format("/echo %s Lord of Verminion script completed successfully..!!", LogPrefix))
-Dalamud.Log(string.format("%s Lord of Verminion script completed successfully..!!", LogPrefix))
+Echo("Lord of Verminion script completed successfully..!!")
+Log("Lord of Verminion script completed successfully..!!")
 
 --============================== END =============================--
