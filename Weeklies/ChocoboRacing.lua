@@ -1,7 +1,7 @@
 --[=====[
 [[SND Metadata]]
 author: Minnu (https://ko-fi.com/minnuverse)
-version: 2.0.0
+version: 2.1.0
 description: Chocobo Racing - A barebones script for weekly challenge log
 configs:
   RunsToPlay:
@@ -38,20 +38,54 @@ CharacterCondition = {
     occupiedInCutscene  = 35
 }
 
+-----------------
+--    Duty    --
+-----------------
+
+ChocoboRaceDutyId = 22
+
+-------------------
+--    Actions    --
+-------------------
+
+ChocoboRaceAction = {
+    superSprint = 58
+}
+
 --=========================== FUNCTIONS ==========================--
 
+-------------------
+--    Utility    --
+-------------------
+
+function Wait(time)
+    yield(string.format("/wait %g", time))
+end
+
+function Log(message)
+    Dalamud.Log(string.format("%s %s", LogPrefix, message))
+end
+
+function Debug(message)
+    Dalamud.LogDebug(string.format("%s %s", LogPrefix, message))
+end
+
+function Echo(message)
+    yield(string.format("/echo %s %s", LogPrefix, message))
+end
+
 ----------------
---    Main    --
+--    Race    --
 ----------------
 
 function DutyFinder()
-    Dalamud.Log(string.format("%s Starting new race. Currently at %s/%s runs.", LogPrefix, RunsPlayed, RunsToPlay))
-    Instances.DutyFinder:QueueRoulette(22) -- Chocobo Race: Sagolii Road (No Rewards)
+    Log(string.format("Starting new race. Currently at %s/%s runs.", RunsPlayed, RunsToPlay))
+    Instances.DutyFinder:QueueRoulette(ChocoboRaceDutyId)
 
     while not Svc.Condition[CharacterCondition.occupiedInCutscene] do
-        yield("/wait 0.1")
+        Wait(0.1)
         if Addons.GetAddon("ContentsFinderConfirm").Ready then
-            yield("/wait 1")
+            Wait(1)
             yield("/click ContentsFinderConfirm Commence")
         end
     end
@@ -60,40 +94,40 @@ end
 function UseSuperSprint()
     if Svc.Condition[CharacterCondition.occupiedInCutscene] then
         repeat
-            yield("/wait 0.1")
+            Wait(0.1)
         until not Svc.Condition[CharacterCondition.occupiedInCutscene]
     end
 
-    yield("/wait 6")
+    Wait(6)
 
     if not SuperSprint then
         return
     end
 
-    Actions.ExecuteAction(58, ActionType.ChocoboRaceAbility) -- Super Sprint
-    yield("/wait 3")
+    Actions.ExecuteAction(ChocoboRaceAction.superSprint, ActionType.ChocoboRaceAbility)
+    Wait(3)
 end
 
 function KeySpam()
     yield("/hold A")
-    yield("/wait 5")
+    Wait(5)
     yield("/release A")
 
     repeat
         yield("/send KEY_1")
-        yield("/wait 1")
+        Wait(1)
         yield("/send KEY_2")
-        yield("/wait 10")
+        Wait(10)
     until Addons.GetAddon("RaceChocoboResult").Ready
 end
 
 function EndRace()
     yield("/callback RaceChocoboResult true 1")
     RunsPlayed = RunsPlayed + 1
-    Dalamud.Log(string.format("%s Runs played: %s", LogPrefix, RunsPlayed))
+    Log(string.format("Runs played: %s", RunsPlayed))
 
     repeat
-        yield("/wait 0.1")
+        Wait(0.1)
     until Player.Available and not Player.IsBusy
 end
 
@@ -106,7 +140,7 @@ while RunsPlayed < RunsToPlay do
     EndRace()
 end
 
-yield(string.format("/echo %s Chocobo Racing script completed successfully..!!", LogPrefix))
-Dalamud.Log(string.format("%s Chocobo Racing script completed successfully..!!", LogPrefix))
+Echo("Chocobo Racing script completed successfully..!!")
+Log("Chocobo Racing script completed successfully..!!")
 
 --============================== END =============================--
