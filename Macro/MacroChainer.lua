@@ -1,7 +1,7 @@
 --[=====[
 [[SND Metadata]]
 author: Minnu (https://ko-fi.com/minnuverse)
-version: 3.1.0
+version: 3.2.0
 description: Macro Chainer - Run multiple macros in sequence for repetitive tasks
 configs:
   MacrosToRun:
@@ -38,9 +38,9 @@ StartTimeout  = Config.Get("StartTimeout")
 RunTimeout    = Config.Get("RunTimeout")
 LogPrefix     = "[MacroChainer]"
 
----------------------
---    Scheduler    --
----------------------
+---------------------------
+--    Scheduler State    --
+---------------------------
 
 local MacroScheduler        = nil
 local MacroSchedulerFailed  = false
@@ -56,9 +56,21 @@ function Wait(time)
     yield(string.format("/wait %g", time))
 end
 
-------------------
---    Macros    --
-------------------
+function Log(message)
+    Dalamud.Log(string.format("%s %s", LogPrefix, message))
+end
+
+function Debug(message)
+    Dalamud.LogDebug(string.format("%s %s", LogPrefix, message))
+end
+
+function Echo(message)
+    yield(string.format("/echo %s %s", LogPrefix, message))
+end
+
+---------------------
+--    Scheduler    --
+---------------------
 
 function GetMacroScheduler()
     if MacroScheduler or MacroSchedulerFailed then
@@ -146,6 +158,10 @@ function GetKnownMacroNames()
     return names
 end
 
+-----------------
+--    Macro    --
+-----------------
+
 function IsMacroRunning(macroName)
     local scheduler = GetMacroScheduler()
     if not scheduler then
@@ -188,7 +204,7 @@ function RunMacroAndWait(macroName)
     local startTime = os.time()
     while not IsMacroRunning(macroName) do
         if os.time() - startTime >= StartTimeout then
-            Dalamud.Log(string.format("%s Skipped macro; it did not start within %ds -> %s", LogPrefix, StartTimeout, macroName))
+            Log(string.format("Skipped macro; it did not start within %ds -> %s", StartTimeout, macroName))
             return false
         end
         Wait(0.1)
@@ -197,7 +213,7 @@ function RunMacroAndWait(macroName)
     local runStart = os.time()
     while IsMacroRunning(macroName) do
         if RunTimeout > 0 and os.time() - runStart >= RunTimeout then
-            Dalamud.Log(string.format("%s Stopping macro after %ds timeout -> %s", LogPrefix, RunTimeout, macroName))
+            Log(string.format("Stopping macro after %ds timeout -> %s", RunTimeout, macroName))
             StopRunningMacros(macroName)
             return false
         end
@@ -209,12 +225,12 @@ end
 --=========================== EXECUTION ==========================--
 
 if not GetMacroScheduler() then
-    Dalamud.Log(string.format("%s Aborting.", LogPrefix))
+    Log("Aborting.")
     return
 end
 
 if not MacrosToRun or MacrosToRun.Count == 0 then
-    Dalamud.Log(string.format("%s No macros configured; add them in the script settings.", LogPrefix))
+    Log("No macros configured; add them in the script settings.")
     return
 end
 
@@ -224,22 +240,22 @@ local Macros = MacrosToRun:GetEnumerator()
 while Macros:MoveNext() do
     local macroName = tostring(Macros.Current)
     if next(KnownMacros) and not KnownMacros[macroName] then
-        Dalamud.Log(string.format("%s Skipping macro; name not found in SND -> %s", LogPrefix, macroName))
+        Log(string.format("Skipping macro; name not found in SND -> %s", macroName))
     else
-        Dalamud.Log(string.format("%s Starting macro -> %s", LogPrefix, macroName))
+        Log(string.format("Starting macro -> %s", macroName))
 
         if RunMacroAndWait(macroName) then
-            Dalamud.Log(string.format("%s Completed macro -> %s", LogPrefix, macroName))
+            Log(string.format("Completed macro -> %s", macroName))
         else
-            Dalamud.Log(string.format("%s Skipped macro; it never ran to completion -> %s", LogPrefix, macroName))
+            Log(string.format("Skipped macro; it never ran to completion -> %s", macroName))
         end
     end
 
     Wait(1)
 end
 
-yield(string.format("/echo %s All macros completed. Stopping any remaining..!!", LogPrefix))
-Dalamud.Log(string.format("%s All macros completed. Stopping any remaining..!!", LogPrefix))
+Echo("All macros completed. Stopping any remaining..!!")
+Log("All macros completed. Stopping any remaining..!!")
 StopRunningMacros()
 
 --============================== END =============================--
