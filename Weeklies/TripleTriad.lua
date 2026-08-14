@@ -1,7 +1,7 @@
 --[=====[
 [[SND Metadata]]
 author: Minnu (https://ko-fi.com/minnuverse)
-version: 2.0.0
+version: 2.1.0
 description: Triple Triad - A barebones script for weekly challenge log
 plugin_dependencies:
 - Saucy
@@ -15,9 +15,11 @@ configs:
 [[End Metadata]]
 --]=====]
 
---=========================== VARIABLES ==========================--
+--========================== DEPENDENCIES ========================--
 
 import("System.Numerics")
+
+--=========================== VARIABLES ==========================--
 
 -------------------
 --    General    --
@@ -25,6 +27,8 @@ import("System.Numerics")
 
 RunsToPlay  = Config.Get("RunsToPlay")
 LogPrefix   = "[TripleTriad]"
+
+--============================ CONSTANT ==========================--
 
 ---------------------
 --    Condition    --
@@ -35,20 +39,52 @@ CharacterCondition = {
     boundByDuty         = 34
 }
 
+-----------------
+--    Duty    --
+-----------------
+
+TripleTriadBattleHallDutyId = 195
+
+----------------
+--    NPC    --
+----------------
+
+TripleTriadNpcName = "Nell Half-full"
+
 --=========================== FUNCTIONS ==========================--
 
-----------------
---    Duty    --
-----------------
+-------------------
+--    Utility    --
+-------------------
+
+function Wait(time)
+    yield(string.format("/wait %g", time))
+end
+
+function Log(message)
+    Dalamud.Log(string.format("%s %s", LogPrefix, message))
+end
+
+function Debug(message)
+    Dalamud.LogDebug(string.format("%s %s", LogPrefix, message))
+end
+
+function Echo(message)
+    yield(string.format("/echo %s %s", LogPrefix, message))
+end
+
+-----------------------
+--    Battle Hall    --
+-----------------------
 
 function BattleHall()
-    Dalamud.Log(string.format("%s Moving to Battle Hall.", LogPrefix))
-    Instances.DutyFinder:QueueDuty(195) -- The Triple Triad Battlehall
+    Log("Moving to Battle Hall.")
+    Instances.DutyFinder:QueueDuty(TripleTriadBattleHallDutyId)
 
     while not Svc.Condition[CharacterCondition.boundByDuty] do
-        yield("/wait 0.1")
+        Wait(0.1)
         if Addons.GetAddon("ContentsFinderConfirm").Ready then
-            yield("/wait 1")
+            Wait(1)
             yield("/click ContentsFinderConfirm Commence")
         end
     end
@@ -61,11 +97,11 @@ end
 function Play()
     if Svc.ClientState.TerritoryType == 579 then
         yield("/at y")
-        yield("/wait 2")
-        local targetNPC = Entity.GetEntityByName("Nell Half-full")
+        Wait(2)
+        local targetNPC = Entity.GetEntityByName(TripleTriadNpcName)
 
         if not targetNPC then
-            Dalamud.Log(string.format("%s Unable to find Nell Half-full NPC..!!", LogPrefix))
+            Log(string.format("Unable to find %s.", TripleTriadNpcName))
             return
         end
 
@@ -74,43 +110,43 @@ function Play()
 
         if pos then
             IPC.vnavmesh.PathfindAndMoveTo(Vector3(pos.X, pos.Y, pos.Z), false)
-            yield("/wait 1")
+            Wait(1)
 
             repeat
-                yield("/wait 0.1")
+                Wait(0.1)
             until not IPC.vnavmesh.PathfindInProgress() and not IPC.vnavmesh.IsRunning()
         end
 
-        yield("/wait 1")
+        Wait(1)
         targetNPC:Interact()
         PlayTTUntilNeeded()
     else
-        Dalamud.Log(string.format("%s Not in BattleHall..!!", LogPrefix))
+        Log("Not in Battle Hall.")
     end
 end
 
 function PlayTTUntilNeeded()
     repeat
-        yield("/wait 0.1")
+        Wait(0.1)
     until Svc.Condition[CharacterCondition.playingMiniGame]
 
-    Dalamud.Log(string.format("%s Starting Triple Triad...", LogPrefix))
-    yield("/saucy tt play " ..RunsToPlay)
+    Log("Starting Triple Triad...")
+    yield("/saucy tt play " .. RunsToPlay)
     yield("/saucy tt go")
-    yield("/wait 1")
+    Wait(1)
 
     while Svc.Condition[CharacterCondition.playingMiniGame] do
-        yield("/wait 0.1")
+        Wait(0.1)
     end
 
     InstancedContent.LeaveCurrentContent()
 
     repeat
-        yield("/wait 0.1")
+        Wait(0.1)
     until not Svc.Condition[CharacterCondition.boundByDuty]
 
     repeat
-        yield("/wait 0.1")
+        Wait(0.1)
     until Player.Available and not Player.IsBusy
 end
 
@@ -123,7 +159,7 @@ else
     Play()
 end
 
-yield(string.format("/echo %s Triple Triad script completed successfully..!!", LogPrefix))
-Dalamud.Log(string.format("%s Triple Triad script completed successfully..!!", LogPrefix))
+Echo("Triple Triad script completed successfully..!!")
+Log("Triple Triad script completed successfully..!!")
 
 --============================== END =============================--
